@@ -40,15 +40,15 @@ public class TestRetailUserDxpInsurance {
   @Test
   public void testretailuserpath() {
 	  
-  for (int i = 0; i < 100; i++) { 
+  for (int i = 0; i < 20; i++) { 
 
-	    driver.get("https://demo.liferayuk.com/en_US/home");
+	    driver.get("https://tiercontent.liferayuk.com");
 	    driver.manage().window().setSize(new Dimension(1536, 835));
 	    String originalHandle = driver.getWindowHandle();
-	    driver.findElement(By.cssSelector(".sign-in:nth-child(1)")).click();
+	    driver.findElement(By.cssSelector("#sign-in")).click();
 	    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.chord(Keys.CONTROL, "a"));;
 	    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.DELETE);
-	    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys("testretail@liferay.com");
+	    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys("bella@liferay.com");
 	    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_password")).sendKeys("test"); 
 	    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.ENTER);
 	    try {
@@ -57,7 +57,7 @@ public class TestRetailUserDxpInsurance {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	    driver.findElement(By.xpath("//a[contains(@href, \'https://demo.liferayuk.com/web/dxp-insurance-retail1\')]")).click();
+	    driver.findElement(By.xpath("//a[contains(@href, \'https://tiercontent.liferayuk.com/web/dxp-insurance-retail\')]")).click();
 	    try {
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
@@ -65,7 +65,7 @@ public class TestRetailUserDxpInsurance {
 			e.printStackTrace();
 		}    
 	    
-	    driver.findElement(By.xpath("//a[contains(@href, \'https://demo.liferayuk.com/web/dxp-insurance-retail1/blog\')]")).click();
+	    driver.findElement(By.xpath("//a[contains(@href, \'https://tiercontent.liferayuk.com/web/dxp-insurance-retail/blog\')]")).click();
 		
 		try {
 			Thread.sleep(3000);
@@ -74,16 +74,7 @@ public class TestRetailUserDxpInsurance {
 			e.printStackTrace();
 		}   
 	
-	    driver.findElement(By.xpath("//div[3]/div/div[2]/div/div/div/a")).click();
-	    
-	    try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}   
-	    
-	    driver.findElement(By.xpath("//a[contains(@href, \'https://demo.liferayuk.com/group/dxp-insurance-retail1/private-area\')]")).click();
+	    driver.findElement(By.xpath("//a[contains(@href, \'https://tiercontent.liferayuk.com/group/dxp-insurance-retail/your-account\')]")).click();
 	    
 	    try {
 			Thread.sleep(3000);
@@ -92,7 +83,7 @@ public class TestRetailUserDxpInsurance {
 			e.printStackTrace();
 		}  
 	    
-	    driver.findElement(By.linkText("Get my documents")).click();
+	    driver.findElement(By.xpath("//a[contains(text(),'your documents')]")).click();	    
 	    
 	    try {
 			Thread.sleep(5000);
@@ -101,7 +92,18 @@ public class TestRetailUserDxpInsurance {
 			e.printStackTrace();
 		}  
 	    
-	    driver.findElement(By.xpath("//div[2]/div/button")).click();
+	    driver.findElement(By.xpath("//div[3]/button")).click();
+	    
+	  
+	    
+	    try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  
+	    	    
+	    driver.findElement(By.xpath("//div[3]/a")).click();
 	    
 	    try {
 			Thread.sleep(3000);
@@ -110,40 +112,8 @@ public class TestRetailUserDxpInsurance {
 			e.printStackTrace();
 		}  
 	    
-	    driver.findElement(By.linkText("Download Document")).click();
+	    driver.findElement(By.xpath("//a[contains(text(),'Close')]")).click();
 	    
-	    try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	    
-	    
-	    for(String handle : driver.getWindowHandles()) {
-	        if (!handle.equals(originalHandle)) {
-	            driver.switchTo().window(handle);
-	            driver.close();
-	        }
-	    }
-	    
-	    try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	
-	    driver.switchTo().window(originalHandle);
-	    
-	    try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}    
-	    
-	    driver.findElement(By.cssSelector("#lexFullScreenModalIframe-107531 .close")).click();
 	    
 	    try {
 			Thread.sleep(3000);
