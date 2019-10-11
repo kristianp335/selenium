@@ -40,7 +40,16 @@ public class TestRetailUserDxpInsurance {
   @Test
   public void testretailuserpath() {
 	  
-  for (int i = 0; i < 300; i++) { 
+  List<String> listUsers = new ArrayList<>();
+  listUsers.add("bella@liferay.com");
+  listUsers.add("toby@liferay.com");
+  listUsers.add("stella@liferay.com");  
+	  
+  for (int i = 0; i < 300; i++) {	
+	  
+	  	for (int f = 0; f < listUsers.size(); f++)
+	  		
+	  	{
 
 	    driver.get("https://tiercontent.liferayuk.com");
 	    driver.manage().window().setSize(new Dimension(1536, 835));
@@ -48,7 +57,7 @@ public class TestRetailUserDxpInsurance {
 	    driver.findElement(By.cssSelector("#sign-in")).click();
 	    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.chord(Keys.CONTROL, "a"));;
 	    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.DELETE);
-	    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys("bella@liferay.com");
+	    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(listUsers.get(f));
 	    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_password")).sendKeys("test"); 
 	    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.ENTER);
 	    try {
@@ -134,6 +143,8 @@ public class TestRetailUserDxpInsurance {
 			e.printStackTrace();
 		}
   	}
+  }
+	  	
   }
 }
 
