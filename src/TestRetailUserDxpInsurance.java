@@ -40,7 +40,7 @@ public class TestRetailUserDxpInsurance {
   @Test
   public void testretailuserpath() {
 	  
-  for (int i = 0; i < 20; i++) { 
+  for (int i = 0; i < 300; i++) { 
 
 	    driver.get("https://tiercontent.liferayuk.com");
 	    driver.manage().window().setSize(new Dimension(1536, 835));
@@ -59,14 +59,17 @@ public class TestRetailUserDxpInsurance {
 		}
 	    driver.findElement(By.xpath("//a[contains(@href, \'https://tiercontent.liferayuk.com/web/dxp-insurance-retail\')]")).click();
 	    try {
-			Thread.sleep(3000);
+			Thread.sleep(6000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}    
+		} 
 	    
-	    driver.findElement(By.xpath("//a[contains(@href, \'https://tiercontent.liferayuk.com/web/dxp-insurance-retail/blog\')]")).click();
-		
+	    JavascriptExecutor js = (JavascriptExecutor) driver;
+	    js.executeScript("window.scrollBy(0,1000)");
+	    
+	    driver.findElement(By.xpath("//div[2]/div/div/a")).click();	
+	    	   	
 		try {
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
