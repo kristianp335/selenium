@@ -17,19 +17,16 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 public class TestRetailUserDxpInsurance {
   private WebDriver driver;
-  private Map<String, Object> vars;
   JavascriptExecutor js;
   @Before
   public void setUp() {
 	  
 	System.setProperty("webdriver.chrome.driver", "C:/selenium/chromedriver.exe");
-    driver = new ChromeDriver();
-    js = (JavascriptExecutor) driver;
-    vars = new HashMap<String, Object>();
+        
   }
   @After
   public void tearDown() {
-    driver.quit();
+    
   }
   @Test
   public void testretailuserpath() {
@@ -49,11 +46,14 @@ public class TestRetailUserDxpInsurance {
 	  	for (int f = 0; f < listUsers.size(); f++)
 	  		
 	  	{
-        
+	  	//for each user open a new chrome instance and delete the cookies
+	  	driver = new ChromeDriver();
+	  	driver.manage().deleteAllCookies();
+	  	
+	  	js = (JavascriptExecutor) driver;        
 	  	System.out.println("Running for " + listUsers.get(f));
 	    driver.get("https://demo2.liferayuk.com");
 	    driver.manage().window().setSize(new Dimension(1536, 835));
-	    String originalHandle = driver.getWindowHandle();
 	    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.chord(Keys.CONTROL, "a"));;
 	    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.DELETE);
 	    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(listUsers.get(f));
@@ -252,7 +252,7 @@ public class TestRetailUserDxpInsurance {
 		}
 	    
 	    driver.navigate().to("https://demo2.liferayuk.com/c/portal/logout");      
-	    	    
+	    driver.quit();	    
   	}
   }
 	  	
