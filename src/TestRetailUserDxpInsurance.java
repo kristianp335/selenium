@@ -41,9 +41,21 @@ public class TestRetailUserDxpInsurance {
   List<String> listUsers = new ArrayList<>();
   listUsers.add("bella@liferay.com");
   listUsers.add("toby@liferay.com");
-  listUsers.add("stella@liferay.com");
-  boolean jmPath = true;
-  if (jmPath == false) {
+  listUsers.add("stella@liferay.com");  
+  
+  List<String> annonymousUsers = new ArrayList();
+  annonymousUsers.add("ben.stimpy-flute@liferay.com");
+  annonymousUsers.add("jill.barney-applefuzz@liferay.com");
+  annonymousUsers.add("jenny.snuff-box@liferay.com");
+  annonymousUsers.add("trixie.blue-shuttle@liferay.com");
+  boolean annonymousJmPath = true;
+  boolean jmPath = false;
+  
+  if (annonymousJmPath == true) {
+	  annonymousJmPath(annonymousUsers);
+  }	  
+
+  else if (jmPath == false) {
 	  testRetailPath(listUsers);
   }
   else {
@@ -54,7 +66,307 @@ public class TestRetailUserDxpInsurance {
 	  	
   }
   
-  private void jmPath(List<String> listUsers) {
+private void annonymousJmPath(List<String> annonymousUsers) {
+	 for (int i = 0; i < 300; i++) {	
+		  
+		  
+		  	for (int f = 0; f < annonymousUsers.size(); f++)
+		  		
+		  	{
+		  		
+		  	driver = new ChromeDriver();
+			js = (JavascriptExecutor) driver;
+		    driver.get("https://tiercontent.liferayuk.com");
+		    driver.manage().window().setSize(new Dimension(1536, 835));
+		    	    
+		    try {
+				Thread.sleep(6000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    js.executeScript("window.scrollBy(0,2600)");
+		    
+		    try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    driver.findElement(By.id("fragment-anrk-link")).click();	    
+		    
+		    try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    driver.navigate().to("https://tiercontent.liferayuk.com/web/jm/journals");
+		    	   	
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			driver.findElement(By.linkText("Liquid Extraction Technologies in Small Channels: A Review")).click();
+		    
+		    try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+		    
+		    try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    driver.findElement(By.xpath("//section/div/a")).click();
+		    
+		    		    
+		    try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    driver.navigate().to("https://tiercontent.liferayuk.com/web/jm/journals");
+		    
+		    try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    js.executeScript("window.scrollBy(0,600)");
+		    
+		    try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    driver.findElement(By.linkText("Exploring Microemulsion - Prepared Lanthanum Catalysts for Natural Gas Valorisation")).click();
+		    
+		    try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+		    
+		    try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    driver.findElement(By.xpath("//section/div/a")).click();
+		    
+		    try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    driver.navigate().to("https://tiercontent.liferayuk.com/web/jm/journals");
+		    
+		    try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    js.executeScript("window.scrollBy(0,1200)");
+		    
+		    try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    
+		    driver.navigate().to("https://tiercontent.liferayuk.com/web/jm/documents");		    
+		    
+		    try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    String searchTerm = "";
+		    if (f == 0)
+			    {
+		    	searchTerm = "chemical";			    
+			    }
+		    else if (f == 1)
+		    	{
+		    	searchTerm = "lanthanum";
+		    	}
+		    else
+		    	{
+		    	searchTerm = "extraction";
+		    	}
+		    
+		    driver.findElement(By.name("q")).click();
+		    driver.findElement(By.name("q")).sendKeys(searchTerm); 
+		    driver.findElement(By.name("q")).sendKeys(Keys.ENTER);
+		    
+		    try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    driver.navigate().to("https://tiercontent.liferayuk.com/web/jm/elno");
+		    
+		    try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}		    
+		    
+		    js.executeScript("window.scrollBy(0,1200)");
+		    
+		    try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+		    
+		    driver.findElement(By.className("ddm-field-text")).click();
+		    driver.findElement(By.className("ddm-field-text")).sendKeys(annonymousUsers.get(f));
+		    try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    driver.findElement(By.className("ddm-field-text")).sendKeys(Keys.TAB);
+		    try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    driver.findElement(By.className("lfr-ddm-form-submit")).click();
+		    
+		    try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		    js.executeScript("window.scrollBy(0,1200)");
+		    
+		    try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    driver.findElement(By.className("ddm-field-text")).click();
+		    driver.findElement(By.className("ddm-field-text")).sendKeys(Keys.chord(Keys.CONTROL, "a"));;
+		    driver.findElement(By.className("ddm-field-text")).sendKeys(Keys.DELETE);
+		    driver.findElement(By.className("ddm-field-text")).sendKeys(annonymousUsers.get(f));
+		    try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    driver.findElement(By.className("ddm-field-text")).sendKeys(Keys.TAB);
+		    try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    driver.findElement(By.className("lfr-ddm-form-submit")).click();
+		    
+		    try {
+				Thread.sleep(4000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    driver.findElement(By.xpath("//div[3]/button")).click();
+		    
+		    try {
+				Thread.sleep(4000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    driver.navigate().to("https://tiercontent.liferayuk.com/web/jm");
+		    
+		    try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    driver.navigate().to("https://tiercontent.liferayuk.com/web/jm/journals");
+		    
+		    try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    driver.findElement(By.xpath("//a[contains(@href, \'/c/portal/logout\')]")).click();
+		    
+		    try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    driver.manage().deleteAllCookies();	
+		    
+		    try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    driver.quit();   
+		    
+		    }
+	  }	
+	
+	
+}
+private void jmPath(List<String> listUsers) {
 	  for (int i = 0; i < 300; i++) {	
 		  
 		  
@@ -63,7 +375,6 @@ public class TestRetailUserDxpInsurance {
 		  	{
 		  		
 		  	driver = new ChromeDriver();
-			driver.manage().deleteAllCookies();			
 			js = (JavascriptExecutor) driver;
 		    driver.get("https://tiercontent.liferayuk.com");
 		    driver.manage().window().setSize(new Dimension(1536, 835));
@@ -199,33 +510,6 @@ public class TestRetailUserDxpInsurance {
 				e.printStackTrace();
 			}
 		    
-		    driver.findElement(By.linkText("Predicting the Structure of Grain Boundaries in Fluorite-Structured Materials")).click();;
- 
-		    try {
-				Thread.sleep(3000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		    
-		    js.executeScript("window.scrollTo(0, document.body.scrollHeight)");  
-		    
-		    try {
-				Thread.sleep(3000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		    
-		    
-		    driver.findElement(By.xpath("//section/div/a")).click();
-		    
-		    try {
-				Thread.sleep(3000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		    
 		    driver.navigate().to("https://tiercontent.liferayuk.com/web/jm/documents");		    
 		    
@@ -258,7 +542,15 @@ public class TestRetailUserDxpInsurance {
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}  
+			}
+		    driver.manage().deleteAllCookies();	
+		    
+		    try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		    driver.quit();   
 		    
 		    }
