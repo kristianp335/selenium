@@ -48,7 +48,7 @@ public class TestRetailUserDxpInsurance {
   annonymousUsers.add("jill.barney-applefuzz@liferay.com");
   annonymousUsers.add("jenny.snuff-box@liferay.com");
   annonymousUsers.add("trixie.blue-shuttle@liferay.com");
-  boolean annonymousJmPath = true;
+  boolean annonymousJmPath = false;
   boolean jmPath = false;
   
   if (annonymousJmPath == true) {
@@ -375,6 +375,7 @@ private void jmPath(List<String> listUsers) {
 		  	{
 		  		
 		  	driver = new ChromeDriver();
+		  	driver.manage().deleteAllCookies();	
 			js = (JavascriptExecutor) driver;
 		    driver.get("https://tiercontent.liferayuk.com");
 		    driver.manage().window().setSize(new Dimension(1536, 835));
@@ -658,6 +659,7 @@ public void testRetailPath(List<String> listUsers) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		    driver.manage().deleteAllCookies();	
 		    driver.quit();
 	  	}
 	  }
