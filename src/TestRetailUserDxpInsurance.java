@@ -100,7 +100,7 @@ public class TestRetailUserDxpInsurance {
 			e.printStackTrace();
 		}  
 	    
-	    driver.findElement(By.xpath("//a[7]/div/img")).click();
+	    driver.navigate().to("https://demo2.liferayuk.com/group/minium/forums");
 	    
 	   	    
 	    try {
@@ -167,7 +167,7 @@ public class TestRetailUserDxpInsurance {
 			e.printStackTrace();
 		}
 	    
-	    driver.findElement(By.xpath("//a[6]/div/img")).click();
+	    driver.findElement(By.xpath("//a[7]/div/img")).click();
 	  
 	   	    
 	    try {
