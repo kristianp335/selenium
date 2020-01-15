@@ -59,6 +59,50 @@ public class TestRetailUserDxpInsurance {
 	    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(listUsers.get(f));
 	    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_password")).sendKeys("test"); 
 	    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.ENTER);
+	    
+	    try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    
+	    driver.findElement(By.name("q")).click();
+	    driver.findElement(By.name("q")).sendKeys(Keys.chord(Keys.CONTROL, "a"));;
+	    driver.findElement(By.name("q")).sendKeys(Keys.DELETE);
+	    driver.findElement(By.name("q")).sendKeys("master");	    
+	    driver.findElement(By.name("q")).sendKeys(Keys.RETURN);    
+	    
+	    
+	    try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    
+	    driver.findElement(By.name("q")).click();
+	    driver.findElement(By.name("q")).sendKeys(Keys.chord(Keys.CONTROL, "a"));;
+	    driver.findElement(By.name("q")).sendKeys(Keys.DELETE);
+	    driver.findElement(By.name("q")).sendKeys("brakes");	    
+	    driver.findElement(By.name("q")).sendKeys(Keys.RETURN);   
+	    
+	    try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    
+	    driver.findElement(By.name("q")).click();
+	    driver.findElement(By.name("q")).sendKeys(Keys.chord(Keys.CONTROL, "a"));;
+	    driver.findElement(By.name("q")).sendKeys(Keys.DELETE);
+	    driver.findElement(By.name("q")).sendKeys("suspension");	    
+	    driver.findElement(By.name("q")).sendKeys(Keys.RETURN);   
+	    
+	    
+	    
+	    
 	    try {
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
