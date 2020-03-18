@@ -11,6 +11,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
@@ -29,7 +30,7 @@ public class TestRetailUserDxpInsurance {
   @Before
   public void setUp() {
 	  
-	System.setProperty("webdriver.chrome.driver", "C:/selenium/chromedriver.exe");
+	System.setProperty("webdriver.chrome.driver", "C:/selenium/80/chromedriver.exe");
   }
   @After
   public void tearDown() {
@@ -50,6 +51,12 @@ public class TestRetailUserDxpInsurance {
   annonymousUsers.add("trixie.blue-shuttle@liferay.com");
   boolean annonymousJmPath = false;
   boolean jmPath = false;
+  boolean vodafonePath = true
+		  ;
+  
+  if (vodafonePath == true) {
+	  vodafonePath(listUsers);
+  }
   
   if (annonymousJmPath == true) {
 	  annonymousJmPath(annonymousUsers);
@@ -66,6 +73,147 @@ public class TestRetailUserDxpInsurance {
 	  	
   }
   
+private void vodafonePath(List<String> listUsers) {
+	for (int i = 0; i < 300; i++) {	
+		  
+		  
+	  	for (int f = 0; f < listUsers.size(); f++)
+	  		
+	  	{
+	  		
+	  	driver = new ChromeDriver();
+	  	driver.manage().deleteAllCookies();	
+		js = (JavascriptExecutor) driver;
+	    driver.get("https://tiercontent.liferayuk.com");
+	    driver.manage().window().setSize(new Dimension(1536, 835));
+	    driver.findElement(By.cssSelector("#sign-in")).click();
+	    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.chord(Keys.CONTROL, "a"));;
+	    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.DELETE);
+	    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(listUsers.get(f));
+	    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_password")).sendKeys("test"); 
+	    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.ENTER);
+	    
+	    try {
+			Thread.sleep(6000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    
+	    driver.navigate().to("https://tiercontent.liferayuk.com/web/vodafone/iot");
+	    
+	    
+	    try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    
+	    try {
+	    	driver.findElement(By.id("fragment-zvvh-04-link")).click();
+	    }
+	    	catch (ElementClickInterceptedException ec) {
+	    		js.executeScript("window.scrollBy(0,1200)");
+	    		driver.findElement(By.id("fragment-zvvh-04-link")).click();	    		
+	    		
+	    	}
+	    
+	  
+	    
+	    try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    
+	    driver.navigate().to("https://tiercontent.liferayuk.com/web/vodafone/iot-knowledge-base/-/knowledge_base/iot/long-term-evolution-for-machines-lte-m-");
+	    	   	
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		driver.navigate().to("https://tiercontent.liferayuk.com/web/vodafone/iot-knowledge-base/-/knowledge_base/iot/narrowband-internet-of-things-nb-iot-");
+		
+		    
+	    try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    
+	    driver.navigate().to("https://tiercontent.liferayuk.com/web/vodafone/iot-message-board/-/message_boards/category/338422");
+	    
+	    try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    
+	    driver.navigate().to("https://tiercontent.liferayuk.com/web/vodafone/iot-message-board/-/message_boards/category/338428");
+	    	    
+	    		    
+	    try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    
+	    
+	    driver.navigate().to("https://tiercontent.liferayuk.com/web/vodafone/iot-message-board/-/message_boards/message/343696");
+	    
+	    try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    
+	    String searchTerm = "";
+	    if (f == 0)
+		    {
+	    	searchTerm = "IoT";			    
+		    }
+	    else if (f == 1)
+	    	{
+	    	searchTerm = "NarrowBand";
+	    	}
+	    else
+	    	{
+	    	searchTerm = "5g";
+	    	}
+	    
+	    driver.findElement(By.name("q")).click();
+	    driver.findElement(By.name("q")).sendKeys(searchTerm); 
+	    driver.findElement(By.name("q")).sendKeys(Keys.ENTER);
+	    
+	    try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    driver.manage().deleteAllCookies();	
+	    
+	    try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    driver.quit();   
+	    
+	    }
+  }	
+}	
+
 private void annonymousJmPath(List<String> annonymousUsers) {
 	 for (int i = 0; i < 300; i++) {	
 		  
