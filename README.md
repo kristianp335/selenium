@@ -1,4 +1,5 @@
-Download ChromeDriver and configure the path in the JUnit test.
+Download ChromeDriver and configure the path in the JUnit test.  
+You can find ChromeDrivers here: https://chromedriver.chromium.org/home
 
 This is a maven project with Selenium and JUnit.
 
