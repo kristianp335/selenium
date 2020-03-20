@@ -23,44 +23,39 @@ public class TestOPBank {
   
   }
   @Test
-  public void testretailuserpath() {
-	  
-  List<String> listUsers = new ArrayList<>();
-  listUsers.add("bella@liferay.com");
-  listUsers.add("toby@liferay.com");
-  listUsers.add("stella@liferay.com");  
-  
-  List<String> annonymousUsers = new ArrayList();
-  annonymousUsers.add("ben.stimpy-flute@liferay.com");
-  annonymousUsers.add("jill.barney-applefuzz@liferay.com");
-  annonymousUsers.add("jenny.snuff-box@liferay.com");
-  annonymousUsers.add("trixie.blue-shuttle@liferay.com");
-  boolean annonymousJmPath = false;
-  boolean jmPath = false;
-  boolean vodafonePath = true
-		  ;
-  
-  if (vodafonePath == true) {
-	  vodafonePath(listUsers);
-  }
-  
-  if (annonymousJmPath == true) {
-	  annonymousJmPath(annonymousUsers);
-  }	  
+  public void ABTestRunner() {
+	  for (int i = 0; i < 3; i++) {
 
-  else if (jmPath == false) {
-	  testRetailPath(listUsers);
-  }
-  else {
-	  jmPath(listUsers);
-  }
-	  
-  
+		  driver = new ChromeDriver();
+		  driver.manage().deleteAllCookies();
+		  js = (JavascriptExecutor) driver;
+		  driver.get("https://op.dxpc.ddns.net");
+		  driver.manage().window().setSize(new Dimension(1536, 835));
+
+		  sleeper(6000);
+
+		  driver.manage().deleteAllCookies();
+
+		  sleeper(2000);
+
+		  driver.quit();
+
+	  }
+
 	  	
+  }
+
+  private void sleeper(int millis) {
+	  try {
+		  Thread.sleep(millis);
+	  } catch (InterruptedException e) {
+		  // TODO Auto-generated catch block
+		  e.printStackTrace();
+	  }
   }
   
 private void vodafonePath(List<String> listUsers) {
-	for (int i = 0; i < 300; i++) {	
+	for (int i = 0; i < 3; i++) {
 		  
 		  
 	  	for (int f = 0; f < listUsers.size(); f++)
