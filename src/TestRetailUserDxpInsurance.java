@@ -753,7 +753,7 @@ public void testRetailPath(List<String> listUsers) {
 		    driver.findElement(By.xpath("//a[contains(@href, \'https://demo2.liferayuk.com/group/dxp-insurance-retail/your-account\')]")).click();
 		    
 		    try {
-				Thread.sleep(5000);
+				Thread.sleep(7000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
