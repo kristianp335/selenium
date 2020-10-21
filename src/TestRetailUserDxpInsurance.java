@@ -21,7 +21,7 @@ public class TestRetailUserDxpInsurance {
   @Before
   public void setUp() {
 	  
-	System.setProperty("webdriver.chrome.driver", "C:/selenium/chromedriver.exe");
+	System.setProperty("webdriver.chrome.driver", "C:/selenium/84/chromedriver.exe");
         
   }
   @After
