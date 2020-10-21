@@ -30,7 +30,7 @@ public class TestRetailUserDxpInsurance {
   @Before
   public void setUp() {
 	  
-	System.setProperty("webdriver.chrome.driver", "C:/selenium/80/chromedriver.exe");
+	System.setProperty("webdriver.chrome.driver", "C:/selenium/85/chromedriver.exe");
   }
   @After
   public void tearDown() {
@@ -51,7 +51,7 @@ public class TestRetailUserDxpInsurance {
   annonymousUsers.add("trixie.blue-shuttle@liferay.com");
   boolean annonymousJmPath = false;
   boolean jmPath = false;
-  boolean vodafonePath = true
+  boolean vodafonePath = false;
 		  ;
   
   if (vodafonePath == true) {
@@ -84,7 +84,7 @@ private void vodafonePath(List<String> listUsers) {
 	  	driver = new ChromeDriver();
 	  	driver.manage().deleteAllCookies();	
 		js = (JavascriptExecutor) driver;
-	    driver.get("https://tiercontent.liferayuk.com");
+	    driver.get("https://tiercontent.liferayuk.com/web/vodafone");
 	    driver.manage().window().setSize(new Dimension(1536, 835));
 	    driver.findElement(By.cssSelector("#sign-in")).click();
 	    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.chord(Keys.CONTROL, "a"));;
@@ -717,7 +717,7 @@ public void testRetailPath(List<String> listUsers) {
 			driver.manage().deleteAllCookies();			
 			js = (JavascriptExecutor) driver;
 
-		    driver.get("https://tiercontent.liferayuk.com");
+		    driver.get("https://demo2.liferayuk.com");
 		    driver.manage().window().setSize(new Dimension(1536, 835));
 		    driver.findElement(By.cssSelector("#sign-in")).click();
 		    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.chord(Keys.CONTROL, "a"));;
@@ -731,7 +731,7 @@ public void testRetailPath(List<String> listUsers) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		    driver.findElement(By.xpath("//a[contains(@href, \'https://tiercontent.liferayuk.com/web/dxp-insurance-retail\')]")).click();
+		    driver.findElement(By.linkText("DXP Insurance Retail")).click();
 		    try {
 				Thread.sleep(6000);
 			} catch (InterruptedException e) {
@@ -742,8 +742,7 @@ public void testRetailPath(List<String> listUsers) {
 		    JavascriptExecutor js = (JavascriptExecutor) driver;
 		    js.executeScript("window.scrollBy(0,1000)");
 		    
-		    driver.findElement(By.xpath("//div[2]/div/div/a")).click();	
-		    	   	
+		        	   	
 			try {
 				Thread.sleep(3000);
 			} catch (InterruptedException e) {
@@ -751,16 +750,16 @@ public void testRetailPath(List<String> listUsers) {
 				e.printStackTrace();
 			}   
 		
-		    driver.findElement(By.xpath("//a[contains(@href, \'https://tiercontent.liferayuk.com/group/dxp-insurance-retail/your-account\')]")).click();
+		    driver.findElement(By.xpath("//a[contains(@href, \'https://demo2.liferayuk.com/group/dxp-insurance-retail/your-account\')]")).click();
 		    
 		    try {
-				Thread.sleep(3000);
+				Thread.sleep(5000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}  
 		    
-		    driver.findElement(By.xpath("//a[contains(text(),'your documents')]")).click();	    
+		    driver.findElement(By.linkText("Documents")).click();    
 		    
 		    try {
 				Thread.sleep(5000);
@@ -799,7 +798,113 @@ public void testRetailPath(List<String> listUsers) {
 				e.printStackTrace();
 			}  
 		    
-		    driver.findElement(By.xpath("//a[contains(@href, \'/c/portal/logout\')]")).click();
+		    driver.navigate().to("https://demo2.liferayuk.com/web/dxp-insurance-retail/blogs");
+		    
+		    try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    driver.findElement(By.id("fragment-zfhz-04-link")).click();
+		    
+		    try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    driver.navigate().to("https://demo2.liferayuk.com/web/dxp-insurance-retail");
+		    
+		    try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    String searchTerm = "";
+		    if (f == 0)
+			    {
+		    	searchTerm = "insurance";			    
+			    }
+		    else if (f == 1)
+		    	{
+		    	searchTerm = "F-type";
+		    	}
+		    else
+		    	{
+		    	searchTerm = "Jaguar";
+		    	}
+		    
+		    driver.findElement(By.name("q")).click();
+		    driver.findElement(By.name("q")).sendKeys(searchTerm); 
+		    driver.findElement(By.name("q")).sendKeys(Keys.ENTER);
+		    
+		    try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    driver.navigate().back();
+		    
+		    try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    driver.findElement(By.id("fragment-ovld-04-link")).click();
+		   
+		    try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    driver.navigate().back();
+		    
+		    try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    driver.findElement(By.id("fragment-cvlt-04-link")).click();
+		   
+		    try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}		    
+		   		    
+		    driver.navigate().back();
+		    
+		    try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    driver.findElement(By.id("fragment-nzmj-04-link")).click();
+		    
+		    try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    driver.navigate().to("https://demo2.liferayuk.com/c/portal/logout");
 		    
 		    try {
 				Thread.sleep(3000);
