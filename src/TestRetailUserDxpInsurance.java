@@ -30,7 +30,7 @@ public class TestRetailUserDxpInsurance {
   @Before
   public void setUp() {
 	  
-	System.setProperty("webdriver.chrome.driver", "C:/selenium/85/chromedriver.exe");
+	System.setProperty("webdriver.chrome.driver", "C:/selenium/88/chromedriver.exe");
   }
   @After
   public void tearDown() {
@@ -717,7 +717,7 @@ public void testRetailPath(List<String> listUsers) {
 			driver.manage().deleteAllCookies();			
 			js = (JavascriptExecutor) driver;
 
-		    driver.get("https://demo2.liferayuk.com");
+		    driver.get("https://demo2.liferayuk.net");
 		    driver.manage().window().setSize(new Dimension(1536, 835));
 		    driver.findElement(By.cssSelector("#sign-in")).click();
 		    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.chord(Keys.CONTROL, "a"));;
@@ -750,7 +750,7 @@ public void testRetailPath(List<String> listUsers) {
 				e.printStackTrace();
 			}   
 		
-		    driver.findElement(By.xpath("//a[contains(@href, \'https://demo2.liferayuk.com/group/dxp-insurance-retail/your-account\')]")).click();
+		    driver.findElement(By.xpath("//a[contains(@href, \'https://demo2.liferayuk.net/group/dxp-insurance-retail/your-account\')]")).click();
 		    
 		    try {
 				Thread.sleep(7000);
@@ -798,7 +798,7 @@ public void testRetailPath(List<String> listUsers) {
 				e.printStackTrace();
 			}  
 		    
-		    driver.navigate().to("https://demo2.liferayuk.com/web/dxp-insurance-retail/blogs");
+		    driver.navigate().to("https://demo2.liferayuk.net/web/dxp-insurance-retail/blogs");
 		    
 		    try {
 				Thread.sleep(3000);
@@ -816,7 +816,7 @@ public void testRetailPath(List<String> listUsers) {
 				e.printStackTrace();
 			}
 		    
-		    driver.navigate().to("https://demo2.liferayuk.com/web/dxp-insurance-retail");
+		    driver.navigate().to("https://demo2.liferayuk.net/web/dxp-insurance-retail");
 		    
 		    try {
 				Thread.sleep(5000);
@@ -895,7 +895,7 @@ public void testRetailPath(List<String> listUsers) {
 				e.printStackTrace();
 			}
 		    
-		    driver.findElement(By.id("fragment-nzmj-04-link")).click();
+		    driver.findElement(By.id("fragment-mkfe-04-link")).click();
 		    
 		    try {
 				Thread.sleep(3000);
@@ -904,7 +904,7 @@ public void testRetailPath(List<String> listUsers) {
 				e.printStackTrace();
 			}
 		    
-		    driver.navigate().to("https://demo2.liferayuk.com/c/portal/logout");
+		    driver.navigate().to("https://demo2.liferayuk.net/c/portal/logout");
 		    
 		    try {
 				Thread.sleep(3000);
