@@ -30,7 +30,7 @@ public class TestRetailUserDxpInsurance {
   @Before
   public void setUp() {
 	  
-	System.setProperty("webdriver.chrome.driver", "C:/selenium/88/chromedriver.exe");
+	System.setProperty("webdriver.chrome.driver", "C:/selenium/96/chromedriver.exe");
   }
   @After
   public void tearDown() {
@@ -717,8 +717,14 @@ public void testRetailPath(List<String> listUsers) {
 			driver.manage().deleteAllCookies();			
 			js = (JavascriptExecutor) driver;
 
-		    driver.get("https://demo2.liferayuk.net");
+		    driver.get("https://sevendotforever.liferayuk.net");
 		    driver.manage().window().setSize(new Dimension(1536, 835));
+		    try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		    driver.findElement(By.cssSelector("#sign-in")).click();
 		    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.chord(Keys.CONTROL, "a"));;
 		    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.DELETE);
@@ -750,7 +756,7 @@ public void testRetailPath(List<String> listUsers) {
 				e.printStackTrace();
 			}   
 		
-		    driver.findElement(By.xpath("//a[contains(@href, \'https://demo2.liferayuk.net/group/dxp-insurance-retail/your-account\')]")).click();
+		    driver.findElement(By.xpath("//a[contains(@href, \'https://sevendotforever.liferayuk.net/group/dxp-insurance-retail/your-account\')]")).click();
 		    
 		    try {
 				Thread.sleep(7000);
@@ -759,7 +765,7 @@ public void testRetailPath(List<String> listUsers) {
 				e.printStackTrace();
 			}  
 		    
-		    driver.findElement(By.linkText("Documents")).click();    
+		    driver.findElement(By.linkText("Your documents")).click();    
 		    
 		    try {
 				Thread.sleep(5000);
@@ -798,25 +804,7 @@ public void testRetailPath(List<String> listUsers) {
 				e.printStackTrace();
 			}  
 		    
-		    driver.navigate().to("https://demo2.liferayuk.net/web/dxp-insurance-retail/blogs");
-		    
-		    try {
-				Thread.sleep(3000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		    
-		    driver.findElement(By.id("fragment-zfhz-04-link")).click();
-		    
-		    try {
-				Thread.sleep(5000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		    
-		    driver.navigate().to("https://demo2.liferayuk.net/web/dxp-insurance-retail");
+		    driver.navigate().to("https://sevendotforever.liferayuk.net/web/dxp-insurance-retail");
 		    
 		    try {
 				Thread.sleep(5000);
@@ -859,7 +847,19 @@ public void testRetailPath(List<String> listUsers) {
 				e.printStackTrace();
 			}
 		    
-		    driver.findElement(By.id("fragment-ovld-04-link")).click();
+		   
+		    
+		    js.executeScript("window.scrollBy(0,800)");
+		    
+		    try {
+				Thread.sleep(1500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    
+		    driver.findElement(By.linkText("Read more about the F-TYPE")).click();
 		   
 		    try {
 				Thread.sleep(3000);
@@ -877,7 +877,7 @@ public void testRetailPath(List<String> listUsers) {
 				e.printStackTrace();
 			}
 		    
-		    driver.findElement(By.id("fragment-cvlt-04-link")).click();
+		    driver.findElement(By.linkText("Read more about the XF")).click();
 		   
 		    try {
 				Thread.sleep(3000);
@@ -895,7 +895,7 @@ public void testRetailPath(List<String> listUsers) {
 				e.printStackTrace();
 			}
 		    
-		    driver.findElement(By.id("fragment-mkfe-04-link")).click();
+		    driver.findElement(By.linkText("Read more on the I-PACE")).click();
 		    
 		    try {
 				Thread.sleep(3000);
@@ -904,7 +904,41 @@ public void testRetailPath(List<String> listUsers) {
 				e.printStackTrace();
 			}
 		    
-		    driver.navigate().to("https://demo2.liferayuk.net/c/portal/logout");
+		    driver.navigate().to("https://sevendotforever.liferayuk.net/web/dxp-insurance-retail/blogs");
+		    
+		    try {
+				Thread.sleep(1500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    
+		    js.executeScript("window.scrollBy(0,800)");
+		    
+		    
+		    try {
+				Thread.sleep(1500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    if (driver.findElement(By.id("fragment-auqo-04-link")) != null)
+		    
+		    {	
+		    	driver.findElement(By.id("fragment-auqo-04-link")).click();
+		    }
+		    
+		    
+		    try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    driver.navigate().to("https://sevendotforever.liferayuk.net/c/portal/logout");
 		    
 		    try {
 				Thread.sleep(3000);
