@@ -30,7 +30,7 @@ public class TestRetailUserDxpInsurance {
   @Before
   public void setUp() {
 	  
-	System.setProperty("webdriver.chrome.driver", "C:/selenium/96/chromedriver.exe");
+	System.setProperty("webdriver.chrome.driver", "C:/selenium/103/chromedriver.exe");
   }
   @After
   public void tearDown() {
@@ -44,6 +44,10 @@ public class TestRetailUserDxpInsurance {
   listUsers.add("toby@liferay.com");
   listUsers.add("stella@liferay.com");  
   
+  List<String> vmo2Users = new ArrayList<>();
+  vmo2Users.add("jsizemore@lit.co.uk"); 
+  
+  
   List<String> annonymousUsers = new ArrayList();
   annonymousUsers.add("ben.stimpy-flute@liferay.com");
   annonymousUsers.add("jill.barney-applefuzz@liferay.com");
@@ -52,7 +56,12 @@ public class TestRetailUserDxpInsurance {
   boolean annonymousJmPath = false;
   boolean jmPath = false;
   boolean vodafonePath = false;
-		  ;
+  boolean vmo2Path = true;
+  
+  if (vmo2Path == true) {
+	  vmo2Path(vmo2Users);
+  }
+		  
   
   if (vodafonePath == true) {
 	  vodafonePath(listUsers);
@@ -71,7 +80,67 @@ public class TestRetailUserDxpInsurance {
 	  
   
 	  	
-  }
+}
+  
+private void vmo2Path(List<String> vmo2Users) {
+	
+	for (int i = 0; i < 100; i++) {			  
+	  	for (int f = 0; f < vmo2Users.size(); f++) {
+	  		
+	  		driver = new ChromeDriver();
+		  	driver.manage().deleteAllCookies();	
+			js = (JavascriptExecutor) driver;
+		    driver.get("https://webserver-lctvmo2-prd.lfr.cloud/");
+		    
+		    driver.manage().window().setSize(new Dimension(1536, 835));
+		    driver.findElement(By.cssSelector("#signin-button")).click();
+		    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.chord(Keys.CONTROL, "a"));;
+		    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.DELETE);
+		    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(vmo2Users.get(f));
+		    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_password")).sendKeys("test"); 
+		    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.ENTER);
+		    
+		    driver.get("https://webserver-lctvmo2-prd.lfr.cloud/business-services");
+		    
+		    driver.get("https://webserver-lctvmo2-prd.lfr.cloud/small-business-products");
+		    
+		    try {
+				Thread.sleep(6000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    catch (ElementClickInterceptedException ec) {
+	    		js.executeScript("window.scrollBy(0,400)");
+	    	}
+		    
+		    driver.get("https://webserver-lctvmo2-prd.lfr.cloud/product-compare");
+		    
+		    try {
+				Thread.sleep(6000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    driver.findElement(By.xpath("//a[contains(@href, '/help-center?ask_ray')]")).click();
+		    
+		    try {
+				Thread.sleep(20000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}		  
+		    
+		    driver.quit(); 
+	  		
+	  	}
+	}
+	
+}
+  
+  
   
 private void vodafonePath(List<String> listUsers) {
 	for (int i = 0; i < 300; i++) {	
