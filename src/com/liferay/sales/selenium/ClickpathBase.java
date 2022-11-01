@@ -1,4 +1,6 @@
 package com.liferay.sales.selenium;
+import java.lang.reflect.InvocationTargetException;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
@@ -12,9 +14,9 @@ public class ClickpathBase {
 	int defaultSleep = 2000;
 	protected String baseUrl;
 	
-	public ClickpathBase(WebDriver driver, JavascriptExecutor js, String baseUrl) {
+	public ClickpathBase(WebDriver driver, String baseUrl) {
 		this.driver = driver;
-		this.js = js;
+		this.js = (JavascriptExecutor) driver;
 		this.baseUrl = baseUrl;
 	}
 	
@@ -61,6 +63,19 @@ public class ClickpathBase {
 		return driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_" + field));
 	}
 
+	protected void quit() {
+		WebDriver oldDriver = driver;
+		try {
+			this.driver = oldDriver.getClass().getDeclaredConstructor().newInstance();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+		this.js = (JavascriptExecutor) driver;
+	}
+	
+	
+	
 	/**
 	 * sleep for given interval
 	 * @param url

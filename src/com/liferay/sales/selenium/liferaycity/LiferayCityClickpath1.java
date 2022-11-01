@@ -3,13 +3,12 @@ import com.liferay.sales.selenium.ClickpathBase;
 
 import java.util.Map;
 
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 
 public class LiferayCityClickpath1 extends ClickpathBase {
-	public LiferayCityClickpath1(WebDriver driver, JavascriptExecutor js, String baseUrl) {
-		super(driver, js, baseUrl);
+	public LiferayCityClickpath1(WebDriver driver, String baseUrl) {
+		super(driver, baseUrl);
 	}
 	
 	public void run(Map<String, String> cityUsers) {
@@ -42,7 +41,7 @@ public class LiferayCityClickpath1 extends ClickpathBase {
 			    
 			    sleep(4000);
 			    
-//			    driver.quit(); 
+			    quit(); 
 		  	}
 		}
 	}

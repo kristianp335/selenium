@@ -15,7 +15,7 @@ public class LiferayCity {
 
 		WebDriver driver = new ChromeDriver();
 		JavascriptExecutor js = (JavascriptExecutor) driver;
-		LiferayCityClickpath1 path1 = new LiferayCityClickpath1(driver, js, "https://webserver-lctcity-prd.lfr.cloud/");
+		LiferayCityClickpath1 path1 = new LiferayCityClickpath1(driver, "https://webserver-lctcity-prd.lfr.cloud/");
 		
 		path1.run(cityUsers);
 	}
