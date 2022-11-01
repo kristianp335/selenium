@@ -72,6 +72,7 @@ public class ClickpathBase {
 			throw new RuntimeException(e);
 		}
 		this.js = (JavascriptExecutor) driver;
+		oldDriver.quit();
 	}
 	
 	
