@@ -16,7 +16,7 @@ public class LiferayCityClickpath1 extends ClickpathBase {
 		
 		for (int i = 0; i < 100; i++) {
 			for (Map.Entry<String, String> user : cityUsers.entrySet()) {
-				
+				doResize(1536, 835);
 			  	deleteAllCookies();	
 			    doGoTo(baseUrl);
 			    doGoTo(baseUrl + "welcome?p_p_id=com_liferay_login_web_portlet_LoginPortlet&p_p_lifecycle=0&p_p_state=maximized&p_p_mode=view&_com_liferay_login_web_portlet_LoginPortlet_mvcRenderCommandName=%2Flogin%2Flogin&saveLastPath=false");

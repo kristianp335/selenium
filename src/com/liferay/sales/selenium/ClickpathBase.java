@@ -1,5 +1,6 @@
 package com.liferay.sales.selenium;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -52,6 +53,10 @@ public class ClickpathBase {
 		sleep(defaultSleep);
 	}
 
+	protected void doResize(int width, int height) {
+		driver.manage().window().setSize(new Dimension(width, height));
+	}
+	
 	protected WebElement getLoginField(String field) {
 		return driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_" + field));
 	}
