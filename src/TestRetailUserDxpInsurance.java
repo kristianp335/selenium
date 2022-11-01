@@ -8,7 +8,6 @@ import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.core.IsNot.not;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.ElementClickInterceptedException;
@@ -20,14 +19,17 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 
 public class TestRetailUserDxpInsurance {
-  private WebDriver driver;
-  JavascriptExecutor js;
-  @Before
+	public WebDriver driver;
+	public JavascriptExecutor js;
+
+@Before
   public void setUp() {
 	  
 	System.setProperty("webdriver.chrome.driver", "C:/selenium/107/chromedriver.exe");
@@ -140,7 +142,7 @@ private void olafCityPath(List<String> cityUsers) {
 				e.printStackTrace();
 			}
 		    
-		    driver.findElement(By.linkText("Entschlossen, Technologie für Bürger*innen zu verbessern")).click();
+		    driver.findElement(By.linkText("Entschlossen, Technologie fï¿½r Bï¿½rger*innen zu verbessern")).click();
 		    
 		    try {
 				Thread.sleep(6000);
