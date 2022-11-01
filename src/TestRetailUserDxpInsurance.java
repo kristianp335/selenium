@@ -30,7 +30,7 @@ public class TestRetailUserDxpInsurance {
   @Before
   public void setUp() {
 	  
-	System.setProperty("webdriver.chrome.driver", "C:/selenium/103/chromedriver.exe");
+	System.setProperty("webdriver.chrome.driver", "C:/selenium/107/chromedriver.exe");
   }
   @After
   public void tearDown() {
@@ -47,6 +47,10 @@ public class TestRetailUserDxpInsurance {
   List<String> vmo2Users = new ArrayList<>();
   vmo2Users.add("jsizemore@lit.co.uk"); 
   
+  List<String> cityUsers = new ArrayList<>();
+  cityUsers.add("wwilliams"); 
+  cityUsers.add("ssmith");   
+  
   
   List<String> annonymousUsers = new ArrayList();
   annonymousUsers.add("ben.stimpy-flute@liferay.com");
@@ -56,10 +60,15 @@ public class TestRetailUserDxpInsurance {
   boolean annonymousJmPath = false;
   boolean jmPath = false;
   boolean vodafonePath = false;
-  boolean vmo2Path = true;
+  boolean vmo2Path = false;
+  boolean olafCity = true;
   
   if (vmo2Path == true) {
 	  vmo2Path(vmo2Users);
+  }
+  
+  if (olafCity == true) {
+	  olafCityPath(cityUsers);
   }
 		  
   
@@ -82,6 +91,70 @@ public class TestRetailUserDxpInsurance {
 	  	
 }
   
+private void olafCityPath(List<String> cityUsers) {
+	
+	for (int i = 0; i < 100; i++) {			  
+	  	for (int f = 0; f < cityUsers.size(); f++) {
+	  		
+	  		driver = new ChromeDriver();
+		  	driver.manage().deleteAllCookies();	
+			js = (JavascriptExecutor) driver;
+		    driver.get("https://webserver-lctcity-prd.lfr.cloud");
+		    
+		    try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    driver.get("https://webserver-lctcity-prd.lfr.cloud/welcome?p_p_id=com_liferay_login_web_portlet_LoginPortlet&p_p_lifecycle=0&p_p_state=maximized&p_p_mode=view&_com_liferay_login_web_portlet_LoginPortlet_mvcRenderCommandName=%2Flogin%2Flogin&saveLastPath=false");
+		    
+		    try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.chord(Keys.CONTROL, "a"));;
+		    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.DELETE);
+		    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(cityUsers.get(f));
+		    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_password")).sendKeys("liferay$"); 
+		    driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.ENTER);
+		    
+		    try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	    
+		    
+		    
+		    driver.findElement(By.linkText("AKTUELLES")).click();
+		    
+		    try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    driver.findElement(By.linkText("Entschlossen, Technologie für Bürger*innen zu verbessern")).click();
+		    
+		    try {
+				Thread.sleep(6000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    driver.quit(); 
+	  	}
+	}
+	
+	
+}
 private void vmo2Path(List<String> vmo2Users) {
 	
 	for (int i = 0; i < 100; i++) {			  
