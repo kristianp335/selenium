@@ -12,7 +12,7 @@ public class ChromeDriverInitializer implements DriverInitializer {
 	@Override
 	public WebDriver getDriver() {
 		ChromeOptions options = new ChromeOptions();
-		options.addArguments("--headless");
+//		options.addArguments("--headless");
 		ChromeDriver driver = new ChromeDriver(options);
 		driver.manage().window().setSize(new Dimension(1536, 835));
 		return driver;

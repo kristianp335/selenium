@@ -5,6 +5,7 @@ import com.liferay.sales.selenium.DriverInitializer;
 import java.util.Map;
 
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 
 public class LiferayCityClickpath1 extends ClickpathBase {
 	public LiferayCityClickpath1(DriverInitializer di, String baseUrl) {
@@ -18,6 +19,19 @@ public class LiferayCityClickpath1 extends ClickpathBase {
 				doResize(1536, 835);
 			  	deleteAllCookies();	
 			    doGoTo(baseUrl);
+
+			    
+//				WebElement searchField = getFieldByCSS(".search-bar-keywords-input");
+//				WebElement searchField = getFieldByXPath("//input[@data-qa-id='searchInput']");
+				WebElement searchField = getFieldByName("q");
+				searchField.click();
+				searchField.sendKeys("Veranstaltung");
+				searchField.sendKeys(Keys.ENTER);
+				sleep(2000);
+				
+
+			    
+			    
 			    doGoTo(baseUrl + "welcome?p_p_id=com_liferay_login_web_portlet_LoginPortlet&p_p_lifecycle=0&p_p_state=maximized&p_p_mode=view&_com_liferay_login_web_portlet_LoginPortlet_mvcRenderCommandName=%2Flogin%2Flogin&saveLastPath=false");
 			    
 			    sleep(2000);
@@ -39,6 +53,8 @@ public class LiferayCityClickpath1 extends ClickpathBase {
 			    };
 				doClickRandomText(newsLinkText);
 			    
+				
+				
 			    sleep(4000);
 			    
 			    quit(i < (rounds-1)); 

@@ -59,6 +59,21 @@ public class ClickpathBase {
 		getDriver().manage().window().setSize(new Dimension(width, height));
 	}
 	
+	protected WebElement getFieldByCSS(String cssSelector) {
+		return getDriver().findElement(By.cssSelector(cssSelector));
+	}
+	
+	protected WebElement getFieldByName(String name) {
+		return driver.findElement(By.name(name));
+	}
+	
+	protected WebElement getFieldByXPath(String xPath) {
+		return getDriver().findElement(By.xpath(xPath));
+	}
+	
+	
+	
+
 	protected WebElement getLoginField(String field) {
 		return getDriver().findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_" + field));
 	}
