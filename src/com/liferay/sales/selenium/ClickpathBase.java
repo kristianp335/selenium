@@ -1,6 +1,4 @@
 package com.liferay.sales.selenium;
-import java.lang.reflect.InvocationTargetException;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
@@ -9,19 +7,21 @@ import org.openqa.selenium.WebElement;
 
 public class ClickpathBase {
 
-	private WebDriver driver;
-	private JavascriptExecutor js;
-	int defaultSleep = 2000;
+	private WebDriver driver = null;
+	private JavascriptExecutor js = null;
 	protected String baseUrl;
 	
-	public ClickpathBase(WebDriver driver, String baseUrl) {
-		this.driver = driver;
-		this.js = (JavascriptExecutor) driver;
+	int defaultSleep = 2000;
+
+	private DriverInitializer driverInitializer;
+	
+	public ClickpathBase(DriverInitializer di, String baseUrl) {
+		this.driverInitializer = di;
 		this.baseUrl = baseUrl;
 	}
 	
 	protected void deleteAllCookies() {
-		driver.manage().deleteAllCookies();
+		getDriver().manage().deleteAllCookies();
 	}
 	
 	/**
@@ -30,7 +30,7 @@ public class ClickpathBase {
 	 */
 	
 	protected void doGoTo(String url) {
-	    driver.get(url);
+	    getDriver().get(url);
 	    sleep(defaultSleep);
 	}
 
@@ -40,7 +40,7 @@ public class ClickpathBase {
 	 */
 
 	protected void doClickText(String text) {
-		driver.findElement(By.linkText(text)).click();
+		getDriver().findElement(By.linkText(text)).click();
 		sleep(defaultSleep);
 	}
 
@@ -51,31 +51,34 @@ public class ClickpathBase {
 
 	protected void doClickRandomText(String[] text) {
 		int pos = (int) (Math.random()*text.length);
-		driver.findElement(By.linkText(text[pos])).click();
+		getDriver().findElement(By.linkText(text[pos])).click();
 		sleep(defaultSleep);
 	}
 
 	protected void doResize(int width, int height) {
-		driver.manage().window().setSize(new Dimension(width, height));
+		getDriver().manage().window().setSize(new Dimension(width, height));
 	}
 	
 	protected WebElement getLoginField(String field) {
-		return driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_" + field));
+		return getDriver().findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_" + field));
 	}
 
-	protected void quit() {
-		WebDriver oldDriver = driver;
-		try {
-			this.driver = oldDriver.getClass().getDeclaredConstructor().newInstance();
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException(e);
-		}
-		this.js = (JavascriptExecutor) driver;
-		oldDriver.quit();
+	
+	/**
+	 * quit a session (closes browser), optionally keep this instance working 
+	 * by immediately creating an identical one again.
+	 * @param reopen set to true when this instance should still have a valid driver after quitting
+	 */
+	
+	protected void quit(boolean reopen) {
+		driver.quit();
+		driver = null;
+		js = null;
 	}
 	
-	
+	protected void setDefaultSleep(int millis) {
+		this.defaultSleep = millis;
+	}
 	
 	/**
 	 * sleep for given interval
@@ -88,6 +91,18 @@ public class ClickpathBase {
 			Thread.sleep(millis);
 		} catch (InterruptedException ignore) {
 		}
+	}
+
+	private WebDriver getDriver() {
+		if(driver==null) {
+			setDriver(driverInitializer.getDriver());
+		}
+		return driver;
+	}
+
+	private void setDriver(WebDriver driver) {
+		this.driver = driver;
+		js = (JavascriptExecutor) driver;
 	}
 
 }

@@ -1,19 +1,19 @@
 package com.liferay.sales.selenium.liferaycity;
 import com.liferay.sales.selenium.ClickpathBase;
+import com.liferay.sales.selenium.DriverInitializer;
 
 import java.util.Map;
 
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
 
 public class LiferayCityClickpath1 extends ClickpathBase {
-	public LiferayCityClickpath1(WebDriver driver, String baseUrl) {
-		super(driver, baseUrl);
+	public LiferayCityClickpath1(DriverInitializer di, String baseUrl) {
+		super(di, baseUrl);
 	}
 	
 	public void run(Map<String, String> cityUsers) {
-		
-		for (int i = 0; i < 100; i++) {
+		int rounds = 2;
+		for (int i = 0; i < rounds; i++) {
 			for (Map.Entry<String, String> user : cityUsers.entrySet()) {
 				doResize(1536, 835);
 			  	deleteAllCookies();	
@@ -41,7 +41,7 @@ public class LiferayCityClickpath1 extends ClickpathBase {
 			    
 			    sleep(4000);
 			    
-			    quit(); 
+			    quit(i < (rounds-1)); 
 		  	}
 		}
 	}
