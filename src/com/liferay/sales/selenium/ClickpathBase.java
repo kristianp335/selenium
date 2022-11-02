@@ -22,9 +22,7 @@ public abstract class ClickpathBase {
 	private WebDriver driver = null;
 	private JavascriptExecutor js = null;
 	protected String baseUrl;
-
-	int defaultSleep = 2000;
-
+	private int defaultSleep = 2000;
 	private DriverInitializer driverInitializer;
 
 	public ClickpathBase(DriverInitializer di, String baseUrl) {
@@ -58,7 +56,11 @@ public abstract class ClickpathBase {
 	 */
 
 	protected void doClickText(String text) {
-		if (getDriver().findElements(By.linkText(text)).size() == 0) {
+		List<WebElement> elements = getDriver().findElements(By.linkText(text));
+		if(elements.size() > 1) {
+			log("WARN (doClickText): found more than 1 occurrence of text to click: " + text);
+		} else if (elements.size() == 0) {
+			log("INFO (doClickText): No match found for text to click, using partial match: " + text);
 			getDriver().findElement(By.partialLinkText(text)).click();
 		} else {
 			getDriver().findElement(By.linkText(text)).click();
@@ -87,6 +89,12 @@ public abstract class ClickpathBase {
 	}
 
 	protected WebElement getElementByCSS(String cssSelector) {
+		List<WebElement> allElements = getElementsByCSS(cssSelector);
+		if(allElements.size() > 1) {
+			log("WARN: getElementByCSS - there are multiple elements matching this CSS selector: " + cssSelector);
+		} else {
+			log("WARN: getElementByCSS - there is no element matching this CSS selector: " + cssSelector);
+		}
 		return getDriver().findElement(By.cssSelector(cssSelector));
 	}
 
@@ -95,6 +103,12 @@ public abstract class ClickpathBase {
 	}
 
 	protected WebElement getElementByName(String name) {
+		List<WebElement> allElements = getElementsByName(name);
+		if(allElements.size() > 1) {
+			log("WARN: getElementByName - there are multiple elements matching this name: " + name);
+		} else {
+			log("WARN: getElementByName - there is no element matching this name: " + name);
+		}
 		return driver.findElement(By.name(name));
 	}
 
@@ -103,6 +117,12 @@ public abstract class ClickpathBase {
 	}
 
 	protected WebElement getElementByXPath(String xPath) {
+		List<WebElement> allElements = getElementsByXPath(xPath);
+		if(allElements.size() > 1) {
+			log("WARN: getElementByXPath - there are multiple elements matching this xpath: " + xPath);
+		} else {
+			log("WARN: getElementByXPath - there is no element matching this xpath: " + xPath);
+		}
 		return getDriver().findElement(By.xpath(xPath));
 	}
 
@@ -186,6 +206,10 @@ public abstract class ClickpathBase {
 	private void setDriver(WebDriver driver) {
 		this.driver = driver;
 		js = (JavascriptExecutor) driver;
+	}
+	
+	protected void log(String message) {
+		System.err.println(message);
 	}
 
 }
