@@ -102,6 +102,25 @@ public abstract class ClickpathBase {
 		return getDriver().findElements(By.cssSelector(cssSelector));
 	}
 
+	protected WebElement getElementById(String id) {
+		return getDriver().findElement(By.id(id));
+	}
+
+	protected WebElement getElementByLinkText(String linkText) {
+		List<WebElement> allElements = getElementsByLinkText(linkText);
+		if(allElements.size() > 1) {
+			log("WARN: getElementByLinkText - there are multiple elements matching this link text: " + linkText);
+			return allElements.get(0); 
+		} else {
+			log("WARN: getElementByLinkText - there is no element matching this link text: " + linkText);
+		}
+		return null;
+	}
+
+	protected List<WebElement> getElementsByLinkText(String linkText) {
+		return getDriver().findElements(By.linkText(linkText));
+	}
+
 	protected WebElement getElementByName(String name) {
 		List<WebElement> allElements = getElementsByName(name);
 		if(allElements.size() > 1) {
@@ -114,6 +133,21 @@ public abstract class ClickpathBase {
 
 	protected List<WebElement> getElementsByName(String name) {
 		return driver.findElements(By.name(name));
+	}
+
+	protected WebElement getElementByPartialLinkText(String linkText) {
+		List<WebElement> allElements = getElementsByPartialLinkText(linkText);
+		if(allElements.size() > 1) {
+			log("WARN: getElementByPartialLinkText - there are multiple elements matching this link text: " + linkText);
+			return allElements.get(0); 
+		} else {
+			log("WARN: getElementByPartialLinkText - there is no element matching this link text: " + linkText);
+		}
+		return null;
+	}
+
+	protected List<WebElement> getElementsByPartialLinkText(String linkText) {
+		return getDriver().findElements(By.partialLinkText(linkText));
 	}
 
 	protected WebElement getElementByXPath(String xPath) {
@@ -178,6 +212,10 @@ public abstract class ClickpathBase {
 		js = null;
 	}
 
+	protected void scrollTo(WebElement element) {
+		js.executeScript("arguments[0].scrollIntoView(true);", element);
+	}
+	
 	public void setDefaultSleep(int millis) {
 		this.defaultSleep = millis;
 	}
@@ -196,7 +234,7 @@ public abstract class ClickpathBase {
 		}
 	}
 
-	private WebDriver getDriver() {
+	protected WebDriver getDriver() {
 		if (driver == null) {
 			setDriver(driverInitializer.getDriver());
 		}

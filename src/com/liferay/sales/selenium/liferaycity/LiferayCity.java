@@ -1,11 +1,12 @@
 package com.liferay.sales.selenium.liferaycity;
+import com.liferay.sales.selenium.api.ClickpathBase;
 import com.liferay.sales.selenium.chrome.ChromeDriverInitializer;
 
 import java.util.HashMap;
 
 public class LiferayCity {
 	public static void main(String[] args) {
-		LiferayCityClickpath1 path1 = null;
+		ClickpathBase path1 = null;
 		try {
 //			System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
 			
@@ -13,7 +14,7 @@ public class LiferayCity {
 			cityUsers.put("wwilliams", "liferay$"); 
 			cityUsers.put("ssmith", "liferay$");   
 	
-			path1 = new LiferayCityClickpath1(new ChromeDriverInitializer(), "https://webserver-lctcity-prd.lfr.cloud/");
+			path1 = new LiferayCityClickpath2(new ChromeDriverInitializer(), "https://webserver-lctcity-prd.lfr.cloud/");
 			path1.setDefaultSleep(3000);
 			path1.run(cityUsers);
 		} catch(Exception e) {
