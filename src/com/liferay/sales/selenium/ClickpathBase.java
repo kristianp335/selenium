@@ -1,6 +1,7 @@
 package com.liferay.sales.selenium;
 
 import java.util.List;
+import java.util.Map;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
@@ -16,7 +17,7 @@ import org.openqa.selenium.WebElement;
  * @author Olaf Kock
  */
 
-public class ClickpathBase {
+public abstract class ClickpathBase {
 
 	private WebDriver driver = null;
 	private JavascriptExecutor js = null;
@@ -31,6 +32,8 @@ public class ClickpathBase {
 		this.baseUrl = baseUrl;
 	}
 
+	abstract public void run(Map<String, String> users);
+		
 	protected void deleteAllCookies() {
 		getDriver().manage().deleteAllCookies();
 	}
