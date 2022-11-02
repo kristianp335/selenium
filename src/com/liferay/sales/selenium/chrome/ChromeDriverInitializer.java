@@ -1,6 +1,6 @@
 package com.liferay.sales.selenium.chrome;
 
-import com.liferay.sales.selenium.DriverInitializer;
+import com.liferay.sales.selenium.api.DriverInitializer;
 
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;

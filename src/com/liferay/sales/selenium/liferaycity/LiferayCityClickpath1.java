@@ -1,6 +1,6 @@
 package com.liferay.sales.selenium.liferaycity;
-import com.liferay.sales.selenium.ClickpathBase;
-import com.liferay.sales.selenium.DriverInitializer;
+import com.liferay.sales.selenium.api.ClickpathBase;
+import com.liferay.sales.selenium.api.DriverInitializer;
 
 import java.util.Map;
 

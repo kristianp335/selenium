@@ -1,4 +1,4 @@
-package com.liferay.sales.selenium;
+package com.liferay.sales.selenium.api;
 
 import java.util.List;
 import java.util.Map;

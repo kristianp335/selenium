@@ -1,4 +1,4 @@
-package com.liferay.sales.selenium;
+package com.liferay.sales.selenium.api;
 
 import org.openqa.selenium.WebDriver;
 
