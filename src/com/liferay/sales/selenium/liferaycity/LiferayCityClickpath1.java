@@ -30,7 +30,6 @@ public class LiferayCityClickpath1 extends ClickpathBase {
 		    
 		    mark("input[data-qa-id='searchInput']");
 		    
-//				WebElement searchField = getFieldByCSS(".search-bar-keywords-input");
 		    WebElement searchField = getFirstVisibleElementByXPath("//input[@data-qa-id='searchInput']");
 			searchField.click();
 			searchField.sendKeys(getOneOf(SEARCH_TERMS));
