@@ -1,9 +1,20 @@
 package com.liferay.sales.selenium;
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
+/**
+ * Utility class to use as baseclass for clickpath implementations.
+ * 
+ * Every doXXX method sleeps for the default sleep time after execution
+ * 
+ * @author Olaf Kock
+ */
+
 
 public class ClickpathBase {
 
@@ -36,62 +47,99 @@ public class ClickpathBase {
 
 	/**
 	 * Click link with given text, then sleep for default interval
+	 * If the exact link text is found, it is clicked. If no exact match is found,
+	 * this method tries to find a partial match.
 	 * @param url
 	 */
 
 	protected void doClickText(String text) {
-		getDriver().findElement(By.linkText(text)).click();
+		if(getDriver().findElements(By.linkText(text)).size() == 0) {
+			getDriver().findElement(By.partialLinkText(text)).click();
+		} else {
+			getDriver().findElement(By.linkText(text)).click();
+		}
 		sleep(defaultSleep);
 	}
 
 	/**
 	 * Click one of the links with given text, then sleep for default interval
+	 * If the exact link text is found, it is clicked. If no exact match is found,
+	 * this method tries to find a partial match.
 	 * @param url
 	 */
 
-	protected void doClickRandomText(String[] text) {
-		int pos = (int) (Math.random()*text.length);
-		getDriver().findElement(By.linkText(text[pos])).click();
-		sleep(defaultSleep);
+	protected void doClickRandomText(String[] strings) {
+		doClickText(getOneOf(strings));
 	}
 
 	protected void doResize(int width, int height) {
 		getDriver().manage().window().setSize(new Dimension(width, height));
 	}
 	
-	protected WebElement getFieldByCSS(String cssSelector) {
+	protected void execute(String javascript) {
+		js.executeScript(javascript);
+	}
+	
+	protected WebElement getElementByCSS(String cssSelector) {
 		return getDriver().findElement(By.cssSelector(cssSelector));
 	}
 	
-	protected WebElement getFieldByName(String name) {
+	protected List<WebElement> getElementsByCSS(String cssSelector) {
+		return getDriver().findElements(By.cssSelector(cssSelector));
+	}
+
+	protected WebElement getElementByName(String name) {
 		return driver.findElement(By.name(name));
 	}
 	
-	protected WebElement getFieldByXPath(String xPath) {
+	protected List<WebElement> getElementsByName(String name) {
+		return driver.findElements(By.name(name));
+	}
+	
+	protected WebElement getElementByXPath(String xPath) {
 		return getDriver().findElement(By.xpath(xPath));
 	}
 	
+	protected List<WebElement> getElementsByXPath(String xPath) {
+		return getDriver().findElements(By.xpath(xPath));
+	}
 	
-	
+	protected WebElement getFirstVisibleElementByXPath(String xPath) {
+		List<WebElement> elements = getDriver().findElements(By.xpath(xPath));
+		for (WebElement webElement : elements) {
+			if(webElement.isDisplayed()) {
+				return webElement;
+			}
+		}
+		return null;
+	}
 
 	protected WebElement getLoginField(String field) {
 		return getDriver().findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_" + field));
 	}
-
+	
+	protected String getOneOf(String[] strings) {
+		int pos = (int) (Math.random()*strings.length);
+		return strings[pos];
+	}
+	
+	protected void mark(String selector) {
+		execute("document.querySelectorAll(\"" + selector + "\").forEach(function(e){e.style.backgroundColor = 'red';})");
+	}
 	
 	/**
-	 * quit a session (closes browser), optionally keep this instance working 
-	 * by immediately creating an identical one again.
-	 * @param reopen set to true when this instance should still have a valid driver after quitting
+	 * quit a session (closes browser)
 	 */
 	
-	protected void quit(boolean reopen) {
-		driver.quit();
+	public void quit() {
+		if(driver!=null) {
+			driver.quit();
+		}
 		driver = null;
 		js = null;
 	}
 	
-	protected void setDefaultSleep(int millis) {
+	public void setDefaultSleep(int millis) {
 		this.defaultSleep = millis;
 	}
 	
