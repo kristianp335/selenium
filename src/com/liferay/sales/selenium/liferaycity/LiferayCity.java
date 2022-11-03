@@ -55,14 +55,17 @@ public class LiferayCity {
 					e.getMessage() + "\n" + 
 					sw.toString()
 				);
-
-				if(path != null) path.quit();
 			}
+			if(path != null) {
+				path.quit();
+				path = null;
+			}
+
 		}
 		
 		System.out.println("==================================================");
 		System.out.println("End of run");
-		System.out.println("Failed attempts:");
+		System.out.println("Failed attempts: " + log.size());
 		for (String string : log) {
 			System.out.println(string);
 			System.out.println("---------------------------------------------");
