@@ -70,6 +70,18 @@ public abstract class ClickpathBase {
 		sleep(defaultSleep);
 	}
 
+	/**
+	 * Click a link with one of the passed texts. Multiple texts are given for multi-language-support,
+	 * they'll be tried until a match is found.
+	 * 
+	 * Note: The texts are tried in order. Each element is checked for an exact, then a partial match, 
+	 * before the next element is tried. 
+	 * 
+	 * Error handling: If the element is not found, an error is logged, otherwise
+	 * this condition is silently ignored.
+	 * 
+	 * @param texts Link texts in order to be tried.
+	 */
 	protected void doClickText(String[] texts) {
 		WebElement elementToClick = null;
 		String text = null;
@@ -111,13 +123,30 @@ public abstract class ClickpathBase {
 	 */
 
 	protected void doClickRandomText(String[] strings) {
-		doClickText(getOneOf(strings));
+		doClickText(pickRandom(strings));
 	}
 
+	/**
+	 * Click a link with one of the passed alternatives. Two dimensional array is passed in for multi-lingual support
+	 * 
+	 * Note: Once a random element is chosen, the texts are tried in order. See doClickText(String[]) for semantics
+	 * 
+	 * Error handling: If the element is not found, an error is logged, otherwise
+	 * this condition is silently ignored.
+	 * 
+	 * @param texts Link texts in order to be tried.
+	 */
+	
 	protected void doClickRandomText(String[][] strings) {
-		doClickText(getOneOf(strings));
+		doClickText(pickRandom(strings));
 	}
 
+	/**
+	 * Resize the browser window
+	 * @param width
+	 * @param height
+	 */
+	
 	protected void doResize(int width, int height) {
 		getDriver().manage().window().setSize(new Dimension(width, height));
 	}
@@ -217,12 +246,12 @@ public abstract class ClickpathBase {
 		return getDriver().findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_" + field));
 	}
 
-	protected String getOneOf(String[] strings) {
+	protected String pickRandom(String[] strings) {
 		int pos = (int) (Math.random() * strings.length);
 		return strings[pos];
 	}
 
-	protected String[] getOneOf(String[][] strings) {
+	protected String[] pickRandom(String[][] strings) {
 		int pos = (int) (Math.random() * strings.length);
 		return strings[pos];
 	}

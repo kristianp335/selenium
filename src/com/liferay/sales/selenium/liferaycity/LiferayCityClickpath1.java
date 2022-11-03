@@ -28,7 +28,7 @@ public class LiferayCityClickpath1 extends LiferayCityBaseClickpath {
 	    
 	    WebElement searchField = getFirstVisibleElementByXPath("//input[@data-qa-id='searchInput']");
 		searchField.click();
-		searchField.sendKeys(getOneOf(SEARCH_TERMS));
+		searchField.sendKeys(pickRandom(SEARCH_TERMS));
 		searchField.sendKeys(Keys.ENTER);
 		sleep(2000);
 	    
