@@ -1,5 +1,6 @@
 package com.liferay.sales.selenium.api;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +31,7 @@ public abstract class ClickpathBase {
 		this.baseUrl = baseUrl;
 	}
 
-	abstract public void run(Map<String, String> users);
+	abstract public void run(String username, String password);
 		
 	protected void deleteAllCookies() {
 		getDriver().manage().deleteAllCookies();
@@ -56,16 +57,49 @@ public abstract class ClickpathBase {
 	 */
 
 	protected void doClickText(String text) {
-		List<WebElement> elements = getDriver().findElements(By.linkText(text));
-		if(elements.size() > 1) {
-			log("WARN (doClickText): found more than 1 occurrence of text to click: " + text);
-		} else if (elements.size() == 0) {
+		List<WebElement> elements = getElementsByLinkText(text);
+		if (elements.size() == 0) {
 			log("INFO (doClickText): No match found for text to click, using partial match: " + text);
 			getDriver().findElement(By.partialLinkText(text)).click();
 		} else {
-			getDriver().findElement(By.linkText(text)).click();
+			if(elements.size() > 1) {
+				log("WARN (doClickText): found more than 1 occurrence of text to click, clicking first: " + text);
+			}
+			elements.get(0).click();
 		}
 		sleep(defaultSleep);
+	}
+
+	protected void doClickText(String[] texts) {
+		WebElement elementToClick = null;
+		String text = null;
+		for (int i = 0; i < texts.length; i++) {
+			text = texts[i];
+			List<WebElement> elements = getElementsByLinkText(text);
+			if(elements.size() > 1) {
+				log("WARN (doClickText[]): found more than 1 occurrence of text to click: " + text);
+				elementToClick = elements.get(0);
+				break;
+			} else if (elements.size() == 1) {
+				elementToClick = elements.get(0);
+				break;
+			}
+			else if (elements.size() == 0) {
+				List<WebElement> partialMatches = getDriver().findElements(By.partialLinkText(text));
+				if(partialMatches.size() > 0) {
+					log("INFO (doClickText[]): Found " + partialMatches.size() + " partial match(es) for text to click: " + text);
+					elementToClick = partialMatches.get(0);
+					break;
+				}
+			}
+		}
+		if(elementToClick != null) {
+			log("INFO (doClickText[]): Clicking " + text);
+			elementToClick.click();
+			sleep(defaultSleep);
+		} else {
+			log("ERROR (doClickText[]: No element found for " + Arrays.toString(texts) + " last try: " + text);
+		}
 	}
 
 	/**
@@ -77,6 +111,10 @@ public abstract class ClickpathBase {
 	 */
 
 	protected void doClickRandomText(String[] strings) {
+		doClickText(getOneOf(strings));
+	}
+
+	protected void doClickRandomText(String[][] strings) {
 		doClickText(getOneOf(strings));
 	}
 
@@ -154,10 +192,11 @@ public abstract class ClickpathBase {
 		List<WebElement> allElements = getElementsByXPath(xPath);
 		if(allElements.size() > 1) {
 			log("WARN: getElementByXPath - there are multiple elements matching this xpath: " + xPath);
-		} else {
+		} else if(allElements.isEmpty()) {
 			log("WARN: getElementByXPath - there is no element matching this xpath: " + xPath);
+			return null;
 		}
-		return getDriver().findElement(By.xpath(xPath));
+		return allElements.get(0);
 	}
 
 	protected List<WebElement> getElementsByXPath(String xPath) {
@@ -183,6 +222,11 @@ public abstract class ClickpathBase {
 		return strings[pos];
 	}
 
+	protected String[] getOneOf(String[][] strings) {
+		int pos = (int) (Math.random() * strings.length);
+		return strings[pos];
+	}
+
 	/**
 	 * Mark elements matching the selector with background-color:red. Note: To ease
 	 * the multiple possible escaping traps, selectors MUST NOT contain
@@ -191,7 +235,7 @@ public abstract class ClickpathBase {
 	 * @throws IllegalArgumentException when the selector contains double quotes
 	 * @param selector
 	 */
-	protected void mark(String selector) throws IllegalArgumentException {
+	public void mark(String selector) throws IllegalArgumentException {
 		if (selector.contains("\"")) {
 			throw new IllegalArgumentException(
 					"Selector must not contain double quotes! Rewrite with single quotes! The author of the underlying method was too lazy to deal with all possible escaping options, so he just deals with it this way: You do the work!");
@@ -226,7 +270,7 @@ public abstract class ClickpathBase {
 	 * @param url
 	 */
 
-	protected void sleep(int millis) {
+	public void sleep(int millis) {
 		millis = millis + (int) (Math.random() * 200);
 		try {
 			Thread.sleep(millis);
@@ -248,6 +292,10 @@ public abstract class ClickpathBase {
 	
 	protected void log(String message) {
 		System.err.println(message);
+	}
+
+	protected String[] oneOf(String... text) {
+		return text;
 	}
 
 }

@@ -3,7 +3,6 @@ import com.liferay.sales.selenium.api.ClickpathBase;
 import com.liferay.sales.selenium.api.DriverInitializer;
 
 import java.util.List;
-import java.util.Map;
 
 import org.openqa.selenium.WebElement;
 
@@ -13,7 +12,7 @@ public class LiferayCityClickpath2 extends ClickpathBase {
 		super(di, baseUrl);
 	}
 	
-	public void run(Map<String, String> cityUsers) {
+	public void run(String username, String password) {
 		doResize(1536, 835);
 	  	deleteAllCookies();	
 	    doGoTo(baseUrl);
