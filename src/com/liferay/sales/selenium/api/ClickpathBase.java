@@ -2,7 +2,6 @@ package com.liferay.sales.selenium.api;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
@@ -33,7 +32,7 @@ public abstract class ClickpathBase {
 
 	abstract public void run(String username, String password);
 		
-	protected void deleteAllCookies() {
+	public void deleteAllCookies() {
 		getDriver().manage().deleteAllCookies();
 	}
 
@@ -43,7 +42,7 @@ public abstract class ClickpathBase {
 	 * @param url
 	 */
 
-	protected void doGoTo(String url) {
+	public void doGoTo(String url) {
 		getDriver().get(url);
 		sleep(defaultSleep);
 	}
@@ -56,17 +55,22 @@ public abstract class ClickpathBase {
 	 * @param url
 	 */
 
-	protected void doClickText(String text) {
-		List<WebElement> elements = getElementsByLinkText(text);
+	public void doClickText(String text) {
+		String match = "exact";
+		List<WebElement> elements = getElementsByExactLinkText(text);
 		if (elements.size() == 0) {
-			log("INFO (doClickText): No match found for text to click, using partial match: " + text);
-			getDriver().findElement(By.partialLinkText(text)).click();
-		} else {
-			if(elements.size() > 1) {
-				log("WARN (doClickText): found more than 1 occurrence of text to click, clicking first: " + text);
-			}
-			elements.get(0).click();
+			match = "partial";
+			elements = getDriver().findElements(By.partialLinkText(text));
+		}  
+
+		if(elements.size() == 0) {
+			log("WARN (doClickText): No match found on " + match + " matching for text to click: " + text);
+			return;
+		} else if(elements.size() > 1) {
+			log("WARN (doClickText): found more than 1 occurrence on " + match + " matching of text to click, clicking first: " + text);
 		}
+		
+		elements.get(0).click();
 		sleep(defaultSleep);
 	}
 
@@ -74,20 +78,22 @@ public abstract class ClickpathBase {
 	 * Click a link with one of the passed texts. Multiple texts are given for multi-language-support,
 	 * they'll be tried until a match is found.
 	 * 
-	 * Note: The texts are tried in order. Each element is checked for an exact, then a partial match, 
-	 * before the next element is tried. 
+	 * Note: The texts are tried in order. First, all elements are checked for an exact match. 
+	 * If no exact match was found for either of the parameters, a partial match is performed. 
 	 * 
 	 * Error handling: If the element is not found, an error is logged, otherwise
 	 * this condition is silently ignored.
 	 * 
 	 * @param texts Link texts in order to be tried.
 	 */
-	protected void doClickText(String[] texts) {
+	public void doClickText(String[] texts) {
 		WebElement elementToClick = null;
 		String text = null;
-		for (int i = 0; i < texts.length; i++) {
+		
+		// try exact match first
+		for(int i = 0; i < texts.length; i++) {
 			text = texts[i];
-			List<WebElement> elements = getElementsByLinkText(text);
+			List<WebElement> elements = getElementsByExactLinkText(text);
 			if(elements.size() > 1) {
 				log("WARN (doClickText[]): found more than 1 occurrence of text to click: " + text);
 				elementToClick = elements.get(0);
@@ -96,15 +102,24 @@ public abstract class ClickpathBase {
 				elementToClick = elements.get(0);
 				break;
 			}
-			else if (elements.size() == 0) {
-				List<WebElement> partialMatches = getDriver().findElements(By.partialLinkText(text));
-				if(partialMatches.size() > 0) {
-					log("INFO (doClickText[]): Found " + partialMatches.size() + " partial match(es) for text to click: " + text);
-					elementToClick = partialMatches.get(0);
+		}
+		
+		// try partial match if necessary
+		if(elementToClick == null) {
+			for(int i = 0; i < texts.length; i++) {
+				text = texts[i];
+				List<WebElement> elements = getElementsByPartialLinkText(text);
+				if(elements.size() > 1) {
+					log("WARN (doClickText[]): found more than 1 occurrence of (partial match) text to click: " + text);
+					elementToClick = elements.get(0);
+					break;
+				} else if (elements.size() == 1) {
+					elementToClick = elements.get(0);
 					break;
 				}
 			}
 		}
+		
 		if(elementToClick != null) {
 			log("INFO (doClickText[]): Clicking " + text);
 			elementToClick.click();
@@ -122,7 +137,7 @@ public abstract class ClickpathBase {
 	 * @param url
 	 */
 
-	protected void doClickRandomText(String[] strings) {
+	public void doClickRandomText(String[] strings) {
 		doClickText(pickRandom(strings));
 	}
 
@@ -137,7 +152,7 @@ public abstract class ClickpathBase {
 	 * @param texts Link texts in order to be tried.
 	 */
 	
-	protected void doClickRandomText(String[][] strings) {
+	public void doClickRandomText(String[][] strings) {
 		doClickText(pickRandom(strings));
 	}
 
@@ -147,15 +162,15 @@ public abstract class ClickpathBase {
 	 * @param height
 	 */
 	
-	protected void doResize(int width, int height) {
+	public void doResize(int width, int height) {
 		getDriver().manage().window().setSize(new Dimension(width, height));
 	}
 
-	protected void execute(String javascript) {
+	public void execute(String javascript) {
 		js.executeScript(javascript);
 	}
 
-	protected WebElement getElementByCSS(String cssSelector) {
+	public WebElement getElementByCSS(String cssSelector) {
 		List<WebElement> allElements = getElementsByCSS(cssSelector);
 		if(allElements.size() > 1) {
 			log("WARN: getElementByCSS - there are multiple elements matching this CSS selector: " + cssSelector);
@@ -165,59 +180,62 @@ public abstract class ClickpathBase {
 		return getDriver().findElement(By.cssSelector(cssSelector));
 	}
 
-	protected List<WebElement> getElementsByCSS(String cssSelector) {
+	public List<WebElement> getElementsByCSS(String cssSelector) {
 		return getDriver().findElements(By.cssSelector(cssSelector));
 	}
 
-	protected WebElement getElementById(String id) {
+	public WebElement getElementById(String id) {
 		return getDriver().findElement(By.id(id));
 	}
 
-	protected WebElement getElementByLinkText(String linkText) {
-		List<WebElement> allElements = getElementsByLinkText(linkText);
+	public WebElement getElementByExactLinkText(String linkText) {
+		List<WebElement> allElements = getElementsByExactLinkText(linkText);
 		if(allElements.size() > 1) {
-			log("WARN: getElementByLinkText - there are multiple elements matching this link text: " + linkText);
+			log("WARN: getElementByExactLinkText - there are multiple elements matching this link text: " + linkText);
 			return allElements.get(0); 
 		} else {
-			log("WARN: getElementByLinkText - there is no element matching this link text: " + linkText);
+			log("WARN: getElementByExactLinkText - there is no element matching this link text: " + linkText);
 		}
 		return null;
 	}
 
-	protected List<WebElement> getElementsByLinkText(String linkText) {
+	public List<WebElement> getElementsByExactLinkText(String linkText) {
 		return getDriver().findElements(By.linkText(linkText));
 	}
 
-	protected WebElement getElementByName(String name) {
+	public WebElement getElementByName(String name) {
 		List<WebElement> allElements = getElementsByName(name);
 		if(allElements.size() > 1) {
 			log("WARN: getElementByName - there are multiple elements matching this name: " + name);
 		} else {
 			log("WARN: getElementByName - there is no element matching this name: " + name);
+			return null;
 		}
-		return driver.findElement(By.name(name));
+		return allElements.get(0);
 	}
 
-	protected List<WebElement> getElementsByName(String name) {
+	public List<WebElement> getElementsByName(String name) {
 		return driver.findElements(By.name(name));
 	}
 
-	protected WebElement getElementByPartialLinkText(String linkText) {
+	public WebElement getElementByPartialLinkText(String linkText) {
 		List<WebElement> allElements = getElementsByPartialLinkText(linkText);
+		if(allElements.size() == 0) {
+			log("WARN: getElementByPartialLinkText - there is no element matching this link text: " + linkText);
+			return null;
+		} 
+		
 		if(allElements.size() > 1) {
 			log("WARN: getElementByPartialLinkText - there are multiple elements matching this link text: " + linkText);
-			return allElements.get(0); 
-		} else {
-			log("WARN: getElementByPartialLinkText - there is no element matching this link text: " + linkText);
-		}
-		return null;
+		} 
+		return allElements.get(0); 
 	}
 
-	protected List<WebElement> getElementsByPartialLinkText(String linkText) {
+	public List<WebElement> getElementsByPartialLinkText(String linkText) {
 		return getDriver().findElements(By.partialLinkText(linkText));
 	}
 
-	protected WebElement getElementByXPath(String xPath) {
+	public WebElement getElementByXPath(String xPath) {
 		List<WebElement> allElements = getElementsByXPath(xPath);
 		if(allElements.size() > 1) {
 			log("WARN: getElementByXPath - there are multiple elements matching this xpath: " + xPath);
@@ -228,11 +246,11 @@ public abstract class ClickpathBase {
 		return allElements.get(0);
 	}
 
-	protected List<WebElement> getElementsByXPath(String xPath) {
+	public List<WebElement> getElementsByXPath(String xPath) {
 		return getDriver().findElements(By.xpath(xPath));
 	}
 
-	protected WebElement getFirstVisibleElementByXPath(String xPath) {
+	public WebElement getFirstVisibleElementByXPath(String xPath) {
 		List<WebElement> elements = getDriver().findElements(By.xpath(xPath));
 		for (WebElement webElement : elements) {
 			if (webElement.isDisplayed()) {
@@ -242,16 +260,16 @@ public abstract class ClickpathBase {
 		return null;
 	}
 
-	protected WebElement getLoginField(String field) {
+	public WebElement getLoginField(String field) {
 		return getDriver().findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_" + field));
 	}
 
-	protected String pickRandom(String[] strings) {
+	public String pickRandom(String[] strings) {
 		int pos = (int) (Math.random() * strings.length);
 		return strings[pos];
 	}
 
-	protected String[] pickRandom(String[][] strings) {
+	public String[] pickRandom(String[][] strings) {
 		int pos = (int) (Math.random() * strings.length);
 		return strings[pos];
 	}
@@ -285,7 +303,7 @@ public abstract class ClickpathBase {
 		js = null;
 	}
 
-	protected void scrollTo(WebElement element) {
+	public void scrollTo(WebElement element) {
 		js.executeScript("arguments[0].scrollIntoView(true);", element);
 	}
 	
@@ -307,24 +325,30 @@ public abstract class ClickpathBase {
 		}
 	}
 
-	protected WebDriver getDriver() {
+	public WebDriver getDriver() {
 		if (driver == null) {
 			setDriver(driverInitializer.getDriver());
 		}
 		return driver;
 	}
 
-	private void setDriver(WebDriver driver) {
+	public void setDriver(WebDriver driver) {
 		this.driver = driver;
 		js = (JavascriptExecutor) driver;
 	}
 	
-	protected void log(String message) {
-		System.err.println(message);
+	public void log(String message) {
+		System.out.println(message);
 	}
 
-	protected String[] oneOf(String... text) {
+	/**
+	 * convert parameters to String[], just as syntactic sugar, because 
+	 * constructing String[] is otherwise ugly. This makes calls like
+	 * doClick(oneOf("this", "or this")) more descriptive
+	 * @param text
+	 * @return
+	 */
+	public String[] oneOf(String... text) {
 		return text;
 	}
-
 }
