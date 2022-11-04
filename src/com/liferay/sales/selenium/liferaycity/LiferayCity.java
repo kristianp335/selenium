@@ -3,25 +3,21 @@ import com.liferay.sales.selenium.api.ClickpathBase;
 import com.liferay.sales.selenium.chrome.ChromeDriverInitializer;
 import com.liferay.sales.selenium.firefox.FirefoxDriverInitializer;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Scanner;
 
 public class LiferayCity {
 	public static void main(String[] args) {
 		ClickpathBase path = null;
 //			System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
 			
-		String[][] cityUsers = {
-			{"wwilliams", "liferay$"}, 
-			{"ssmith",    "liferay$"},
-			{"aalamo",    "liferay$"},
-			{"ijohnson",  "liferay$"},  
-			{"jjones",    "liferay$"},
-			{"mqueen",    "liferay$"},
-			{"gyoung",    "liferay$"}
-		};
-
+		String[][] cityUsers = readUserCSV("/home/olaf/cityUsers.csv");
+		
 		String baseUrl = "https://webserver-lctcity-prd.lfr.cloud/";
 		
 		ClickpathBase[] paths = new ClickpathBase[] {
@@ -71,4 +67,34 @@ public class LiferayCity {
 			System.out.println("---------------------------------------------");
 		}
 	}
+	
+	/**
+	 * Read a stupidly simple CSV format: No title, content is just 
+	 * rows with "name,password" (comma-separated, no escaping, no quotes)
+	 * Luxury trimming done to individual entries without extra charge.
+	 * 
+	 * @param filename
+	 * @return
+	 */
+	public static String[][] readUserCSV(String filename) {
+		ArrayList<String[]> content = new ArrayList<String[]>();
+		try (Scanner scanner = new Scanner(new File(filename))) {
+			while (scanner.hasNextLine()) {
+				String line = scanner.nextLine();
+
+				try (Scanner rowScanner = new Scanner(line)) {
+					ArrayList<String> row = new ArrayList<String>(2);
+					rowScanner.useDelimiter(",");
+					while (rowScanner.hasNext()) {
+						row.add(rowScanner.next().trim());
+					}
+					content.add(row.toArray(new String[row.size()]));
+				}
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return (String[][]) content.toArray(new String[content.size()][]);
+	}	
+	
 }
