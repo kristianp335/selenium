@@ -21,12 +21,14 @@ public class LiferayCity {
 		String baseUrl = "https://webserver-lctcity-prd.lfr.cloud/";
 		
 		ClickpathBase[] paths = new ClickpathBase[] {
-				new LiferayCityClickpath1(new ChromeDriverInitializer(), baseUrl),
-				new LiferayCityClickpath2(new ChromeDriverInitializer(), baseUrl),
-				new LiferayCityClickpath3(new ChromeDriverInitializer(), baseUrl),
-				new LiferayCityClickpath1(new FirefoxDriverInitializer(), baseUrl),
-				new LiferayCityClickpath2(new FirefoxDriverInitializer(), baseUrl),
-				new LiferayCityClickpath3(new FirefoxDriverInitializer(), baseUrl),
+				 new LiferayCityClickpath1(new ChromeDriverInitializer(), baseUrl)
+				,new LiferayCityClickpath2(new ChromeDriverInitializer(), baseUrl)
+				,new LiferayCityClickpath3(new ChromeDriverInitializer(), baseUrl)
+				,new LiferayCityClickpath4(new ChromeDriverInitializer(), baseUrl)
+				,new LiferayCityClickpath1(new FirefoxDriverInitializer(), baseUrl)
+				,new LiferayCityClickpath2(new FirefoxDriverInitializer(), baseUrl)
+				,new LiferayCityClickpath3(new FirefoxDriverInitializer(), baseUrl)
+				,new LiferayCityClickpath4(new FirefoxDriverInitializer(), baseUrl)
 		};
 
 		LinkedList<String> log = new LinkedList<String>();
