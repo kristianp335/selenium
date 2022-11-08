@@ -19,7 +19,7 @@ public class LiferayCityClickpath1 extends LiferayCityBaseClickpath {
 	}
 	
 	public void run(String username, String password) {
-		doResize(1536, 835);
+		resizeBrowser(1536, 835);
 	  	deleteAllCookies();	
 	    doGoTo(baseUrl);
 	    sleep(2000);

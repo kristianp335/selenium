@@ -162,7 +162,7 @@ public abstract class ClickpathBase {
 	 * @param height
 	 */
 	
-	public void doResize(int width, int height) {
+	public void resizeBrowser(int width, int height) {
 		getDriver().manage().window().setSize(new Dimension(width, height));
 	}
 
