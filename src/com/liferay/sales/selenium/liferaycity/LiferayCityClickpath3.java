@@ -8,6 +8,7 @@ import org.openqa.selenium.WebElement;
 
 public class LiferayCityClickpath3 extends LiferayCityBaseClickpath {
 
+	// increase "popularity" by duplicating entries
 	private String[][] CITIZEN_PAGES = {
 			{"Wunschliste", "My Wishes", "Mis Favoritos" },
 			{"Ankündigungen", "Announcements", "Anuncios" },
@@ -16,6 +17,7 @@ public class LiferayCityClickpath3 extends LiferayCityBaseClickpath {
 			{"FAQs", "Preguntas Frecuentes" },
 			{"Stadtplan", "City Map", "Mapa de la Ciudad" }
 		};
+	// increase "popularity" by duplicating entries
 	private String[] DOCUMENTS = {
 			"BOE-A-2021-3982",
 			"BOE-A-2021-3983",
@@ -43,8 +45,7 @@ public class LiferayCityClickpath3 extends LiferayCityBaseClickpath {
 		WebElement faqEntry = faqEntries.get(0);
 	    scrollTo(faqEntry);
 	    sleep(400);
-	    faqEntry.click();
-	    sleep(2000);
+	    doClick(faqEntry);
 	    
 		doClickText("Tickets");
 		doClickText(oneOf("Meine Tickets", "My Tickets", "Mis Tickets"));

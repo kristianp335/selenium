@@ -37,9 +37,7 @@ public class LiferayCityClickpath4 extends LiferayCityBaseClickpath {
     
 	    WebElement submit = getFirstVisibleElementByXPath("//form[@id='_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_stsg_fm']//button[@type='button']");
 	    
-	    submit.click();
-//		doClickText(oneOf("Next", "Weiter", "Siguiente"));
-		sleep(3000);
+	    doClick(submit);
 		
 		List<WebElement> textInputs = getElementsByXPath("//form[@id='_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_stsg_fm']//input[@type='text']");
 	    List<WebElement> radioInputs = getElementsByXPath("//form[@id='_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_stsg_fm']//input[@type='radio']");
@@ -83,8 +81,6 @@ public class LiferayCityClickpath4 extends LiferayCityBaseClickpath {
 	    scrollTo(comment);
 	    comment.sendKeys("This is a random comment with hint " + hint);
 	    sleep(500);
-	    submit.click();
-
-	    sleep(2000);
+	    doClick(submit);
 	}
 }

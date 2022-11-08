@@ -47,6 +47,11 @@ public abstract class ClickpathBase {
 		sleep(defaultSleep);
 	}
 
+	protected void doClick(WebElement element) {
+		element.click();
+		sleep(defaultSleep);	
+	}
+
 	/**
 	 * Click link with given text, then sleep for default interval If the exact link
 	 * text is found, it is clicked. If no exact match is found, this method tries

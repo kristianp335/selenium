@@ -49,15 +49,13 @@ public class LiferayCityClickpath2 extends ClickpathBase {
 	    surname.sendKeys("Joe");
 	    
 	    if(Math.random()<0.5) {
-		    mailChoice.click();
-		    sleep(2000);
+		    doClick(mailChoice);
 		    scrollTo(mail1);
 
 		    mail1.sendKeys("test+" + hint + "@example.com");
 		    mail2.sendKeys("test+" + hint + "@example.com");
 	    } else {
-	    	telephoneChoice.click();
-		    sleep(2000);
+	    	doClick(telephoneChoice);
 		    scrollTo(telephone);
 
 		    telephone.sendKeys((""+hint+"01234567890123").substring(0, 12));
@@ -65,9 +63,7 @@ public class LiferayCityClickpath2 extends ClickpathBase {
 	    scrollTo(comment);
 	    comment.sendKeys("This is a random comment with hint " + hint);
 	    sleep(500);
-	    submit.click();
-
-	    sleep(2000);
+	    doClick(submit);
 	}
 
 	
