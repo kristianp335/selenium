@@ -6,6 +6,7 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -190,7 +191,11 @@ public abstract class ClickpathBase {
 	}
 
 	public WebElement getElementById(String id) {
-		return getDriver().findElement(By.id(id));
+		try {
+			return getDriver().findElement(By.id(id));
+		} catch(NoSuchElementException e) {
+			return null;
+		}
 	}
 
 	public WebElement getElementByExactLinkText(String linkText) {
