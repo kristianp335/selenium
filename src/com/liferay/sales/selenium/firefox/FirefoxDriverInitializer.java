@@ -12,7 +12,7 @@ public class FirefoxDriverInitializer implements DriverInitializer {
 	@Override
 	public WebDriver getDriver() {
 		FirefoxOptions options = new FirefoxOptions();
-//		options.addArguments("--headless");
+		options.addArguments("--headless");
 		FirefoxDriver driver = new FirefoxDriver(options);
 		driver.manage().window().setSize(new Dimension(1536, 835));
 		return driver;
