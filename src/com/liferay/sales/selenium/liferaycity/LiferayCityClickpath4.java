@@ -23,7 +23,9 @@ public class LiferayCityClickpath4 extends LiferayCityBaseClickpath {
 	    doClickText(oneOf("My Services","Meine Dienstleistungen", "Mis Servicios"));
 	    doClickText(oneOf("Register a business","Eine Firma anmelden", "Registrar una empresa"));
 	    doClickText(oneOf("Go to service","Realizar Trámite"));
-		
+
+	    sleep(1000);
+
 		fillOutBusinessRegistrationForm((int)(Math.random()*1e6));
 
 	    quit(); 
