@@ -3,9 +3,9 @@ import com.liferay.sales.selenium.api.DriverInitializer;
 
 import org.openqa.selenium.WebElement;
 
-public class LiferayCityClickpath5 extends LiferayCityBaseClickpath {
+public class LiferayCityClickpathABTest extends LiferayCityBaseClickpath {
 	
-	public LiferayCityClickpath5(DriverInitializer di, String baseUrl) {
+	public LiferayCityClickpathABTest(DriverInitializer di, String baseUrl) {
 		super(di, baseUrl);
 	}
 	
