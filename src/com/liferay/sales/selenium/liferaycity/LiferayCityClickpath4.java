@@ -60,10 +60,11 @@ public class LiferayCityClickpath4 extends LiferayCityBaseClickpath {
 
 	    scrollTo(date);
 	    
-	    doClickText(oneOf("Choose an Option", "Wählen Sie eine Option", "Seleccione una opción"));
-	    sleep(500);
-	    doClickText(oneOf("Business type A", "Negocio tipo A"));
-	    sleep(500);
+// ignore selectbox: It doesn't work this way
+//	    doClickText(oneOf("Choose an Option", "Wählen Sie eine Option", "Seleccione una opción"));
+//	    sleep(500);
+//	    doClickText(oneOf("Business type A", "Negocio tipo A"));
+//	    sleep(500);
 
 	    date.sendKeys("01011970");
 	    sleep(500);
