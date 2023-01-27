@@ -44,11 +44,13 @@ public abstract class ClickpathBase {
 	 */
 
 	public void doGoTo(String url) {
+		log("INFO (doGoTo): Navigating to " + url);
 		getDriver().get(url);
 		sleep(defaultSleep);
 	}
 
 	protected void doClick(WebElement element) {
+		log("INFO (doClick(element)): Clicking " + element.getText());
 		element.click();
 		sleep(defaultSleep);	
 	}
@@ -74,6 +76,8 @@ public abstract class ClickpathBase {
 			return;
 		} else if(elements.size() > 1) {
 			log("WARN (doClickText): found more than 1 occurrence on " + match + " matching of text to click, clicking first: " + text);
+		} else {
+			log("INFO (doClickText): Clicking " + match + " match " + text);
 		}
 		
 		elements.get(0).click();
