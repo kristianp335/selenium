@@ -19,24 +19,30 @@ public class LiferayCity {
 		String[][] cityUsers = readUserCSV("/home/olaf/cityUsers.csv");
 		
 		String baseUrl = "https://webserver-lctcitysite-prd.lfr.cloud/";
-		
+		String[] arguments = new String[] { "--headless" };
+//		String[] arguments = new String[] {  };
 		ClickpathBase[] paths = new ClickpathBase[] {
-				 new LiferayCityClickpath1(new ChromeDriverInitializer(), baseUrl)
-				,new LiferayCityClickpath2(new ChromeDriverInitializer(), baseUrl)
-				,new LiferayCityClickpath3(new ChromeDriverInitializer(), baseUrl)
-				,new LiferayCityClickpath4(new ChromeDriverInitializer(), baseUrl)
-//				,new LiferayCityClickpathABTest(new ChromeDriverInitializer(), baseUrl)
-//				,new LiferayCityClickpathABTest(new ChromeDriverInitializer(), baseUrl)
-//				,new LiferayCityClickpathABTest(new ChromeDriverInitializer(), baseUrl)
-				,new LiferayCityClickpath1(new FirefoxDriverInitializer(), baseUrl)
-				,new LiferayCityClickpath2(new FirefoxDriverInitializer(), baseUrl)
-				,new LiferayCityClickpath3(new FirefoxDriverInitializer(), baseUrl)
-				,new LiferayCityClickpath4(new FirefoxDriverInitializer(), baseUrl)
-//				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(), baseUrl)
-//				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(), baseUrl)
-//				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(), baseUrl)
+				 new LiferayCityClickpath1(new ChromeDriverInitializer(arguments), baseUrl)
+				,new LiferayCityClickpath2(new ChromeDriverInitializer(arguments), baseUrl)
+				,new LiferayCityClickpath3(new ChromeDriverInitializer(arguments), baseUrl)
+				,new LiferayCityClickpath4(new ChromeDriverInitializer(arguments), baseUrl)
+//				,new LiferayCityClickpathABTest(new ChromeDriverInitializer(args), baseUrl)
+//				,new LiferayCityClickpathABTest(new ChromeDriverInitializer(args), baseUrl)
+//				,new LiferayCityClickpathABTest(new ChromeDriverInitializer(args), baseUrl)
+				,new LiferayCityClickpath1(new FirefoxDriverInitializer(arguments), baseUrl)
+				,new LiferayCityClickpath2(new FirefoxDriverInitializer(arguments), baseUrl)
+				,new LiferayCityClickpath3(new FirefoxDriverInitializer(arguments), baseUrl)
+				,new LiferayCityClickpath4(new FirefoxDriverInitializer(arguments), baseUrl)
+//				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(args), baseUrl)
+//				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(args), baseUrl)
+//				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(args), baseUrl)
 		};
 
+//		paths = new ClickpathBase[] {
+//				new LiferayCityClickpath4(new ChromeDriverInitializer(), baseUrl)
+//		};
+		
+		
 		LinkedList<String> log = new LinkedList<String>();
 
 		for(int i=0; i<100; i++) {
@@ -45,7 +51,7 @@ public class LiferayCity {
 			pos = (int)(Math.random()*paths.length);
 			path = paths[pos];
 			System.out.println("Number of failures so far:" + log.size());
-			System.out.println("#" + i + ": Running user " + user[0] + " with path " + pos);
+			System.out.println("#" + i + ": Running user " + user[0] + " with path " + pos + " (" + path.getClass().getSimpleName() + ")" );
 			path.setDefaultSleep(4000);
 			try {
 				path.run(user[0], user[1]);
@@ -64,7 +70,7 @@ public class LiferayCity {
 				path.quit();
 				path = null;
 			}
-
+			System.out.println();
 		}
 		
 		System.out.println("==================================================");

@@ -9,10 +9,18 @@ import org.openqa.selenium.chrome.ChromeOptions;
 
 public class ChromeDriverInitializer implements DriverInitializer {
 
+	private String[] arguments;
+
+
+	public ChromeDriverInitializer(String...arguments) {
+		this.arguments = arguments;
+	}
+	
+	
 	@Override
 	public WebDriver getDriver() {
 		ChromeOptions options = new ChromeOptions();
-		options.addArguments("--headless");
+		options.addArguments(arguments);
 		ChromeDriver driver = new ChromeDriver(options);
 		driver.manage().window().setSize(new Dimension(1536, 835));
 		return driver;

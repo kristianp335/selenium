@@ -9,10 +9,16 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 
 public class FirefoxDriverInitializer implements DriverInitializer {
 
+	private String[] arguments;
+
+	public FirefoxDriverInitializer(String... arguments) {
+		this.arguments = arguments;
+	}
+	
 	@Override
 	public WebDriver getDriver() {
 		FirefoxOptions options = new FirefoxOptions();
-		options.addArguments("--headless");
+		options.addArguments(arguments);
 		FirefoxDriver driver = new FirefoxDriver(options);
 		driver.manage().window().setSize(new Dimension(1536, 835));
 		return driver;
