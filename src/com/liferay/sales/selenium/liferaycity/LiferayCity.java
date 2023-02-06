@@ -18,7 +18,13 @@ import java.util.Scanner;
 
 public class LiferayCity {
 	public static void main(String[] args) {
-		ClickpathBase path = null;
+// Before starting the script, make adjustments in this top block
+// to reflect the behavior that you need.
+// Inspect the clickpaths.
+// If you run the A/B-Test, note that you'll have to prepare the 
+// content according to the documentation
+// https://docs.google.com/document/d/1h2E7UUt_i3yqwge25Pd8YXOLHt3Jujz4VBAdgHSeKQw/edit#heading=h.w4lf8kpcller
+		
 //			System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
 			
 		String[][] cityUsers = readUserCSV("/home/olaf/cityUsers.csv");
@@ -26,11 +32,10 @@ public class LiferayCity {
 		String[] arguments = new String[] { "--headless" };
 		int repeats = 200;
 		
-		
-		
-		//		String[] arguments = new String[] {  };
 		ClickpathBase[] paths = new ClickpathBase[] {
-				 new LiferayCityClickpath1(new ChromeDriverInitializer(arguments), baseUrl)
+				 new LiferayCityClickpathABTest(new ChromeDriverInitializer(arguments), baseUrl)
+				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(arguments), baseUrl)
+				,new LiferayCityClickpath1(new ChromeDriverInitializer(arguments), baseUrl)
 				,new LiferayCityClickpath2(new ChromeDriverInitializer(arguments), baseUrl)
 				,new LiferayCityClickpath3(new ChromeDriverInitializer(arguments), baseUrl)
 				,new LiferayCityClickpath4(new ChromeDriverInitializer(arguments), baseUrl)
@@ -57,12 +62,19 @@ public class LiferayCity {
 //				new LiferayCityClickpath4(new ChromeDriverInitializer(), baseUrl)
 //		};
 		
+
+// Typically, nothing more to "configure" below this line. 
+// Anything that you need to customize your scripts is above.
+		
+		
+		
 		
 		System.out.println("Running " + paths.length + " clickpaths for " + repeats + " times");
 		
 		LinkedList<String> log = new LinkedList<String>();
 
 		for(int i=0; i<repeats; i++) {
+			ClickpathBase path = null;
 			int pos = (int)(Math.random()*cityUsers.length);
 			String[] user = cityUsers[pos];
 			pos = (int)(Math.random()*paths.length);
