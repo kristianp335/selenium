@@ -21,20 +21,19 @@ public class LiferayCityClickpathABTest extends LiferayCityBaseClickpath {
 	    doClickText(oneOf("FAQs","Preguntas"));
 	    WebElement control = getElementById("ab-control");
 	    WebElement horizontal = getElementById("ab-horizontal");
-	    WebElement vertical = getElementById("ab-vertical");
 	    boolean fire = false;
 	    
 	    if(control != null) {
 	    	System.out.print("CONTROL ");
-	    	fire = Math.random() < 0.5; 
+	    	fire = Math.random() < 0.5;
+	    	countControl++;
+	    	countControlFired = countControlFired + (fire?1:0);
 	    }
 	    if(horizontal != null) {
 	    	System.out.print("HORIZONTAL ");
 	    	fire = Math.random() > 0.1;
-	    }
-	    if(vertical != null) {
-	    	System.out.print("VERTICAL ");
-	    	fire = Math.random() > 0.9;
+	    	countHorizontal++;
+	    	countHorizontalFired = countHorizontalFired + (fire?1:0);
 	    }
 	    if(fire) {
 	    	System.out.println("firing A/B Test action");
@@ -43,7 +42,13 @@ public class LiferayCityClickpathABTest extends LiferayCityBaseClickpath {
 	    } else {
 	    	System.out.println("NOP for A/B Test action");
 	    }
+	    System.out.println("Stats: Control " + countControl + "(" + countControlFired + "), "
+	    		+ "Horizontal: " + countHorizontal + "(" + countHorizontalFired + ")");
 	    
 		quit();
 	}
+	static int countControl = 0;
+	static int countHorizontal = 0;
+	static int countControlFired = 0;
+	static int countHorizontalFired = 0;
 }
