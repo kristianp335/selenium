@@ -1,7 +1,13 @@
 package com.liferay.sales.selenium.api;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
@@ -47,6 +53,17 @@ public abstract class ClickpathBase {
 		log("INFO (doGoTo): Navigating to " + url);
 		getDriver().get(url);
 		sleep(defaultSleep);
+		List<WebElement> dntAlerts = getElementsByCSS(".dnt-alert");
+		try {
+			if(dntAlerts.size()>0) {
+				log("WARNING: Found DNT Detection - AC might refuse to register stats!");
+				this.writePageToDisk("WARNING", "dnt-found");
+			} else {
+				log("INFO (doGoTo): No DNT alert found");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	protected void doClick(WebElement element) {
@@ -365,4 +382,16 @@ public abstract class ClickpathBase {
 	public String[] oneOf(String... text) {
 		return text;
 	}
+	
+	public void writePageToDisk(String severity, String hint) throws IOException {
+		String tstamp = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss", Locale.ENGLISH).format(LocalDateTime.now());
+		File outFile = new File(getClass().getSimpleName() 
+				+ "-" + hint + "-Selenium-" + getDriver().getClass().getSimpleName() + "-" +tstamp + ".html");
+		FileWriter out = new FileWriter(outFile);
+		log(severity + ": Writing " + outFile.getAbsolutePath());
+		out.write(getDriver().getPageSource());
+		out.flush();
+		out.close();
+	}
+	
 }
