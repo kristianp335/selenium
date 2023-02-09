@@ -5,7 +5,6 @@ import com.liferay.sales.selenium.firefox.FirefoxDriverInitializer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -30,32 +29,39 @@ public class LiferayCity {
 		String[][] cityUsers = readUserCSV("/home/olaf/cityUsers.csv");
 		String baseUrl = "https://webserver-lctcitysite-prd.lfr.cloud/";
 		String[] arguments = new String[] { "--headless" };
-		int repeats = 200;
+		int repeats = 1000;
 		
 		ClickpathBase[] paths = new ClickpathBase[] {
-				 new LiferayCityClickpathABTest(new ChromeDriverInitializer(arguments), baseUrl)
+				 new LiferayCityClickpathNewsABTest(new ChromeDriverInitializer(arguments), baseUrl)
+				,new LiferayCityClickpathNewsABTest(new ChromeDriverInitializer(arguments), baseUrl)
+//				,new LiferayCityClickpathNewsABTest(new ChromeDriverInitializer(arguments), baseUrl)
+//				,new LiferayCityClickpathNewsABTest(new ChromeDriverInitializer(arguments), baseUrl)
+				,new LiferayCityClickpathNewsABTest(new FirefoxDriverInitializer(arguments), baseUrl)
+//				,new LiferayCityClickpathNewsABTest(new FirefoxDriverInitializer(arguments), baseUrl)
+//				,new LiferayCityClickpathNewsABTest(new FirefoxDriverInitializer(arguments), baseUrl)
+//				,new LiferayCityClickpathNewsABTest(new FirefoxDriverInitializer(arguments), baseUrl)
+//				,new LiferayCityClickpathNewsABTest(new FirefoxDriverInitializer(arguments), baseUrl)
+//				,new LiferayCityClickpath1(new ChromeDriverInitializer(arguments), baseUrl)
+//				,new LiferayCityClickpath2(new ChromeDriverInitializer(arguments), baseUrl)
+//				,new LiferayCityClickpath3(new ChromeDriverInitializer(arguments), baseUrl)
+//				,new LiferayCityClickpath4(new ChromeDriverInitializer(arguments), baseUrl)
+//				,new LiferayCityClickpathABTest(new ChromeDriverInitializer(arguments), baseUrl)
+//				,new LiferayCityClickpathABTest(new ChromeDriverInitializer(arguments), baseUrl)
+//				,new LiferayCityClickpathABTest(new ChromeDriverInitializer(arguments), baseUrl)
+//				,new LiferayCityClickpath1(new FirefoxDriverInitializer(arguments), baseUrl)
+//				,new LiferayCityClickpath2(new FirefoxDriverInitializer(arguments), baseUrl)
+//				,new LiferayCityClickpath3(new FirefoxDriverInitializer(arguments), baseUrl)
+//				,new LiferayCityClickpath4(new FirefoxDriverInitializer(arguments), baseUrl)
+//				,new LiferayCityClickpath1(new FirefoxDriverInitializer(arguments), baseUrl)
+//				,new LiferayCityClickpath2(new FirefoxDriverInitializer(arguments), baseUrl)
+//				,new LiferayCityClickpath3(new FirefoxDriverInitializer(arguments), baseUrl)
+//				,new LiferayCityClickpath4(new FirefoxDriverInitializer(arguments), baseUrl)
 				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(arguments), baseUrl)
-				,new LiferayCityClickpath1(new ChromeDriverInitializer(arguments), baseUrl)
-				,new LiferayCityClickpath2(new ChromeDriverInitializer(arguments), baseUrl)
-				,new LiferayCityClickpath3(new ChromeDriverInitializer(arguments), baseUrl)
-				,new LiferayCityClickpath4(new ChromeDriverInitializer(arguments), baseUrl)
-				,new LiferayCityClickpathABTest(new ChromeDriverInitializer(arguments), baseUrl)
-				,new LiferayCityClickpathABTest(new ChromeDriverInitializer(arguments), baseUrl)
-				,new LiferayCityClickpathABTest(new ChromeDriverInitializer(arguments), baseUrl)
-				,new LiferayCityClickpath1(new FirefoxDriverInitializer(arguments), baseUrl)
-				,new LiferayCityClickpath2(new FirefoxDriverInitializer(arguments), baseUrl)
-				,new LiferayCityClickpath3(new FirefoxDriverInitializer(arguments), baseUrl)
-				,new LiferayCityClickpath4(new FirefoxDriverInitializer(arguments), baseUrl)
-				,new LiferayCityClickpath1(new FirefoxDriverInitializer(arguments), baseUrl)
-				,new LiferayCityClickpath2(new FirefoxDriverInitializer(arguments), baseUrl)
-				,new LiferayCityClickpath3(new FirefoxDriverInitializer(arguments), baseUrl)
-				,new LiferayCityClickpath4(new FirefoxDriverInitializer(arguments), baseUrl)
-				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(arguments), baseUrl)
-				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(arguments), baseUrl)
-				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(arguments), baseUrl)
-				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(arguments), baseUrl)
-				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(arguments), baseUrl)
-				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(arguments), baseUrl)
+//				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(arguments), baseUrl)
+//				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(arguments), baseUrl)
+//				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(arguments), baseUrl)
+//				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(arguments), baseUrl)
+//				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(arguments), baseUrl)
 		};
 
 //		paths = new ClickpathBase[] {
@@ -65,9 +71,6 @@ public class LiferayCity {
 
 // Typically, nothing more to "configure" below this line. 
 // Anything that you need to customize your scripts is above.
-		
-		
-		
 		
 		System.out.println("Running " + paths.length + " clickpaths for " + repeats + " times");
 		
@@ -100,13 +103,7 @@ public class LiferayCity {
 					sw.toString()
 				);
 				try {
-					File outFile = new File(path.getClass().getSimpleName() 
-							+ "-" + i + "-Selenium-" + tstamp + ".html");
-					FileWriter out = new FileWriter(outFile);
-					path.log("ERROR: Writing " + outFile.getAbsolutePath());
-					out.write(path.getDriver().getPageSource());
-					out.flush();
-					out.close();
+					path.writePageToDisk("ERROR", ""+i);
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
