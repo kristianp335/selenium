@@ -25,7 +25,7 @@ public class LiferayCityClickpathABTest extends LiferayCityBaseClickpath {
 	    
 	    if(control != null) {
 	    	System.out.print("CONTROL ");
-	    	fire = Math.random() < 0.5;
+	    	fire = Math.random() < 0.2;
 	    	countControl++;
 	    	countControlFired = countControlFired + (fire?1:0);
 	    }
@@ -40,7 +40,7 @@ public class LiferayCityClickpathABTest extends LiferayCityBaseClickpath {
     		WebElement faq = getElementById("faqarticle-company2");
     		doClick(faq);
 	    } else {
-	    	System.out.println("NOP for A/B Test action");
+	    	System.out.println("NOP for A/B Test");
 	    }
 	    System.out.println("Stats: Control " + countControl + "(" + countControlFired + "), "
 	    		+ "Horizontal: " + countHorizontal + "(" + countHorizontalFired + ")");
