@@ -1,7 +1,6 @@
 package com.liferay.sales.selenium.liferaycity;
 import com.liferay.sales.selenium.api.ClickpathBase;
 import com.liferay.sales.selenium.chrome.ChromeDriverInitializer;
-import com.liferay.sales.selenium.firefox.FirefoxDriverInitializer;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,12 +10,22 @@ import java.io.StringWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Scanner;
 
 public class LiferayCity {
+
 	public static void main(String[] args) {
+		try {
+			doIt(args);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+	}	
+	
+	public static void doIt(String[] args) {
 // Before starting the script, make adjustments in this top block
 // to reflect the behavior that you need.
 // Inspect the clickpaths.
@@ -26,26 +35,30 @@ public class LiferayCity {
 		
 //			System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
 			
-		String[][] cityUsers = readUserCSV("/home/olaf/cityUsers.csv");
-		String baseUrl = "https://webserver-lctcitysite-prd.lfr.cloud/";
-		String[] arguments = new String[] { "--headless" };
-		int repeats = 1000;
+		String[][] cityUsers = readUserCSV("/home/olaf/Dokumente/HomeDirUntil2023-02-T19/cityUsers.csv");
+		String baseUrl = "https://webserver-lctgov3-prd.lfr.cloud/";
+		String[] arguments = new String[] { "--headless", "--remote-allow-origins=*" };
+		int repeats = 500;
 		
 		ClickpathBase[] paths = new ClickpathBase[] {
 				 new LiferayCityClickpathNewsABTest(new ChromeDriverInitializer(arguments), baseUrl)
 				,new LiferayCityClickpathNewsABTest(new ChromeDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathNewsABTest(new ChromeDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathNewsABTest(new ChromeDriverInitializer(arguments), baseUrl)
-				,new LiferayCityClickpathNewsABTest(new FirefoxDriverInitializer(arguments), baseUrl)
+				,new LiferayCityClickpathNewsABTest(new ChromeDriverInitializer(arguments), baseUrl)
+				,new LiferayCityClickpathNewsABTest(new ChromeDriverInitializer(arguments), baseUrl)
+				,new LiferayCityClickpathNewsABTest(new ChromeDriverInitializer(arguments), baseUrl)
+				,new LiferayCityClickpathNewsABTest(new ChromeDriverInitializer(arguments), baseUrl)
 //				,new LiferayCityClickpathNewsABTest(new FirefoxDriverInitializer(arguments), baseUrl)
 //				,new LiferayCityClickpathNewsABTest(new FirefoxDriverInitializer(arguments), baseUrl)
 //				,new LiferayCityClickpathNewsABTest(new FirefoxDriverInitializer(arguments), baseUrl)
 //				,new LiferayCityClickpathNewsABTest(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpath1(new ChromeDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpath2(new ChromeDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpath3(new ChromeDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpath4(new ChromeDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathABTest(new ChromeDriverInitializer(arguments), baseUrl)
+//				,new LiferayCityClickpathNewsABTest(new FirefoxDriverInitializer(arguments), baseUrl)
+				,new LiferayCityClickpath1(new ChromeDriverInitializer(arguments), baseUrl)
+				,new LiferayCityClickpath2(new ChromeDriverInitializer(arguments), baseUrl)
+				,new LiferayCityClickpath3(new ChromeDriverInitializer(arguments), baseUrl)
+				,new LiferayCityClickpath4(new ChromeDriverInitializer(arguments), baseUrl)
+				,new LiferayCityClickpath3(new ChromeDriverInitializer(arguments), baseUrl)
+				,new LiferayCityClickpath4(new ChromeDriverInitializer(arguments), baseUrl)
+				,new LiferayCityClickpathABTest(new ChromeDriverInitializer(arguments), baseUrl)
 //				,new LiferayCityClickpathABTest(new ChromeDriverInitializer(arguments), baseUrl)
 //				,new LiferayCityClickpathABTest(new ChromeDriverInitializer(arguments), baseUrl)
 //				,new LiferayCityClickpath1(new FirefoxDriverInitializer(arguments), baseUrl)
@@ -56,7 +69,7 @@ public class LiferayCity {
 //				,new LiferayCityClickpath2(new FirefoxDriverInitializer(arguments), baseUrl)
 //				,new LiferayCityClickpath3(new FirefoxDriverInitializer(arguments), baseUrl)
 //				,new LiferayCityClickpath4(new FirefoxDriverInitializer(arguments), baseUrl)
-				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(arguments), baseUrl)
+//				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(arguments), baseUrl)
 //				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(arguments), baseUrl)
 //				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(arguments), baseUrl)
 //				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(arguments), baseUrl)
@@ -74,9 +87,11 @@ public class LiferayCity {
 		
 		System.out.println("Running " + paths.length + " clickpaths for " + repeats + " times");
 		
+		long start = System.currentTimeMillis();
 		LinkedList<String> log = new LinkedList<String>();
 
 		for(int i=0; i<repeats; i++) {
+			long thisStart = System.currentTimeMillis();
 			ClickpathBase path = null;
 			int pos = (int)(Math.random()*cityUsers.length);
 			String[] user = cityUsers[pos];
@@ -113,6 +128,15 @@ public class LiferayCity {
 				path.quit();
 				path = null;
 			}
+			long now = System.currentTimeMillis();
+			long runtime = now-start;
+			long expectedTimeSpan = (long)((runtime / (i+1)) * repeats);
+			long thisTimeSpan = now - thisStart;
+			Date expectedEnd = new Date(start+expectedTimeSpan);
+			System.out.println("Runtime (current/average) in sec: " + ((long)(thisTimeSpan/1000)) + "/" + ((long)(runtime/((i+1)*1000))));
+			System.out.println("Expected remaining run time:      " + expectedEnd);
+			System.out.println("Current time:                     " + new Date());
+		
 			System.out.println();
 		}
 		
