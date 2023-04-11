@@ -29,7 +29,7 @@ public abstract class ClickpathBase {
 	private WebDriver driver = null;
 	private JavascriptExecutor js = null;
 	protected String baseUrl;
-	private int defaultSleep = 2000;
+	protected int defaultSleep = 2000;
 	private DriverInitializer driverInitializer;
 
 	public ClickpathBase(DriverInitializer di, String baseUrl) {
