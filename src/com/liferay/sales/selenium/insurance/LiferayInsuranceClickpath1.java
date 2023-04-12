@@ -14,9 +14,16 @@ public class LiferayInsuranceClickpath1 extends LiferayInsuranceBaseClickpath {
 	
 	@Override
 	public void run(String username, String password) {
-		doGoTo("http://twitter.example.com/links.html");
-		doClickText("IDC Demo");
-//		doGoTo(baseUrl);
+		double startPageRandomization = Math.random();
+		if(startPageRandomization<0.2) {
+			doGoTo("http://twitter.example.com/links.html");
+			doClickText("IDC Demo");
+		} else if (startPageRandomization < 0.4) {
+			doGoTo("http://facebook.example.com/links.html");
+			doClickText("IDC Demo");
+		} else {
+			doGoTo(baseUrl);
+		}
 		selectRandomLanguage();
 		int randomL2Choice = (int) (Math.random()*MENU2_IP_ALL.length);
 		String[] randomL2Menu = MENU2_IP_ALL[randomL2Choice];
