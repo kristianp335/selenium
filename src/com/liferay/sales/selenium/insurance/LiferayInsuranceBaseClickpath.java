@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.Select;
 
 public abstract class LiferayInsuranceBaseClickpath extends ClickpathBase {
 
+	// Add other languages here, as soon as menus/page titles are translated
 	protected String[] MENU1_HOME = new String[] {"Home", "Start"};
 	protected String[] MENU1_PRESSRELEASE = new String[] {"Press Release", "Presse"};
 	protected String[] MENU1_INSURANCE_PLANS = new String[] {"Insurance Plans", "Versicherungen"};
@@ -22,15 +23,29 @@ public abstract class LiferayInsuranceBaseClickpath extends ClickpathBase {
 	protected String[] MENU2_IP_HOME_INSURANCE = new String[] {"Home Insurance", "Hausratversicherung"};
 	protected String[] MENU2_IP_TRAVEL_INSURANCE = new String[] {"Travel Insurance", "Reiseversicherung"};
 	protected String[] MENU2_IP_INSURANCE_ORDERS = new String[] {"Insurance Orders" };
-	protected String[][] MENU2_IP_ALL = new String[][] { MENU2_IP_AUTO_INSURANCE, MENU2_IP_HEALTH_INSURANCE, MENU2_IP_HOME_INSURANCE, MENU2_IP_TRAVEL_INSURANCE, MENU2_IP_MOBILE_INSURANCE, MENU2_IP_INSURANCE_ORDERS };
+	protected String[][] MENU2_IP_ALL = new String[][] { 
+		MENU2_IP_AUTO_INSURANCE, 
+		MENU2_IP_HEALTH_INSURANCE, 
+		MENU2_IP_HOME_INSURANCE, 
+		MENU2_IP_TRAVEL_INSURANCE, 
+		MENU2_IP_MOBILE_INSURANCE, 
+		MENU2_IP_INSURANCE_ORDERS };
 	protected String[] MENU1_ABOUT_US = new String[] {"About Us", "Über uns"};
 	protected String[] MENU1_AGENT_PORTAL = new String[] {"Agent Portal"};
 	protected String[] MENU1_CUSTOMER_PORTAL = new String[] {"Customer Portal"};
 	protected String[] MENU1_CONTACT_US = new String[] {"Contact us", "Kontakt"};
 
-	protected String[] LANGUAGES = new String[] {"english", "deutsch", "català", "العربية",   "français", "español", "português [beta]" };
-	protected String[] WEIGHTED_LANGUAGES = new String[] {"english", "english", "english", "english", "english", "english", 
-			"deutsch", "deutsch", "deutsch", "català", "العربية",   "français", "español", "português [beta]" };
+	// languages are weighted by available content: At the time of writing, 
+	// mostly english content is available, few fragments are available in german.
+	protected String[] LANGUAGES = new String[] {
+			"english", "english", "english", "english", "english", "english", 
+			"deutsch", "deutsch", "deutsch", 
+			"català", 
+			"العربية",   
+			"français", 
+			"español", 
+			"português [beta]" 
+	};
 	
 	public LiferayInsuranceBaseClickpath(DriverInitializer di, String baseUrl) {
 		super(di, baseUrl);
@@ -109,12 +124,4 @@ public abstract class LiferayInsuranceBaseClickpath extends ClickpathBase {
 		select.selectByVisibleText(language);
 		sleep(defaultSleep);
 	}
-
-	public void selectRandomLanguage() {
-		int index = (int) (Math.random() * WEIGHTED_LANGUAGES.length);
-		String language = WEIGHTED_LANGUAGES[index];
-		System.out.println("Picking random language: " + language);
-		selectLanguage(language);
-	}
-
 }

@@ -8,6 +8,16 @@ import org.openqa.selenium.WebElement;
 
 public class LiferayInsuranceClickpath1 extends LiferayInsuranceBaseClickpath {
 
+	/**
+	 * Set up these referrers in your /etc/hosts and make sure they have a link 
+	 * containing the text "IDC Demo" that can be clicked.
+	 */
+	private String[] REFERRERS = new String[] {
+			"http://twitter.example.com/links.html", 
+			"http://facebook.example.com/links.html"
+			};
+	
+	
 	public LiferayInsuranceClickpath1(DriverInitializer di, String baseUrl) {
 		super(di, baseUrl);
 	}
@@ -15,20 +25,15 @@ public class LiferayInsuranceClickpath1 extends LiferayInsuranceBaseClickpath {
 	@Override
 	public void run(String username, String password) {
 		double startPageRandomization = Math.random();
-		if(startPageRandomization<0.2) {
-			doGoTo("http://twitter.example.com/links.html");
-			doClickText("IDC Demo");
-		} else if (startPageRandomization < 0.4) {
-			doGoTo("http://facebook.example.com/links.html");
+		if(startPageRandomization<0.3) {
+			doGoTo(pickRandom(REFERRERS));
 			doClickText("IDC Demo");
 		} else {
 			doGoTo(baseUrl);
 		}
-		selectRandomLanguage();
-		int randomL2Choice = (int) (Math.random()*MENU2_IP_ALL.length);
-		String[] randomL2Menu = MENU2_IP_ALL[randomL2Choice];
+		selectLanguage(pickRandom(LANGUAGES));
 
-		navigateTo(MENU1_INSURANCE_PLANS, randomL2Menu);
+		navigateTo(MENU1_INSURANCE_PLANS, pickRandom(MENU2_IP_ALL));
 		navigateTo(MENU1_HOME, null);
 		selectLanguage("english");
 		navigateTo(MENU1_CONTACT_US, null);
