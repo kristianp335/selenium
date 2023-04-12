@@ -14,7 +14,9 @@ public class LiferayInsuranceClickpath1 extends LiferayInsuranceBaseClickpath {
 	
 	@Override
 	public void run(String username, String password) {
-		doGoTo(baseUrl);
+		doGoTo("http://twitter.example.com/links.html");
+		doClickText("IDC Demo");
+//		doGoTo(baseUrl);
 		selectRandomLanguage();
 		int randomL2Choice = (int) (Math.random()*MENU2_IP_ALL.length);
 		String[] randomL2Menu = MENU2_IP_ALL[randomL2Choice];
@@ -27,38 +29,30 @@ public class LiferayInsuranceClickpath1 extends LiferayInsuranceBaseClickpath {
 	}
 
 	private void fillOutContactForm(int hint) {
-		List<WebElement> textInputs = getElementsByXPath("//form[@id='_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_xlzy_fm']//input[@type='text']");
-	    List<WebElement> radioInputs = getElementsByXPath("//form[@id='_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_xlzy_fm']//input[@type='radio']");
-	    List<WebElement> textareas = getElementsByXPath("//form[@id='_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_xlzy_fm']//textarea");
-	    List<WebElement> selectInputs = getElementsByXPath("//form[@id='_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_xlzy_fm']//div[contains(@class,'form-builder-select-field')]");
-	    List<WebElement> submits = getElementsByXPath("//form[@id='_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_xlzy_fm']//button[@type='submit']");
-	    System.out.println("Found Inputs: ");
-	    System.out.println("  TextInput: " + textInputs.size());
-	    System.out.println("  RadioInput: " + radioInputs.size());
-	    System.out.println("  Selects: " + selectInputs.size());
-	    System.out.println("  Textareas: " + textareas.size());
-	    System.out.println("  Submits: " + submits.size());
+		String formRoot = "//form[@id='_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_xlzy_fm']";
+		List<WebElement> textInputs = getElementsByXPath(formRoot + "//input[@type='text']");
+	    // List<WebElement> radioInputs = getElementsByXPath(formRoot + "//input[@type='radio']");
+	    List<WebElement> textareas = getElementsByXPath(formRoot + "//textarea");
+	    List<WebElement> selectInputs = getElementsByXPath(formRoot + "//div[contains(@class,'form-builder-select-field')]");
+	    List<WebElement> submits = getElementsByXPath(formRoot + "//button[@type='submit']");
+
 	    WebElement name = textInputs.get(0);
 	    WebElement surname = textInputs.get(1);
 	    WebElement telephone = textInputs.get(2);
 	    WebElement mail = textInputs.get(3);
 	    WebElement policy = textInputs.get(4);
 	    WebElement choices = selectInputs.get(0);
-
 	    WebElement message = textareas.get(0);
 	    WebElement submit = submits.get(0);
 	    
 	    scrollTo(name);
-	    name.sendKeys("Bloggs (" + hint + ")");
-	    sleep(100);
-	    surname.sendKeys("Joe");
-	    sleep(100);
-	    telephone.sendKeys(""+hint+"-1234567");
-	    sleep(100);
-	    mail.sendKeys("test+" +hint + "@liferay.com");
-	    sleep(100);
-	    policy.sendKeys(""+hint+"-"+hint);
-	    sleep(100);
+	    
+	    type(name, "Bloggs (" + hint + ")");
+	    type(surname, "Joe");
+	    type(telephone, ""+hint+"-1234567");
+	    type(mail, "test+" +hint + "@liferay.com");
+	    type(policy, ""+hint+"-"+hint);
+	    
 	    choices.click();
 	    sleep(1000);
 
@@ -68,9 +62,8 @@ public class LiferayInsuranceClickpath1 extends LiferayInsuranceBaseClickpath {
 	    sleep(500);
 
 	    scrollTo(message);
-	    message.sendKeys("This is a random comment with hint " + hint);
-	    sleep(500);
-	    if(Math.random() < 0.9 ) {
+	    type(message, "This is a random comment with hint " + hint);
+	    if(Math.random() < 0.8 ) {
 	    	doClick(submit);
 	    } else {
 	    	System.out.println("Abandoning Form, it's filled out but not submitted");

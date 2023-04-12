@@ -393,5 +393,10 @@ public abstract class ClickpathBase {
 		out.flush();
 		out.close();
 	}
+
+	protected void type(WebElement name, String text) {
+		name.sendKeys(text);
+	    sleep(500);
+	}
 	
 }
