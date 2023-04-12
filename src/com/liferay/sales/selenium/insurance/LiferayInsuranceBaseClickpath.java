@@ -13,6 +13,25 @@ import org.openqa.selenium.support.ui.Select;
 
 public abstract class LiferayInsuranceBaseClickpath extends ClickpathBase {
 
+	protected String[] MENU1_HOME = new String[] {"Home", "Start"};
+	protected String[] MENU1_PRESSRELEASE = new String[] {"Press Release", "Presse"};
+	protected String[] MENU1_INSURANCE_PLANS = new String[] {"Insurance Plans", "Versicherungen"};
+	protected String[] MENU2_IP_MOBILE_INSURANCE = new String[] {"Mobile Insurance", "Handyversicherung"};
+	protected String[] MENU2_IP_AUTO_INSURANCE = new String[] {"Auto Insurance", "Autoversicherung"};
+	protected String[] MENU2_IP_HEALTH_INSURANCE = new String[] {"Health Insurance", "Krankenversicherung"};
+	protected String[] MENU2_IP_HOME_INSURANCE = new String[] {"Home Insurance", "Hausratversicherung"};
+	protected String[] MENU2_IP_TRAVEL_INSURANCE = new String[] {"Travel Insurance", "Reiseversicherung"};
+	protected String[] MENU2_IP_INSURANCE_ORDERS = new String[] {"Insurance Orders" };
+	protected String[][] MENU2_IP_ALL = new String[][] { MENU2_IP_AUTO_INSURANCE, MENU2_IP_HEALTH_INSURANCE, MENU2_IP_HOME_INSURANCE, MENU2_IP_TRAVEL_INSURANCE, MENU2_IP_MOBILE_INSURANCE, MENU2_IP_INSURANCE_ORDERS };
+	protected String[] MENU1_ABOUT_US = new String[] {"About Us", "Über uns"};
+	protected String[] MENU1_AGENT_PORTAL = new String[] {"Agent Portal"};
+	protected String[] MENU1_CUSTOMER_PORTAL = new String[] {"Customer Portal"};
+	protected String[] MENU1_CONTACT_US = new String[] {"Contact us", "Kontakt"};
+
+	protected String[] LANGUAGES = new String[] {"english", "deutsch", "català", "العربية",   "français", "español", "português [beta]" };
+	protected String[] WEIGHTED_LANGUAGES = new String[] {"english", "english", "english", "english", "english", "english", 
+			"deutsch", "deutsch", "deutsch", "català", "العربية",   "français", "español", "português [beta]" };
+	
 	public LiferayInsuranceBaseClickpath(DriverInitializer di, String baseUrl) {
 		super(di, baseUrl);
 	}
@@ -44,26 +63,6 @@ public abstract class LiferayInsuranceBaseClickpath extends ClickpathBase {
 		
 		getLoginField("login").sendKeys(Keys.ENTER);
 		sleep(8000);
-	}
-
-	/**
-	 * Mouseover trickery to navigate to menu items
-	 * @param level1 menu level 1
-	 * @param level2 can be null, to navigate to level 1 menu item
-	 */
-	public void navigateTo(String level1, String level2) {
-		WebDriver driver = getDriver();
-		Actions builder = new Actions(driver);
-		WebElement l1element = driver.findElement(By.xpath("//div[@id='navbarmain']//a[normalize-space()='"+level1+"']"));
-		builder.moveToElement(l1element).build().perform();
-		sleep(1000);
-		if(level2 == null) {
-			l1element.click();
-		} else {
-			WebElement l2element = driver.findElement(By.xpath("//div[@id='navbarmain']/ul/li/ul/li/a[normalize-space()='"+level2+"']"));
-			l2element.click();
-		}
-		sleep(defaultSleep);
 	}
 
 	/**
@@ -110,4 +109,12 @@ public abstract class LiferayInsuranceBaseClickpath extends ClickpathBase {
 		select.selectByVisibleText(language);
 		sleep(defaultSleep);
 	}
+
+	public void selectRandomLanguage() {
+		int index = (int) (Math.random() * WEIGHTED_LANGUAGES.length);
+		String language = WEIGHTED_LANGUAGES[index];
+		System.out.println("Picking random language: " + language);
+		selectLanguage(language);
+	}
+
 }

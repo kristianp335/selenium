@@ -8,11 +8,6 @@ import org.openqa.selenium.WebElement;
 
 public class LiferayInsuranceClickpath1 extends LiferayInsuranceBaseClickpath {
 
-	private String[] MENU1_HOME = new String[] {"Home", "Start"};
-	private String[] MENU1_INSURANCE_PLANS = new String[] {"Insurance Plans", "Versicherungen"};
-	private String[] MENU2_IP_MOBILE_INSURANCE = new String[] {"Mobile Insurance", "Handyversicherung"};
-	private String[] MENU1_CONTACT_US = new String[] {"Contact us", "Kontakt"};
-	
 	public LiferayInsuranceClickpath1(DriverInitializer di, String baseUrl) {
 		super(di, baseUrl);
 	}
@@ -20,13 +15,15 @@ public class LiferayInsuranceClickpath1 extends LiferayInsuranceBaseClickpath {
 	@Override
 	public void run(String username, String password) {
 		doGoTo(baseUrl);
-		selectLanguage("deutsch");
-//		navigateTo("Insurance Plans", "Mobile Insurance");
-		navigateTo(MENU1_INSURANCE_PLANS, MENU2_IP_MOBILE_INSURANCE);
+		selectRandomLanguage();
+		int randomL2Choice = (int) (Math.random()*MENU2_IP_ALL.length);
+		String[] randomL2Menu = MENU2_IP_ALL[randomL2Choice];
+
+		navigateTo(MENU1_INSURANCE_PLANS, randomL2Menu);
 		navigateTo(MENU1_HOME, null);
+		selectLanguage("english");
 		navigateTo(MENU1_CONTACT_US, null);
-//		selectLanguage("english");
-		fillOutContactForm(42);
+		fillOutContactForm((int)(Math.random()*1e6));
 	}
 
 	private void fillOutContactForm(int hint) {
