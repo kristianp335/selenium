@@ -57,6 +57,14 @@ public abstract class LiferayInsuranceBaseClickpath extends ClickpathBase {
 			"español", 
 			"português [beta]" 
 	};
+	/**
+	 * Set up these referrers in your /etc/hosts and make sure they have a link 
+	 * containing the text "IDC Demo" that can be clicked.
+	 */
+	protected static String[] REFERRERS = new String[] {
+//				"http://twitter.example.com/links.html", 
+//				"http://facebook.example.com/links.html"
+				};
 	
 	public LiferayInsuranceBaseClickpath(DriverInitializer di, String baseUrl) {
 		super(di, baseUrl);

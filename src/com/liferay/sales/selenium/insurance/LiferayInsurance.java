@@ -39,7 +39,17 @@ public class LiferayInsurance {
 		String baseUrl = "https://webserver-lctidcanalyst2023-prd.lfr.cloud/";
 		int repeats = 1000;
 		boolean headless = true;
-
+		/**
+		 * Set up these referrers in your /etc/hosts and make sure they have a link 
+		 * containing the text "IDC Demo" that can be clicked. Or don't set them to 
+		 * click links without referrers. (default, if not set: empty array)
+		 */
+		String[] referrers = new String[] {
+					"http://twitter.example.com/links.html", 
+					"http://facebook.example.com/links.html"
+					};
+		LiferayInsuranceBaseClickpath.REFERRERS = referrers;
+		
 		String[] arguments;
 		if(headless) {
 			arguments = new String[] { "--headless", "--remote-allow-origins=*" };

@@ -4,16 +4,6 @@ import com.liferay.sales.selenium.api.DriverInitializer;
 
 public class LiferayInsuranceClickpath3 extends LiferayInsuranceBaseClickpath {
 
-	/**
-	 * Set up these referrers in your /etc/hosts and make sure they have a link 
-	 * containing the text "IDC Demo" that can be clicked.
-	 */
-	private String[] REFERRERS = new String[] {
-			"http://twitter.example.com/links.html", 
-			"http://facebook.example.com/links.html"
-			};
-	
-	
 	public LiferayInsuranceClickpath3(DriverInitializer di, String baseUrl) {
 		super(di, baseUrl);
 	}
