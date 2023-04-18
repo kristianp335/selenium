@@ -3,6 +3,8 @@ package com.liferay.sales.selenium.insurance;
 import com.liferay.sales.selenium.api.ClickpathBase;
 import com.liferay.sales.selenium.api.DriverInitializer;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
@@ -13,6 +15,11 @@ import org.openqa.selenium.support.ui.Select;
 
 public abstract class LiferayInsuranceBaseClickpath extends ClickpathBase {
 
+	protected static final String[][] HEALTH_PLANS = new String[][] { 
+			new String[] {"Family Insurance Plan", "Familienversicherungsplan" },
+			new String[] {"Self Insurance Plan", "Selbstversicherungsplan"},
+			new String[] {"Domestic Help Insurance Plan", "Versicherungsplan für Haushaltshilfe"}};
+	protected static final String[] DOWNLOAD = new String[] {"Download", "herunterladen"};
 	// Add other languages here, as soon as menus/page titles are translated
 	protected String[] MENU1_HOME = new String[] {"Home", "Start"};
 	protected String[] MENU1_PRESSRELEASE = new String[] {"Press Release", "Presse"};
@@ -123,5 +130,47 @@ public abstract class LiferayInsuranceBaseClickpath extends ClickpathBase {
 		Select select = new Select(languageSelector);
 		select.selectByVisibleText(language);
 		sleep(defaultSleep);
+	}
+
+	protected void fillOutContactForm(int hint) {
+		String formRoot = "//form[@id='_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_xlzy_fm']";
+		List<WebElement> textInputs = getElementsByXPath(formRoot + "//input[@type='text']");
+	    // List<WebElement> radioInputs = getElementsByXPath(formRoot + "//input[@type='radio']");
+	    List<WebElement> textareas = getElementsByXPath(formRoot + "//textarea");
+	    List<WebElement> selectInputs = getElementsByXPath(formRoot + "//div[contains(@class,'form-builder-select-field')]");
+	    List<WebElement> submits = getElementsByXPath(formRoot + "//button[@type='submit']");
+	
+	    WebElement name = textInputs.get(0);
+	    WebElement surname = textInputs.get(1);
+	    WebElement telephone = textInputs.get(2);
+	    WebElement mail = textInputs.get(3);
+	    WebElement policy = textInputs.get(4);
+	    WebElement choices = selectInputs.get(0);
+	    WebElement message = textareas.get(0);
+	    WebElement submit = submits.get(0);
+	    
+	    scrollTo(name);
+	    
+	    type(name, "Bloggs (" + hint + ")");
+	    type(surname, "Joe");
+	    type(telephone, ""+hint+"-1234567");
+	    type(mail, "test+" +hint + "@liferay.com");
+	    type(policy, ""+hint+"-"+hint);
+	    
+	    choices.click();
+	    sleep(1000);
+	
+	    int chosenItem = (int) (Math.random()*4+1); 
+	    WebElement choice = getElementByXPath("//button[@data-testid='dropdownItem-"+chosenItem+"']");
+	    choice.click();
+	    sleep(500);
+	
+	    scrollTo(message);
+	    type(message, "This is a random comment with hint " + hint);
+	    if(Math.random() < 0.8 ) {
+	    	doClick(submit);
+	    } else {
+	    	System.out.println("Abandoning Form, it's filled out but not submitted");
+	    }
 	}
 }
