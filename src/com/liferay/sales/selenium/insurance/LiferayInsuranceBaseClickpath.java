@@ -16,9 +16,13 @@ import org.openqa.selenium.support.ui.Select;
 public abstract class LiferayInsuranceBaseClickpath extends ClickpathBase {
 
 	protected static final String[][] HEALTH_PLANS = new String[][] { 
-			new String[] {"Family Insurance Plan", "Familienversicherungsplan" },
-			new String[] {"Self Insurance Plan", "Selbstversicherungsplan"},
-			new String[] {"Domestic Help Insurance Plan", "Versicherungsplan für Haushaltshilfe"}};
+		new String[] {"Family Insurance Plan", "Familienversicherungsplan" },
+		new String[] {"Self Insurance Plan", "Selbstversicherungsplan"},
+		new String[] {"Domestic Help Insurance Plan", "Versicherungsplan für Haushaltshilfe"}};
+	protected static final String[][] AUTO_PLANS = new String[][] { 
+			new String[] {"Third-Party Car Insurance", "Kfz-Haftpflichtversicherung" },
+			new String[] {"High Net Worth Cover", "Hohe Vermögensdeckung"},
+			new String[] {"Insure My Tesla", "Meinen Tesla versichern"}};
 	protected static final String[] DOWNLOAD = new String[] {"Download", "herunterladen"};
 	// Add other languages here, as soon as menus/page titles are translated
 	protected String[] MENU1_HOME = new String[] {"Home", "Start"};

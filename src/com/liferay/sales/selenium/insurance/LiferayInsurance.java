@@ -37,52 +37,26 @@ public class LiferayInsurance {
 			
 		String[][] cityUsers = readUserCSV("/home/olaf/Dokumente/HomeDirUntil2023-02-T19/cityUsers.csv");
 		String baseUrl = "https://webserver-lctidcanalyst2023-prd.lfr.cloud/";
-		String[] arguments = new String[] { "--remote-allow-origins=*" };
-//		String[] arguments = new String[] { "--headless", "--remote-allow-origins=*" };
-		int repeats = 1;
+		int repeats = 1000;
+		boolean headless = true;
+
+		String[] arguments;
+		if(headless) {
+			arguments = new String[] { "--headless", "--remote-allow-origins=*" };
+		} else {
+			arguments = new String[] { "--remote-allow-origins=*" };
+		}
 		
 		ClickpathBase[] paths = new ClickpathBase[] {
 				 new LiferayInsuranceClickpath1(new ChromeDriverInitializer(arguments), baseUrl)
 				,new LiferayInsuranceClickpath1(new ChromeDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathNewsABTest(new ChromeDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathNewsABTest(new ChromeDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathNewsABTest(new ChromeDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathNewsABTest(new ChromeDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathNewsABTest(new ChromeDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathNewsABTest(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathNewsABTest(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathNewsABTest(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathNewsABTest(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathNewsABTest(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpath1(new ChromeDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpath2(new ChromeDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpath3(new ChromeDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpath4(new ChromeDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpath3(new ChromeDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpath4(new ChromeDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathABTest(new ChromeDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathABTest(new ChromeDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathABTest(new ChromeDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpath1(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpath2(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpath3(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpath4(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpath1(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpath2(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpath3(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpath4(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(arguments), baseUrl)
+				,new LiferayInsuranceClickpath1(new ChromeDriverInitializer(arguments), baseUrl)
+				,new LiferayInsuranceClickpath1(new ChromeDriverInitializer(arguments), baseUrl)
+				,new LiferayInsuranceClickpath2(new ChromeDriverInitializer(arguments), baseUrl)
+				,new LiferayInsuranceClickpath2(new ChromeDriverInitializer(arguments), baseUrl)
+				,new LiferayInsuranceClickpath3(new ChromeDriverInitializer(arguments), baseUrl)
 		};
 
-//		paths = new ClickpathBase[] {
-//				new LiferayCityClickpath4(new ChromeDriverInitializer(), baseUrl)
-//		};
-		
 
 // Typically, nothing more to "configure" below this line. 
 // Anything that you need to customize your scripts is above.
