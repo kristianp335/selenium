@@ -335,7 +335,9 @@ public abstract class ClickpathBase {
 	}
 
 	public void scrollTo(WebElement element) {
-		js.executeScript("arguments[0].scrollIntoView(true);", element);
+		
+		js.executeScript("arguments[0].scrollIntoView({ behavior: \"smooth\", block: \"center\", inline: \"nearest\" });", element);
+//		js.executeScript("arguments[0].scrollIntoView(true);", element);
 	}
 	
 	public void setDefaultSleep(int millis) {
