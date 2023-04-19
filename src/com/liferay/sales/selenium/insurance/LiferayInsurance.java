@@ -35,7 +35,8 @@ public class LiferayInsurance {
 		
 //			System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
 			
-		String[][] cityUsers = readUserCSV("/home/olaf/Dokumente/HomeDirUntil2023-02-T19/cityUsers.csv");
+		String[][] insuranceUsers = readUserCSV("/home/olaf/insuranceUsers.csv");
+		String[][] insuranceAutoUsers = readUserCSV("/home/olaf/insuranceAutoUsers.csv");
 		String baseUrl = "https://webserver-lctidcanalyst2023-prd.lfr.cloud/";
 		int repeats = 1000;
 		boolean headless = true;
@@ -65,6 +66,10 @@ public class LiferayInsurance {
 				,new LiferayInsuranceClickpath2(new ChromeDriverInitializer(arguments), baseUrl)
 				,new LiferayInsuranceClickpath2(new ChromeDriverInitializer(arguments), baseUrl)
 				,new LiferayInsuranceClickpath3(new ChromeDriverInitializer(arguments), baseUrl)
+				,new LiferayInsuranceClickpath4(new ChromeDriverInitializer(arguments), baseUrl, insuranceAutoUsers[0][0], insuranceAutoUsers[0][1])
+				,new LiferayInsuranceClickpathContactABTest(new ChromeDriverInitializer(arguments), baseUrl)
+				,new LiferayInsuranceClickpathContactABTest(new ChromeDriverInitializer(arguments), baseUrl)
+				,new LiferayInsuranceClickpathContactABTest(new ChromeDriverInitializer(arguments), baseUrl)
 		};
 
 
@@ -79,8 +84,8 @@ public class LiferayInsurance {
 		for(int i=0; i<repeats; i++) {
 			long thisStart = System.currentTimeMillis();
 			ClickpathBase path = null;
-			int pos = (int)(Math.random()*cityUsers.length);
-			String[] user = cityUsers[pos];
+			int pos = (int)(Math.random()*insuranceUsers.length);
+			String[] user = insuranceUsers[pos];
 			pos = (int)(Math.random()*paths.length);
 			path = paths[pos];
 			System.out.println("Number of failures so far:" + log.size());

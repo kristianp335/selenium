@@ -44,7 +44,7 @@ public abstract class LiferayInsuranceBaseClickpath extends ClickpathBase {
 	protected String[] MENU1_ABOUT_US = new String[] {"About Us", "Über uns"};
 	protected String[] MENU1_AGENT_PORTAL = new String[] {"Agent Portal"};
 	protected String[] MENU1_CUSTOMER_PORTAL = new String[] {"Customer Portal"};
-	protected String[] MENU1_CONTACT_US = new String[] {"Contact us", "Kontakt"};
+	protected String[] MENU1_CONTACT_US = new String[] {"Contact Us", "Kontakt"};
 
 	// languages are weighted by available content: At the time of writing, 
 	// mostly english content is available, few fragments are available in german.
