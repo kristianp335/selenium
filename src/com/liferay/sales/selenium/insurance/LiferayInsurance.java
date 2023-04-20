@@ -97,6 +97,7 @@ public class LiferayInsurance {
 			try {
 				path.run(user[0], user[1]);
 			} catch(Exception e) {
+				System.out.println("handling " + e.getClass().getSimpleName() + ": " + e.getMessage());
 				StringWriter sw = new StringWriter();
 				PrintWriter pw = new PrintWriter(sw);
 				e.printStackTrace(pw);
@@ -108,9 +109,11 @@ public class LiferayInsurance {
 					e.getMessage() + "\n" + 
 					sw.toString()
 				);
+				String hint = "" + i + "-" + e.getClass().getSimpleName() + "-" + e.getMessage().replace(' ', '-');
 				try {
-					path.writePageToDisk("ERROR", ""+i);
+					path.writePageToDisk("ERROR", hint);
 				} catch (IOException e1) {
+					System.out.println("ERROR (during error handling): " + hint);
 					e1.printStackTrace();
 				}
 
