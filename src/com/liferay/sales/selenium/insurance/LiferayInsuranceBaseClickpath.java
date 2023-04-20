@@ -145,9 +145,13 @@ public abstract class LiferayInsuranceBaseClickpath extends ClickpathBase {
 	}
 
 	protected void fillOutContactForm(int hint) {
-		String formRoot = "//form[@id='_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_xlzy_fm']";
+		String formRoot = "//form[@id='_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_qwdn_fm']";
 		List<WebElement> textInputs = getElementsByXPath(formRoot + "//input[@type='text']");
-	    // List<WebElement> radioInputs = getElementsByXPath(formRoot + "//input[@type='radio']");
+		if(textInputs.isEmpty()) {
+			// A/B Test running - try a different form
+			formRoot = "//form[@id='_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_xdhq_fm']";
+			textInputs = getElementsByXPath(formRoot + "//input[@type='text']");
+		}
 	    List<WebElement> textareas = getElementsByXPath(formRoot + "//textarea");
 	    List<WebElement> selectInputs = getElementsByXPath(formRoot + "//div[contains(@class,'form-builder-select-field')]");
 	    List<WebElement> submits = getElementsByXPath(formRoot + "//button[@type='submit']");
