@@ -25,7 +25,7 @@ public abstract class LiferayInsuranceBaseClickpath extends ClickpathBase {
 			new String[] {"Insure My Tesla", "Meinen Tesla versichern"}};
 	protected static final String[] DOWNLOAD = new String[] {"Download", "herunterladen"};
 	// Add other languages here, as soon as menus/page titles are translated
-	protected String[] MENU1_HOME = new String[] {"Home", "Start"};
+	protected String[] MENU1_HOME = new String[] {"Home", "Start", "Inici"};
 	protected String[] MENU1_PRESSRELEASE = new String[] {"Press Release", "Presse"};
 	protected String[] MENU1_INSURANCE_PLANS = new String[] {"Insurance Plans", "Versicherungen"};
 	protected String[] MENU2_IP_MOBILE_INSURANCE = new String[] {"Mobile Insurance", "Handyversicherung"};
