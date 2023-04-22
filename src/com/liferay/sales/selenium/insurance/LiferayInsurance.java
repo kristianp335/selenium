@@ -59,7 +59,15 @@ public class LiferayInsurance {
 		}
 		
 		ClickpathBase[] paths = new ClickpathBase[] {
-				 new LiferayInsuranceClickpath1(new ChromeDriverInitializer(arguments), baseUrl)
+				 new LiferayInsuranceClickpathAboutABTest(new ChromeDriverInitializer(arguments), baseUrl)
+				,new LiferayInsuranceClickpathAboutABTest(new ChromeDriverInitializer(arguments), baseUrl)
+				,new LiferayInsuranceClickpathAboutABTest(new ChromeDriverInitializer(arguments), baseUrl)
+				,new LiferayInsuranceClickpathAboutABTest(new ChromeDriverInitializer(arguments), baseUrl)
+				,new LiferayInsuranceClickpathAboutABTest(new ChromeDriverInitializer(arguments), baseUrl)
+				,new LiferayInsuranceClickpathAboutABTest(new ChromeDriverInitializer(arguments), baseUrl)
+				,new LiferayInsuranceClickpathAboutABTest(new ChromeDriverInitializer(arguments), baseUrl)
+				,new LiferayInsuranceClickpathAboutABTest(new ChromeDriverInitializer(arguments), baseUrl)
+				,new LiferayInsuranceClickpath1(new ChromeDriverInitializer(arguments), baseUrl)
 				,new LiferayInsuranceClickpath1(new ChromeDriverInitializer(arguments), baseUrl)
 				,new LiferayInsuranceClickpath1(new ChromeDriverInitializer(arguments), baseUrl)
 				,new LiferayInsuranceClickpath1(new ChromeDriverInitializer(arguments), baseUrl)
@@ -67,8 +75,8 @@ public class LiferayInsurance {
 				,new LiferayInsuranceClickpath2(new ChromeDriverInitializer(arguments), baseUrl)
 				,new LiferayInsuranceClickpath3(new ChromeDriverInitializer(arguments), baseUrl)
 				,new LiferayInsuranceClickpath4(new ChromeDriverInitializer(arguments), baseUrl, insuranceAutoUsers[0][0], insuranceAutoUsers[0][1])
-				,new LiferayInsuranceClickpathContactABTest(new ChromeDriverInitializer(arguments), baseUrl)
-				,new LiferayInsuranceClickpathContactABTest(new ChromeDriverInitializer(arguments), baseUrl)
+//				,new LiferayInsuranceClickpathContactABTest(new ChromeDriverInitializer(arguments), baseUrl)
+//				,new LiferayInsuranceClickpathContactABTest(new ChromeDriverInitializer(arguments), baseUrl)
 				,new LiferayInsuranceClickpathContactABTest(new ChromeDriverInitializer(arguments), baseUrl)
 		};
 
