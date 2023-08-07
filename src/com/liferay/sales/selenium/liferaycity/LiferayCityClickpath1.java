@@ -21,7 +21,7 @@ public class LiferayCityClickpath1 extends LiferayCityBaseClickpath {
 	public void run(String username, String password) {
 		resizeBrowser(1536, 835);
 	  	deleteAllCookies();	
-	    doGoTo(baseUrl);
+	    doGoTo(utmGenerator.decorateUrl(baseUrl));
 	    sleep(2000);
 	    
 	    mark("input[data-qa-id='searchInput']");

@@ -14,7 +14,7 @@ public class LiferayCityClickpath4 extends LiferayCityBaseClickpath {
 	public void run(String username, String password) {
 		resizeBrowser(1536, 835);
 	  	deleteAllCookies();	
-	    doGoTo(baseUrl);
+	    doGoTo(utmGenerator.decorateUrl(baseUrl));
 	    doLogin(username, password);
 	    
 	    doClickText(oneOf("CITIZEN AREA", "REA DEL CIUDADANO"));

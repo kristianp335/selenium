@@ -33,14 +33,14 @@ public class LiferayCityClickpath3 extends LiferayCityBaseClickpath {
 	public void run(String username, String password) {
 		resizeBrowser(1536, 835);
 	  	deleteAllCookies();	
-	    doGoTo(baseUrl);
+	    doGoTo(utmGenerator.decorateUrl(baseUrl));
 	    doLogin(username, password);
 	    
 	    doClickText(oneOf("CITIZEN AREA", "REA DEL CIUDADANO"));
 	    sleep(1000);
 	    
 	    doClickText(oneOf("FAQs","Preguntas"));
-	    List<WebElement> faqEntries = getElementsByXPath("//div[@class='drop-question']");
+	    List<WebElement> faqEntries = getElementsByXPath("//a[@class='drop-question']");
 	    Collections.shuffle(faqEntries);
 		WebElement faqEntry = faqEntries.get(0);
 	    scrollTo(faqEntry);

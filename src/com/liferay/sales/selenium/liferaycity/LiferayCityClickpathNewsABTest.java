@@ -12,7 +12,7 @@ public class LiferayCityClickpathNewsABTest extends LiferayCityBaseClickpath {
 	public void run(String username, String password) {
 		resizeBrowser(1536, 835);
 	  	deleteAllCookies();	
-	    doGoTo(baseUrl);
+	    doGoTo(utmGenerator.decorateUrl(baseUrl));
 	    
 	    WebElement control = getElementById("ab-control");
 	    WebElement top = getElementById("ab-top");

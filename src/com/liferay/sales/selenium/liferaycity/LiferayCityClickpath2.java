@@ -1,12 +1,11 @@
 package com.liferay.sales.selenium.liferaycity;
-import com.liferay.sales.selenium.api.ClickpathBase;
 import com.liferay.sales.selenium.api.DriverInitializer;
 
 import java.util.List;
 
 import org.openqa.selenium.WebElement;
 
-public class LiferayCityClickpath2 extends ClickpathBase {
+public class LiferayCityClickpath2 extends LiferayCityBaseClickpath {
 
 	public LiferayCityClickpath2(DriverInitializer di, String baseUrl) {
 		super(di, baseUrl);
@@ -15,7 +14,7 @@ public class LiferayCityClickpath2 extends ClickpathBase {
 	public void run(String username, String password) {
 		resizeBrowser(1536, 835);
 	  	deleteAllCookies();	
-	    doGoTo(baseUrl);
+	    doGoTo(utmGenerator.decorateUrl(baseUrl));
 	    sleep(2000);
 	    
 	    doGoTo(baseUrl + "contact");

@@ -8,6 +8,8 @@ import org.openqa.selenium.NoSuchElementException;
 
 public abstract class LiferayCityBaseClickpath extends ClickpathBase {
 
+	protected UTMGenerator utmGenerator = new UTMGenerator();
+	
 	public LiferayCityBaseClickpath(DriverInitializer di, String baseUrl) {
 		super(di, baseUrl);
 	}

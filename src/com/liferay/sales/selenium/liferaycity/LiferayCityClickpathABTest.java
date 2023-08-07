@@ -12,7 +12,7 @@ public class LiferayCityClickpathABTest extends LiferayCityBaseClickpath {
 	public void run(String username, String password) {
 		resizeBrowser(1536, 835);
 	  	deleteAllCookies();	
-	    doGoTo(baseUrl);
+	    doGoTo(utmGenerator.decorateUrl(baseUrl));
 	    doLogin(username, password);
 	    
 	    doClickText(oneOf("CITIZEN AREA", "REA DEL CIUDADANO"));
@@ -25,13 +25,13 @@ public class LiferayCityClickpathABTest extends LiferayCityBaseClickpath {
 	    
 	    if(control != null) {
 	    	System.out.print("CONTROL ");
-	    	fire = Math.random() < 0.2;
+	    	fire = Math.random() < 0.25;
 	    	countControl++;
 	    	countControlFired = countControlFired + (fire?1:0);
 	    }
 	    if(horizontal != null) {
 	    	System.out.print("HORIZONTAL ");
-	    	fire = Math.random() > 0.1;
+	    	fire = Math.random() > 0.15;
 	    	countHorizontal++;
 	    	countHorizontalFired = countHorizontalFired + (fire?1:0);
 	    }
