@@ -352,6 +352,13 @@ public abstract class ClickpathBase {
 
 	public void sleep(int millis) {
 		millis = millis + (int) (Math.random() * 200);
+		if(Math.random()>0.96) {
+			millis += 15000;
+			// Interest calculation on AC requires reading a particular page 
+			// for more than 10 seconds. See 
+			// https://liferay.slack.com/archives/C014BCDN8MU/p1695044060052069?thread_ts=1695042617.609449&cid=C014BCDN8MU
+			log("Extending sleep/think/read time by 15sec for simulating interest");
+		}
 		try {
 			Thread.sleep(millis);
 		} catch (InterruptedException ignore) {
