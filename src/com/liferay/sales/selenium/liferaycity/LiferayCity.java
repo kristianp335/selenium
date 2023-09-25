@@ -91,7 +91,7 @@ public class LiferayCity {
 		long start = System.currentTimeMillis();
 		LinkedList<String> log = new LinkedList<String>();
 
-		for(int i=0; i<repeats; i++) {
+		for(int i = 1; i <= repeats; i++) {
 			long thisStart = System.currentTimeMillis();
 			ClickpathBase path = null;
 			int pos = (int)(Math.random()*cityUsers.length);
