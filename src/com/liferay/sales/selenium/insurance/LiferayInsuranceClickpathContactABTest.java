@@ -18,7 +18,7 @@ public class LiferayInsuranceClickpathContactABTest extends LiferayInsuranceBase
 	    navigateTo(MENU1_CONTACT_US, null);
 	    
 	    WebElement control = getElementById("ab-control");
-	    WebElement left = getElementById("ab-informal");
+	    WebElement informal = getElementById("ab-informal");
 	    boolean fire = false;
 	    String formId = "unknown";
 	    
@@ -29,14 +29,14 @@ public class LiferayInsuranceClickpathContactABTest extends LiferayInsuranceBase
 	    	countControl++;
 	    	countControlFired = countControlFired + (fire?1:0);
 	    }
-	    if(left != null) {
+	    if(informal != null) {
 	    	System.out.print("Seeing A/B Test INFORMAL variant, ");
 	    	formId = "_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_kqjn_fm"; 
 	    	fire = Math.random() < 0.3;
 	    	countInformal++;
 	    	countInformalFired = countInformalFired + (fire?1:0);
 	    }
-
+fire=true;
 	    if(fire) {
 	    	System.out.println("Submitting ContactUs form");
 	    	
@@ -52,10 +52,12 @@ public class LiferayInsuranceClickpathContactABTest extends LiferayInsuranceBase
 		    WebElement message = textareas.get(0);
 		    
 		    WebElement selectDropDown = selectDropDowns.get(0);
-		    selectDropDown.click();
 		    scrollTo(message);
+		    selectDropDown.click();
+		    sleep(1000);
 		    WebElement choice = getElementByXPath("//button[@data-testid='dropdownItem-2']");
 		    choice.click();
+		    sleep(1000);
 		    
 		    firstName.sendKeys("Joe");
 		    String hint = ""+ countControlFired + "/" + countInformalFired;

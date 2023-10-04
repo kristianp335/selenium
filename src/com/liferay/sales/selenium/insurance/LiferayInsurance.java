@@ -39,7 +39,7 @@ public class LiferayInsurance {
 		String[][] insuranceAutoUsers = readUserCSV("/home/olaf/insuranceAutoUsers.csv");
 		String baseUrl = "https://webserver-lctidcanalyst2023v2-prd.lfr.cloud";
 		int repeats = 1000;
-		boolean headless = true;
+		boolean headless = false;
 		/**
 		 * Set up these referrers in your /etc/hosts and make sure they have a link 
 		 * containing the text "IDC Demo" that can be clicked. Or don't set them to 
@@ -53,7 +53,7 @@ public class LiferayInsurance {
 		
 		String[] arguments;
 		if(headless) {
-			arguments = new String[] { /* "--headless", */ "--remote-allow-origins=*" };
+			arguments = new String[] { "--headless", "--remote-allow-origins=*" };
 		} else {
 			arguments = new String[] { "--remote-allow-origins=*" };
 		}
