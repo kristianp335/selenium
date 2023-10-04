@@ -36,7 +36,7 @@ public class LiferayInsuranceClickpathContactABTest extends LiferayInsuranceBase
 	    	countInformal++;
 	    	countInformalFired = countInformalFired + (fire?1:0);
 	    }
-	    // temp:
+
 	    if(fire) {
 	    	System.out.println("Submitting ContactUs form");
 	    	
