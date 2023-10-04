@@ -40,8 +40,8 @@ public class LiferayInsuranceClickpathContactABTest extends LiferayInsuranceBase
 	    if(fire) {
 	    	System.out.println("Submitting ContactUs form");
 	    	
-			List<WebElement> textInputs = getElementsByXPath("//form[@id='" + formId + "']//input[@type='text']");
-		    List<WebElement> textareas = getElementsByXPath("//form[@id='" + formId + "']//textarea");
+	    	List<WebElement> textInputs = getElementsByXPath("//form[@id='" + formId + "']//input[@type='text']");
+	    	List<WebElement> textareas = getElementsByXPath("//form[@id='" + formId + "']//textarea");
 		    List<WebElement> selectDropDowns = getElementsByXPath("//form[@id='" + formId + "']//div[@class='form-control results-chosen select-field-trigger']");
 		    WebElement firstName = textInputs.get(0);
 		    WebElement surName = textInputs.get(1);
@@ -59,7 +59,7 @@ public class LiferayInsuranceClickpathContactABTest extends LiferayInsuranceBase
 		    
 		    firstName.sendKeys("Joe");
 		    String hint = ""+ countControlFired + "/" + countInformalFired;
-			surName.sendKeys("Bloggs (" + hint + ")");
+		    surName.sendKeys("Bloggs (" + hint + ")");
 		    int phone = (int) (Math.random()*1e10);
 	    	int policyNum = (int) (Math.random()*1e10);
 	    	telephone.sendKeys(""+phone);
