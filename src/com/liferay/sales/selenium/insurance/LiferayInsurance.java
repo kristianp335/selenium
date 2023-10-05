@@ -39,7 +39,7 @@ public class LiferayInsurance {
 		String[][] insuranceAutoUsers = readUserCSV("/home/olaf/insuranceAutoUsers.csv");
 		String baseUrl = "https://webserver-lctidcanalyst2023v2-prd.lfr.cloud";
 		int repeats = 1000;
-		boolean headless = false;
+		boolean headless = true;
 		/**
 		 * Set up these referrers in your /etc/hosts and make sure they have a link 
 		 * containing the text "IDC Demo" that can be clicked. Or don't set them to 
@@ -59,7 +59,7 @@ public class LiferayInsurance {
 		}
 		
 		ClickpathBase[] paths = new ClickpathBase[] {
-				new LiferayInsuranceClickpathContactABTest(new ChromeDriverInitializer(arguments), baseUrl)
+				new LiferayInsuranceClickpathLifeLandingABTest(new ChromeDriverInitializer(arguments), baseUrl)
 //				,new LiferayInsuranceClickpathAboutABTest(new ChromeDriverInitializer(arguments), baseUrl)
 //				,new LiferayInsuranceClickpathAboutABTest(new ChromeDriverInitializer(arguments), baseUrl)
 //				,new LiferayInsuranceClickpathAboutABTest(new ChromeDriverInitializer(arguments), baseUrl)
