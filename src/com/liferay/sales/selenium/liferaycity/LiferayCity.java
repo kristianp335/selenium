@@ -36,7 +36,7 @@ public class LiferayCity {
 //			System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
 			
 		String[][] cityUsers = readUserCSV("/home/olaf/Dokumente/HomeDirUntil2023-02-T19/cityUsers.csv");
-		String baseUrl = "https://webserver-lctcity4-prd.lfr.cloud/";
+		String baseUrl = "https://webserver-lctcity5-prd.lfr.cloud/";
 		String[] arguments = new String[] { "--headless", "--remote-allow-origins=*" };
 //		String[] arguments = new String[] { "--remote-allow-origins=*" };
 		int repeats = 200;
