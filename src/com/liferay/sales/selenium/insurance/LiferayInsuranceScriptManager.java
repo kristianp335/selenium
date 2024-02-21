@@ -1,4 +1,4 @@
-package com.liferay.sales.selenium.liferaycity;
+package com.liferay.sales.selenium.insurance;
 
 import com.liferay.sales.selenium.api.ClickpathBase;
 import com.liferay.sales.selenium.api.ScriptManager;
@@ -9,7 +9,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class LiferayCity extends ScriptManager {
+public class LiferayInsuranceScriptManager extends ScriptManager {
+
     public static void main(String[] args) {
         try {
             doIt(args);
@@ -28,52 +29,50 @@ public class LiferayCity extends ScriptManager {
 
 //			System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
 
-        String[][] cityUsers = readUserCSV("/home/olaf/Dokumente/HomeDirUntil2023-02-T19/cityUsers.csv");
-        String baseUrl = "https://webserver-lctcity5-prd.lfr.cloud/";
-        String[] arguments = new String[]{"--headless", "--remote-allow-origins=*"};
-//		String[] arguments = new String[] { "--remote-allow-origins=*" };
-        int repeats = 200;
+        String[][] insuranceUsers = readUserCSV("/home/olaf/insuranceUsers.csv");
+        String[][] insuranceAutoUsers = readUserCSV("/home/olaf/insuranceAutoUsers.csv");
+        String baseUrl = "https://webserver-lctidcanalyst2023v2-prd.lfr.cloud";
+        int repeats = 1000;
+        boolean headless = true;
+        /**
+         * Set up these referrers in your /etc/hosts and make sure they have a link
+         * containing the text "IDC Demo" that can be clicked. Or don't set them to
+         * click links without referrers. (default, if not set: empty array)
+         */
+        String[] referrers = new String[]{
+                "http://twitter.example.com/links.html",
+                "http://facebook.example.com/links.html"
+        };
+        LiferayInsuranceBaseClickpath.REFERRERS = referrers;
+
+        String[] arguments;
+        if (headless) {
+            arguments = new String[]{"--headless", "--remote-allow-origins=*"};
+        } else {
+            arguments = new String[]{"--remote-allow-origins=*"};
+        }
 
         ClickpathBase[] paths = new ClickpathBase[]{
-//				 new LiferayCityClickpathNewsABTest(new ChromeDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathNewsABTest(new ChromeDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathNewsABTest(new ChromeDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathNewsABTest(new ChromeDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathNewsABTest(new ChromeDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathNewsABTest(new ChromeDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathNewsABTest(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathNewsABTest(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathNewsABTest(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathNewsABTest(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathNewsABTest(new FirefoxDriverInitializer(arguments), baseUrl)
-                new LiferayCityClickpath1(new ChromeDriverInitializer(arguments), baseUrl)
-                , new LiferayCityClickpath2(new ChromeDriverInitializer(arguments), baseUrl)
-                , new LiferayCityClickpath3(new ChromeDriverInitializer(arguments), baseUrl)
-                , new LiferayCityClickpath4(new ChromeDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpath3(new ChromeDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpath4(new ChromeDriverInitializer(arguments), baseUrl)
-                , new LiferayCityClickpathABTest(new ChromeDriverInitializer(arguments), baseUrl)
-                , new LiferayCityClickpathABTest(new ChromeDriverInitializer(arguments), baseUrl)
-                , new LiferayCityClickpathABTest(new ChromeDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpath1(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpath2(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpath3(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpath4(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpath1(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpath2(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpath3(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpath4(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(arguments), baseUrl)
-//				,new LiferayCityClickpathABTest(new FirefoxDriverInitializer(arguments), baseUrl)
+                new LiferayInsuranceClickpathLifeLandingABTest(new ChromeDriverInitializer(arguments), baseUrl)
+//				,new LiferayInsuranceClickpathAboutABTest(new ChromeDriverInitializer(arguments), baseUrl)
+//				,new LiferayInsuranceClickpathAboutABTest(new ChromeDriverInitializer(arguments), baseUrl)
+//				,new LiferayInsuranceClickpathAboutABTest(new ChromeDriverInitializer(arguments), baseUrl)
+//				,new LiferayInsuranceClickpathAboutABTest(new ChromeDriverInitializer(arguments), baseUrl)
+//				,new LiferayInsuranceClickpathAboutABTest(new ChromeDriverInitializer(arguments), baseUrl)
+//				,new LiferayInsuranceClickpathAboutABTest(new ChromeDriverInitializer(arguments), baseUrl)
+//				,new LiferayInsuranceClickpathAboutABTest(new ChromeDriverInitializer(arguments), baseUrl)
+//				,new LiferayInsuranceClickpathAboutABTest(new ChromeDriverInitializer(arguments), baseUrl)
+//				,new LiferayInsuranceClickpath1(new ChromeDriverInitializer(arguments), baseUrl)
+//				,new LiferayInsuranceClickpath1(new ChromeDriverInitializer(arguments), baseUrl)
+//				,new LiferayInsuranceClickpath1(new ChromeDriverInitializer(arguments), baseUrl)
+//				,new LiferayInsuranceClickpath1(new ChromeDriverInitializer(arguments), baseUrl)
+//				,new LiferayInsuranceClickpath2(new ChromeDriverInitializer(arguments), baseUrl)
+//				,new LiferayInsuranceClickpath2(new ChromeDriverInitializer(arguments), baseUrl)
+//				,new LiferayInsuranceClickpath3(new ChromeDriverInitializer(arguments), baseUrl)
+//				,new LiferayInsuranceClickpath4(new ChromeDriverInitializer(arguments), baseUrl, insuranceAutoUsers[0][0], insuranceAutoUsers[0][1])
+//				,new LiferayInsuranceClickpathContactABTest(new ChromeDriverInitializer(arguments), baseUrl)
+//				,new LiferayInsuranceClickpathContactABTest(new ChromeDriverInitializer(arguments), baseUrl)
         };
-
-//		paths = new ClickpathBase[] {
-//				new LiferayCityClickpath4(new ChromeDriverInitializer(), baseUrl)
-//		};
 
 
 // Typically, nothing more to "configure" below this line. 
@@ -84,11 +83,11 @@ public class LiferayCity extends ScriptManager {
         long start = System.currentTimeMillis();
         LinkedList<String> log = new LinkedList<String>();
 
-        for (int i = 1; i <= repeats; i++) {
+        for (int i = 0; i < repeats; i++) {
             long thisStart = System.currentTimeMillis();
             ClickpathBase path = null;
-            int pos = (int) (Math.random() * cityUsers.length);
-            String[] user = cityUsers[pos];
+            int pos = (int) (Math.random() * insuranceUsers.length);
+            String[] user = insuranceUsers[pos];
             pos = (int) (Math.random() * paths.length);
             path = paths[pos];
             System.out.println("Number of failures so far:" + log.size());
@@ -100,6 +99,7 @@ public class LiferayCity extends ScriptManager {
             try {
                 path.run(user[0], user[1]);
             } catch (Exception e) {
+                System.out.println("handling " + e.getClass().getSimpleName() + ": " + e.getMessage());
                 StringWriter sw = new StringWriter();
                 PrintWriter pw = new PrintWriter(sw);
                 e.printStackTrace(pw);
@@ -111,9 +111,11 @@ public class LiferayCity extends ScriptManager {
                                 e.getMessage() + "\n" +
                                 sw
                 );
+                String hint = "" + i + "-" + e.getClass().getSimpleName() + "-" + e.getMessage().replace(' ', '-');
                 try {
-                    path.writePageToDisk("ERROR", "" + i);
+                    path.writePageToDisk("ERROR", hint);
                 } catch (IOException e1) {
+                    System.out.println("ERROR (during error handling): " + hint);
                     e1.printStackTrace();
                 }
 
