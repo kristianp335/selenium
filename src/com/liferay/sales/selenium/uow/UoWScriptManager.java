@@ -436,7 +436,7 @@ public class UoWScriptManager extends ScriptManager {
         long thisStart = System.currentTimeMillis();
         log("Number of failures so far:" + log.size());
         log("#" + i + "/" + repeats + ": Running with path "
-                + pathIndex + " (" + path.getClass().getSimpleName() + ", using "
+                + (pathIndex + 1) + " (" + path.getClass().getSimpleName() + ", using "
                 + path.getDriver().getClass().getSimpleName()
                 + ")");
         path.setDefaultSleep(4000);
