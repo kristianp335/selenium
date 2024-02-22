@@ -6,17 +6,23 @@ import java.io.InputStreamReader;
 import java.util.function.Consumer;
 
 public class StreamGobbler implements Runnable {
-    private final Consumer<String> consumer;
+    private final Consumer<String> inputConsumer;
     private final InputStream inputStream;
+    private final Consumer<String> errorConsumer;
+    private final InputStream errorStream;
 
-    public StreamGobbler(InputStream inputStream, Consumer<String> consumer) {
+    public StreamGobbler(InputStream inputStream, Consumer<String> inputConsumer, InputStream errorStream, Consumer<String> errorConsumer) {
         this.inputStream = inputStream;
-        this.consumer = consumer;
+        this.inputConsumer = inputConsumer;
+        this.errorStream = errorStream;
+        this.errorConsumer = errorConsumer;
     }
 
     @Override
     public void run() {
         new BufferedReader(new InputStreamReader(inputStream)).lines()
-                .forEach(consumer);
+                .forEach(inputConsumer);
+        new BufferedReader(new InputStreamReader(errorStream)).lines()
+                .forEach(errorConsumer);
     }
 }
