@@ -1,3 +1,5 @@
 /target/
 /.classpath
 /.idea/
+users.csv
+*.html
