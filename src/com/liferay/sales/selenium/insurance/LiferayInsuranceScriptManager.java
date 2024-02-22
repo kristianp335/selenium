@@ -4,10 +4,14 @@ import com.liferay.sales.selenium.api.ClickpathBase;
 import com.liferay.sales.selenium.api.ScriptManager;
 import com.liferay.sales.selenium.chrome.ChromeDriverInitializer;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.Locale;
 
 public class LiferayInsuranceScriptManager extends ScriptManager {
 
@@ -29,8 +33,8 @@ public class LiferayInsuranceScriptManager extends ScriptManager {
 
 //			System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
 
-        String[][] insuranceUsers = readUserCSV("/home/olaf/insuranceUsers.csv");
-        String[][] insuranceAutoUsers = readUserCSV("/home/olaf/insuranceAutoUsers.csv");
+        String[][] insuranceUsers = readUserCSV("/home/olaf/insuranceUsers.csv" );
+        String[][] insuranceAutoUsers = readUserCSV("/home/olaf/insuranceAutoUsers.csv" );
         String baseUrl = "https://webserver-lctidcanalyst2023v2-prd.lfr.cloud";
         int repeats = 1000;
         boolean headless = true;
@@ -78,7 +82,7 @@ public class LiferayInsuranceScriptManager extends ScriptManager {
 // Typically, nothing more to "configure" below this line. 
 // Anything that you need to customize your scripts is above.
 
-        System.out.println("Running " + paths.length + " clickpaths for " + repeats + " times");
+        System.out.println("Running " + paths.length + " clickpaths for " + repeats + " times" );
 
         long start = System.currentTimeMillis();
         LinkedList<String> log = new LinkedList<String>();
@@ -94,7 +98,7 @@ public class LiferayInsuranceScriptManager extends ScriptManager {
             System.out.println("#" + i + "/" + repeats + ": Running user " + user[0] + " with path "
                     + pos + " (" + path.getClass().getSimpleName() + ", using "
                     + path.getDriver().getClass().getSimpleName()
-                    + ")");
+                    + ")" );
             path.setDefaultSleep(4000);
             try {
                 path.run(user[0], user[1]);
@@ -136,12 +140,12 @@ public class LiferayInsuranceScriptManager extends ScriptManager {
             System.out.println();
         }
 
-        System.out.println("==================================================");
-        System.out.println("End of run");
+        System.out.println("==================================================" );
+        System.out.println("End of run" );
         System.out.println("Failed attempts: " + log.size());
         for (String string : log) {
             System.out.println(string);
-            System.out.println("---------------------------------------------");
+            System.out.println("---------------------------------------------" );
         }
     }
 }

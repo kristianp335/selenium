@@ -3,14 +3,14 @@ package com.liferay.sales.selenium.util;
 public class UTMGenerator {
     private static final String[] DEFAULT_CAMPAIGNS = new String[]{"pink_monday", "green_tuesday", "red_wednesday", "blue_thursday", "black_friday", "yellow_saturday", "white_sunday"};
     private static final String[] DEFAULT_CONTENT = new String[]{"random", "made_up", "unknown", "artificial"};
-    private static final String[] DEFAULT_MEDIUMS = new String[]{"organicsocial", "email", "affiliate", "email", "referral", "cpc", "display"};
+    private static final String[] DEFAULT_MEDIUMS = new String[]{"organicsocial", "affiliate", "email", "referral", "cpc", "display"};
     private static final String[] DEFAULT_SOURCES = new String[]{"example.com", "liferay.com", "test.example.com", "example.de"};
     private static final String[] DEFAULT_TERMS = new String[]{"term1", "term2", "term3", "term4", "term5"};
-    private final String[] campaigns;
-    private final String[] content;
-    private final String[] mediums;
-    private final String[] sources;
-    private final String[] terms;
+    protected final String[] campaigns;
+    protected final String[] content;
+    protected final String[] mediums;
+    protected final String[] sources;
+    protected final String[] terms;
 
     public UTMGenerator() {
         campaigns = DEFAULT_CAMPAIGNS;
@@ -29,8 +29,8 @@ public class UTMGenerator {
     }
 
     public String decorateUrl(String url) {
-        if (Math.random() > .3 && !url.contains("utm_source")) {
-            if (url.contains("?")) {
+        if (Math.random() > .3 && !url.contains("utm_source" )) {
+            if (url.contains("?" )) {
                 url += "&";
             } else {
                 url += "?";
@@ -44,7 +44,7 @@ public class UTMGenerator {
         return url;
     }
 
-    private String pickRandom(String[] strings) {
+    protected String pickRandom(String[] strings) {
         int pos = (int) (Math.random() * strings.length);
         return strings[pos];
     }

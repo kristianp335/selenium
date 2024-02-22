@@ -24,9 +24,9 @@ public class LiferayCityClickpath1 extends LiferayCityBaseClickpath {
         doGoTo(utmGenerator.decorateUrl(baseUrl));
         sleep(2000);
 
-        mark("input[data-qa-id='searchInput']");
+        mark("input[data-qa-id='searchInput']" );
 
-        WebElement searchField = getFirstVisibleElementByXPath("//input[@data-qa-id='searchInput']");
+        WebElement searchField = getFirstVisibleElementByXPath("//input[@data-qa-id='searchInput']" );
         searchField.click();
         searchField.sendKeys(pickRandom(SEARCH_TERMS));
         searchField.sendKeys(Keys.ENTER);
@@ -34,7 +34,7 @@ public class LiferayCityClickpath1 extends LiferayCityBaseClickpath {
 
         doLogin(username, password);
 
-        doClickText(oneOf("AKTUELLES", "NEWS", "NOTICIAS"));
+        doClickText(oneOf("AKTUELLES", "NEWS", "NOTICIAS" ));
         doClickRandomText(NEWS_LINKS_TEXTS);
 
         sleep(4000);

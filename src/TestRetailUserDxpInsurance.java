@@ -17,7 +17,7 @@ public class TestRetailUserDxpInsurance {
     @Before
     public void setUp() {
 
-        System.setProperty("webdriver.chrome.driver", "C:/selenium/107/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "C:/selenium/107/chromedriver.exe" );
     }
 
     @After
@@ -29,23 +29,23 @@ public class TestRetailUserDxpInsurance {
     public void testretailuserpath() {
 
         List<String> listUsers = new ArrayList<>();
-        listUsers.add("bella@liferay.com");
-        listUsers.add("toby@liferay.com");
-        listUsers.add("stella@liferay.com");
+        listUsers.add("bella@liferay.com" );
+        listUsers.add("toby@liferay.com" );
+        listUsers.add("stella@liferay.com" );
 
         List<String> vmo2Users = new ArrayList<>();
-        vmo2Users.add("jsizemore@lit.co.uk");
+        vmo2Users.add("jsizemore@lit.co.uk" );
 
         List<String> cityUsers = new ArrayList<>();
-        cityUsers.add("wwilliams");
-        cityUsers.add("ssmith");
+        cityUsers.add("wwilliams" );
+        cityUsers.add("ssmith" );
 
 
         List<String> annonymousUsers = new ArrayList();
-        annonymousUsers.add("ben.stimpy-flute@liferay.com");
-        annonymousUsers.add("jill.barney-applefuzz@liferay.com");
-        annonymousUsers.add("jenny.snuff-box@liferay.com");
-        annonymousUsers.add("trixie.blue-shuttle@liferay.com");
+        annonymousUsers.add("ben.stimpy-flute@liferay.com" );
+        annonymousUsers.add("jill.barney-applefuzz@liferay.com" );
+        annonymousUsers.add("jenny.snuff-box@liferay.com" );
+        annonymousUsers.add("trixie.blue-shuttle@liferay.com" );
         boolean annonymousJmPath = false;
         boolean jmPath = false;
         boolean vodafonePath = false;
@@ -84,19 +84,19 @@ public class TestRetailUserDxpInsurance {
                 driver = new ChromeDriver();
                 driver.manage().deleteAllCookies();
                 js = (JavascriptExecutor) driver;
-                driver.get("https://webserver-lctvmo2-prd.lfr.cloud/");
+                driver.get("https://webserver-lctvmo2-prd.lfr.cloud/" );
 
                 driver.manage().window().setSize(new Dimension(1536, 835));
-                driver.findElement(By.cssSelector("#signin-button")).click();
-                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.chord(Keys.CONTROL, "a"));
-                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.DELETE);
-                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(vmo2Users.get(f));
-                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_password")).sendKeys("test");
-                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.ENTER);
+                driver.findElement(By.cssSelector("#signin-button" )).click();
+                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login" )).sendKeys(Keys.chord(Keys.CONTROL, "a" ));
+                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login" )).sendKeys(Keys.DELETE);
+                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login" )).sendKeys(vmo2Users.get(f));
+                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_password" )).sendKeys("test" );
+                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login" )).sendKeys(Keys.ENTER);
 
-                driver.get("https://webserver-lctvmo2-prd.lfr.cloud/business-services");
+                driver.get("https://webserver-lctvmo2-prd.lfr.cloud/business-services" );
 
-                driver.get("https://webserver-lctvmo2-prd.lfr.cloud/small-business-products");
+                driver.get("https://webserver-lctvmo2-prd.lfr.cloud/small-business-products" );
 
                 try {
                     Thread.sleep(6000);
@@ -104,10 +104,10 @@ public class TestRetailUserDxpInsurance {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 } catch (ElementClickInterceptedException ec) {
-                    js.executeScript("window.scrollBy(0,400)");
+                    js.executeScript("window.scrollBy(0,400)" );
                 }
 
-                driver.get("https://webserver-lctvmo2-prd.lfr.cloud/product-compare");
+                driver.get("https://webserver-lctvmo2-prd.lfr.cloud/product-compare" );
 
                 try {
                     Thread.sleep(6000);
@@ -116,7 +116,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.findElement(By.xpath("//a[contains(@href, '/help-center?ask_ray')]")).click();
+                driver.findElement(By.xpath("//a[contains(@href, '/help-center?ask_ray')]" )).click();
 
                 try {
                     Thread.sleep(20000);
@@ -140,7 +140,7 @@ public class TestRetailUserDxpInsurance {
                 driver = new ChromeDriver();
                 driver.manage().deleteAllCookies();
                 js = (JavascriptExecutor) driver;
-                driver.get("https://webserver-lctcity-prd.lfr.cloud");
+                driver.get("https://webserver-lctcity-prd.lfr.cloud" );
 
                 try {
                     Thread.sleep(2000);
@@ -149,7 +149,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.get("https://webserver-lctcity-prd.lfr.cloud/welcome?p_p_id=com_liferay_login_web_portlet_LoginPortlet&p_p_lifecycle=0&p_p_state=maximized&p_p_mode=view&_com_liferay_login_web_portlet_LoginPortlet_mvcRenderCommandName=%2Flogin%2Flogin&saveLastPath=false");
+                driver.get("https://webserver-lctcity-prd.lfr.cloud/welcome?p_p_id=com_liferay_login_web_portlet_LoginPortlet&p_p_lifecycle=0&p_p_state=maximized&p_p_mode=view&_com_liferay_login_web_portlet_LoginPortlet_mvcRenderCommandName=%2Flogin%2Flogin&saveLastPath=false" );
 
                 try {
                     Thread.sleep(2000);
@@ -158,11 +158,11 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.chord(Keys.CONTROL, "a"));
-                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.DELETE);
-                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(cityUsers.get(f));
-                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_password")).sendKeys("liferay$");
-                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.ENTER);
+                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login" )).sendKeys(Keys.chord(Keys.CONTROL, "a" ));
+                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login" )).sendKeys(Keys.DELETE);
+                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login" )).sendKeys(cityUsers.get(f));
+                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_password" )).sendKeys("liferay$" );
+                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login" )).sendKeys(Keys.ENTER);
 
                 try {
                     Thread.sleep(2000);
@@ -172,7 +172,7 @@ public class TestRetailUserDxpInsurance {
                 }
 
 
-                driver.findElement(By.linkText("AKTUELLES")).click();
+                driver.findElement(By.linkText("AKTUELLES" )).click();
 
                 try {
                     Thread.sleep(2000);
@@ -181,7 +181,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.findElement(By.linkText("Entschlossen, Technologie f�r B�rger*innen zu verbessern")).click();
+                driver.findElement(By.linkText("Entschlossen, Technologie f�r B�rger*innen zu verbessern" )).click();
 
                 try {
                     Thread.sleep(6000);
@@ -206,14 +206,14 @@ public class TestRetailUserDxpInsurance {
                 driver = new ChromeDriver();
                 driver.manage().deleteAllCookies();
                 js = (JavascriptExecutor) driver;
-                driver.get("https://tiercontent.liferayuk.com/web/vodafone");
+                driver.get("https://tiercontent.liferayuk.com/web/vodafone" );
                 driver.manage().window().setSize(new Dimension(1536, 835));
-                driver.findElement(By.cssSelector("#sign-in")).click();
-                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.chord(Keys.CONTROL, "a"));
-                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.DELETE);
-                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(listUsers.get(f));
-                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_password")).sendKeys("test");
-                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.ENTER);
+                driver.findElement(By.cssSelector("#sign-in" )).click();
+                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login" )).sendKeys(Keys.chord(Keys.CONTROL, "a" ));
+                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login" )).sendKeys(Keys.DELETE);
+                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login" )).sendKeys(listUsers.get(f));
+                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_password" )).sendKeys("test" );
+                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login" )).sendKeys(Keys.ENTER);
 
                 try {
                     Thread.sleep(6000);
@@ -222,7 +222,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.navigate().to("https://tiercontent.liferayuk.com/web/vodafone/iot");
+                driver.navigate().to("https://tiercontent.liferayuk.com/web/vodafone/iot" );
 
 
                 try {
@@ -233,10 +233,10 @@ public class TestRetailUserDxpInsurance {
                 }
 
                 try {
-                    driver.findElement(By.id("fragment-zvvh-04-link")).click();
+                    driver.findElement(By.id("fragment-zvvh-04-link" )).click();
                 } catch (ElementClickInterceptedException ec) {
-                    js.executeScript("window.scrollBy(0,1200)");
-                    driver.findElement(By.id("fragment-zvvh-04-link")).click();
+                    js.executeScript("window.scrollBy(0,1200)" );
+                    driver.findElement(By.id("fragment-zvvh-04-link" )).click();
 
                 }
 
@@ -248,7 +248,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.navigate().to("https://tiercontent.liferayuk.com/web/vodafone/iot-knowledge-base/-/knowledge_base/iot/long-term-evolution-for-machines-lte-m-");
+                driver.navigate().to("https://tiercontent.liferayuk.com/web/vodafone/iot-knowledge-base/-/knowledge_base/iot/long-term-evolution-for-machines-lte-m-" );
 
                 try {
                     Thread.sleep(3000);
@@ -257,26 +257,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.navigate().to("https://tiercontent.liferayuk.com/web/vodafone/iot-knowledge-base/-/knowledge_base/iot/narrowband-internet-of-things-nb-iot-");
-
-
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-
-                driver.navigate().to("https://tiercontent.liferayuk.com/web/vodafone/iot-message-board/-/message_boards/category/338422");
-
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-
-                driver.navigate().to("https://tiercontent.liferayuk.com/web/vodafone/iot-message-board/-/message_boards/category/338428");
+                driver.navigate().to("https://tiercontent.liferayuk.com/web/vodafone/iot-knowledge-base/-/knowledge_base/iot/narrowband-internet-of-things-nb-iot-" );
 
 
                 try {
@@ -286,8 +267,27 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
+                driver.navigate().to("https://tiercontent.liferayuk.com/web/vodafone/iot-message-board/-/message_boards/category/338422" );
 
-                driver.navigate().to("https://tiercontent.liferayuk.com/web/vodafone/iot-message-board/-/message_boards/message/343696");
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+                driver.navigate().to("https://tiercontent.liferayuk.com/web/vodafone/iot-message-board/-/message_boards/category/338428" );
+
+
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+
+                driver.navigate().to("https://tiercontent.liferayuk.com/web/vodafone/iot-message-board/-/message_boards/message/343696" );
 
                 try {
                     Thread.sleep(3000);
@@ -305,9 +305,9 @@ public class TestRetailUserDxpInsurance {
                     searchTerm = "5g";
                 }
 
-                driver.findElement(By.name("q")).click();
-                driver.findElement(By.name("q")).sendKeys(searchTerm);
-                driver.findElement(By.name("q")).sendKeys(Keys.ENTER);
+                driver.findElement(By.name("q" )).click();
+                driver.findElement(By.name("q" )).sendKeys(searchTerm);
+                driver.findElement(By.name("q" )).sendKeys(Keys.ENTER);
 
                 try {
                     Thread.sleep(3000);
@@ -337,7 +337,7 @@ public class TestRetailUserDxpInsurance {
 
                 driver = new ChromeDriver();
                 js = (JavascriptExecutor) driver;
-                driver.get("https://tiercontent.liferayuk.com");
+                driver.get("https://tiercontent.liferayuk.com" );
                 driver.manage().window().setSize(new Dimension(1536, 835));
 
                 try {
@@ -347,7 +347,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                js.executeScript("window.scrollBy(0,2600)");
+                js.executeScript("window.scrollBy(0,2600)" );
 
                 try {
                     Thread.sleep(3000);
@@ -356,7 +356,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.findElement(By.id("fragment-anrk-link")).click();
+                driver.findElement(By.id("fragment-anrk-link" )).click();
 
                 try {
                     Thread.sleep(3000);
@@ -365,7 +365,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.navigate().to("https://tiercontent.liferayuk.com/web/jm/journals");
+                driver.navigate().to("https://tiercontent.liferayuk.com/web/jm/journals" );
 
                 try {
                     Thread.sleep(3000);
@@ -374,7 +374,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.findElement(By.linkText("Liquid Extraction Technologies in Small Channels: A Review")).click();
+                driver.findElement(By.linkText("Liquid Extraction Technologies in Small Channels: A Review" )).click();
 
                 try {
                     Thread.sleep(3000);
@@ -383,7 +383,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+                js.executeScript("window.scrollTo(0, document.body.scrollHeight)" );
 
                 try {
                     Thread.sleep(3000);
@@ -392,7 +392,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.findElement(By.xpath("//section/div/a")).click();
+                driver.findElement(By.xpath("//section/div/a" )).click();
 
 
                 try {
@@ -402,7 +402,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.navigate().to("https://tiercontent.liferayuk.com/web/jm/journals");
+                driver.navigate().to("https://tiercontent.liferayuk.com/web/jm/journals" );
 
                 try {
                     Thread.sleep(3000);
@@ -411,7 +411,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                js.executeScript("window.scrollBy(0,600)");
+                js.executeScript("window.scrollBy(0,600)" );
 
                 try {
                     Thread.sleep(3000);
@@ -420,7 +420,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.findElement(By.linkText("Exploring Microemulsion - Prepared Lanthanum Catalysts for Natural Gas Valorisation")).click();
+                driver.findElement(By.linkText("Exploring Microemulsion - Prepared Lanthanum Catalysts for Natural Gas Valorisation" )).click();
 
                 try {
                     Thread.sleep(3000);
@@ -429,7 +429,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+                js.executeScript("window.scrollTo(0, document.body.scrollHeight)" );
 
                 try {
                     Thread.sleep(3000);
@@ -438,7 +438,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.findElement(By.xpath("//section/div/a")).click();
+                driver.findElement(By.xpath("//section/div/a" )).click();
 
                 try {
                     Thread.sleep(3000);
@@ -447,7 +447,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.navigate().to("https://tiercontent.liferayuk.com/web/jm/journals");
+                driver.navigate().to("https://tiercontent.liferayuk.com/web/jm/journals" );
 
                 try {
                     Thread.sleep(3000);
@@ -456,7 +456,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                js.executeScript("window.scrollBy(0,1200)");
+                js.executeScript("window.scrollBy(0,1200)" );
 
                 try {
                     Thread.sleep(3000);
@@ -466,7 +466,7 @@ public class TestRetailUserDxpInsurance {
                 }
 
 
-                driver.navigate().to("https://tiercontent.liferayuk.com/web/jm/documents");
+                driver.navigate().to("https://tiercontent.liferayuk.com/web/jm/documents" );
 
                 try {
                     Thread.sleep(3000);
@@ -483,9 +483,9 @@ public class TestRetailUserDxpInsurance {
                     searchTerm = "extraction";
                 }
 
-                driver.findElement(By.name("q")).click();
-                driver.findElement(By.name("q")).sendKeys(searchTerm);
-                driver.findElement(By.name("q")).sendKeys(Keys.ENTER);
+                driver.findElement(By.name("q" )).click();
+                driver.findElement(By.name("q" )).sendKeys(searchTerm);
+                driver.findElement(By.name("q" )).sendKeys(Keys.ENTER);
 
                 try {
                     Thread.sleep(3000);
@@ -494,7 +494,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.navigate().to("https://tiercontent.liferayuk.com/web/jm/elno");
+                driver.navigate().to("https://tiercontent.liferayuk.com/web/jm/elno" );
 
                 try {
                     Thread.sleep(3000);
@@ -503,7 +503,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                js.executeScript("window.scrollBy(0,1200)");
+                js.executeScript("window.scrollBy(0,1200)" );
 
                 try {
                     Thread.sleep(2000);
@@ -512,22 +512,22 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.findElement(By.className("ddm-field-text")).click();
-                driver.findElement(By.className("ddm-field-text")).sendKeys(annonymousUsers.get(f));
+                driver.findElement(By.className("ddm-field-text" )).click();
+                driver.findElement(By.className("ddm-field-text" )).sendKeys(annonymousUsers.get(f));
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                driver.findElement(By.className("ddm-field-text")).sendKeys(Keys.TAB);
+                driver.findElement(By.className("ddm-field-text" )).sendKeys(Keys.TAB);
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                driver.findElement(By.className("lfr-ddm-form-submit")).click();
+                driver.findElement(By.className("lfr-ddm-form-submit" )).click();
 
                 try {
                     Thread.sleep(3000);
@@ -536,7 +536,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                js.executeScript("window.scrollBy(0,1200)");
+                js.executeScript("window.scrollBy(0,1200)" );
 
                 try {
                     Thread.sleep(3000);
@@ -545,24 +545,24 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.findElement(By.className("ddm-field-text")).click();
-                driver.findElement(By.className("ddm-field-text")).sendKeys(Keys.chord(Keys.CONTROL, "a"));
-                driver.findElement(By.className("ddm-field-text")).sendKeys(Keys.DELETE);
-                driver.findElement(By.className("ddm-field-text")).sendKeys(annonymousUsers.get(f));
+                driver.findElement(By.className("ddm-field-text" )).click();
+                driver.findElement(By.className("ddm-field-text" )).sendKeys(Keys.chord(Keys.CONTROL, "a" ));
+                driver.findElement(By.className("ddm-field-text" )).sendKeys(Keys.DELETE);
+                driver.findElement(By.className("ddm-field-text" )).sendKeys(annonymousUsers.get(f));
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                driver.findElement(By.className("ddm-field-text")).sendKeys(Keys.TAB);
+                driver.findElement(By.className("ddm-field-text" )).sendKeys(Keys.TAB);
                 try {
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                driver.findElement(By.className("lfr-ddm-form-submit")).click();
+                driver.findElement(By.className("lfr-ddm-form-submit" )).click();
 
                 try {
                     Thread.sleep(4000);
@@ -571,7 +571,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.findElement(By.xpath("//div[3]/button")).click();
+                driver.findElement(By.xpath("//div[3]/button" )).click();
 
                 try {
                     Thread.sleep(4000);
@@ -580,7 +580,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.navigate().to("https://tiercontent.liferayuk.com/web/jm");
+                driver.navigate().to("https://tiercontent.liferayuk.com/web/jm" );
 
                 try {
                     Thread.sleep(3000);
@@ -589,7 +589,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.navigate().to("https://tiercontent.liferayuk.com/web/jm/journals");
+                driver.navigate().to("https://tiercontent.liferayuk.com/web/jm/journals" );
 
                 try {
                     Thread.sleep(3000);
@@ -598,7 +598,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.findElement(By.xpath("//a[contains(@href, '/c/portal/logout')]")).click();
+                driver.findElement(By.xpath("//a[contains(@href, '/c/portal/logout')]" )).click();
 
                 try {
                     Thread.sleep(2000);
@@ -632,7 +632,7 @@ public class TestRetailUserDxpInsurance {
                 driver.manage().deleteAllCookies();
                 js = (JavascriptExecutor) driver;
 
-                driver.get("https://sevendotforever.liferayuk.net");
+                driver.get("https://sevendotforever.liferayuk.net" );
                 driver.manage().window().setSize(new Dimension(1536, 835));
                 try {
                     Thread.sleep(3000);
@@ -640,19 +640,19 @@ public class TestRetailUserDxpInsurance {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                driver.findElement(By.cssSelector("#sign-in")).click();
-                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.chord(Keys.CONTROL, "a"));
-                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.DELETE);
-                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(listUsers.get(f));
-                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_password")).sendKeys("test");
-                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.ENTER);
+                driver.findElement(By.cssSelector("#sign-in" )).click();
+                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login" )).sendKeys(Keys.chord(Keys.CONTROL, "a" ));
+                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login" )).sendKeys(Keys.DELETE);
+                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login" )).sendKeys(listUsers.get(f));
+                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_password" )).sendKeys("test" );
+                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login" )).sendKeys(Keys.ENTER);
                 try {
                     Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-                driver.findElement(By.linkText("DXP Insurance Retail")).click();
+                driver.findElement(By.linkText("DXP Insurance Retail" )).click();
                 try {
                     Thread.sleep(6000);
                 } catch (InterruptedException e) {
@@ -661,7 +661,7 @@ public class TestRetailUserDxpInsurance {
                 }
 
                 JavascriptExecutor js = (JavascriptExecutor) driver;
-                js.executeScript("window.scrollBy(0,1000)");
+                js.executeScript("window.scrollBy(0,1000)" );
 
 
                 try {
@@ -671,7 +671,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.findElement(By.xpath("//a[contains(@href, 'https://sevendotforever.liferayuk.net/group/dxp-insurance-retail/your-account')]")).click();
+                driver.findElement(By.xpath("//a[contains(@href, 'https://sevendotforever.liferayuk.net/group/dxp-insurance-retail/your-account')]" )).click();
 
                 try {
                     Thread.sleep(7000);
@@ -680,7 +680,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.findElement(By.linkText("Your documents")).click();
+                driver.findElement(By.linkText("Your documents" )).click();
 
                 try {
                     Thread.sleep(5000);
@@ -689,7 +689,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.findElement(By.xpath("//div[3]/button")).click();
+                driver.findElement(By.xpath("//div[3]/button" )).click();
 
 
                 try {
@@ -699,7 +699,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.findElement(By.xpath("//div[3]/a")).click();
+                driver.findElement(By.xpath("//div[3]/a" )).click();
 
                 try {
                     Thread.sleep(3000);
@@ -708,7 +708,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.findElement(By.xpath("//a[contains(text(),'Close')]")).click();
+                driver.findElement(By.xpath("//a[contains(text(),'Close')]" )).click();
 
 
                 try {
@@ -718,7 +718,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.navigate().to("https://sevendotforever.liferayuk.net/web/dxp-insurance-retail");
+                driver.navigate().to("https://sevendotforever.liferayuk.net/web/dxp-insurance-retail" );
 
                 try {
                     Thread.sleep(5000);
@@ -736,9 +736,9 @@ public class TestRetailUserDxpInsurance {
                     searchTerm = "Jaguar";
                 }
 
-                driver.findElement(By.name("q")).click();
-                driver.findElement(By.name("q")).sendKeys(searchTerm);
-                driver.findElement(By.name("q")).sendKeys(Keys.ENTER);
+                driver.findElement(By.name("q" )).click();
+                driver.findElement(By.name("q" )).sendKeys(searchTerm);
+                driver.findElement(By.name("q" )).sendKeys(Keys.ENTER);
 
                 try {
                     Thread.sleep(3000);
@@ -757,7 +757,7 @@ public class TestRetailUserDxpInsurance {
                 }
 
 
-                js.executeScript("window.scrollBy(0,800)");
+                js.executeScript("window.scrollBy(0,800)" );
 
                 try {
                     Thread.sleep(1500);
@@ -767,7 +767,7 @@ public class TestRetailUserDxpInsurance {
                 }
 
 
-                driver.findElement(By.linkText("Read more about the F-TYPE")).click();
+                driver.findElement(By.linkText("Read more about the F-TYPE" )).click();
 
                 try {
                     Thread.sleep(3000);
@@ -785,7 +785,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.findElement(By.linkText("Read more about the XF")).click();
+                driver.findElement(By.linkText("Read more about the XF" )).click();
 
                 try {
                     Thread.sleep(3000);
@@ -803,7 +803,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.findElement(By.linkText("Read more on the I-PACE")).click();
+                driver.findElement(By.linkText("Read more on the I-PACE" )).click();
 
                 try {
                     Thread.sleep(3000);
@@ -812,7 +812,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.navigate().to("https://sevendotforever.liferayuk.net/web/dxp-insurance-retail/blogs");
+                driver.navigate().to("https://sevendotforever.liferayuk.net/web/dxp-insurance-retail/blogs" );
 
                 try {
                     Thread.sleep(1500);
@@ -822,7 +822,7 @@ public class TestRetailUserDxpInsurance {
                 }
 
 
-                js.executeScript("window.scrollBy(0,800)");
+                js.executeScript("window.scrollBy(0,800)" );
 
 
                 try {
@@ -832,8 +832,8 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                if (driver.findElement(By.id("fragment-auqo-04-link")) != null) {
-                    driver.findElement(By.id("fragment-auqo-04-link")).click();
+                if (driver.findElement(By.id("fragment-auqo-04-link" )) != null) {
+                    driver.findElement(By.id("fragment-auqo-04-link" )).click();
                 }
 
 
@@ -844,7 +844,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.navigate().to("https://sevendotforever.liferayuk.net/c/portal/logout");
+                driver.navigate().to("https://sevendotforever.liferayuk.net/c/portal/logout" );
 
                 try {
                     Thread.sleep(3000);
@@ -867,14 +867,14 @@ public class TestRetailUserDxpInsurance {
                 driver = new ChromeDriver();
                 driver.manage().deleteAllCookies();
                 js = (JavascriptExecutor) driver;
-                driver.get("https://tiercontent.liferayuk.com");
+                driver.get("https://tiercontent.liferayuk.com" );
                 driver.manage().window().setSize(new Dimension(1536, 835));
-                driver.findElement(By.cssSelector("#sign-in")).click();
-                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.chord(Keys.CONTROL, "a"));
-                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.DELETE);
-                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(listUsers.get(f));
-                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_password")).sendKeys("test");
-                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login")).sendKeys(Keys.ENTER);
+                driver.findElement(By.cssSelector("#sign-in" )).click();
+                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login" )).sendKeys(Keys.chord(Keys.CONTROL, "a" ));
+                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login" )).sendKeys(Keys.DELETE);
+                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login" )).sendKeys(listUsers.get(f));
+                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_password" )).sendKeys("test" );
+                driver.findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_login" )).sendKeys(Keys.ENTER);
 
                 try {
                     Thread.sleep(6000);
@@ -883,7 +883,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                js.executeScript("window.scrollBy(0,2600)");
+                js.executeScript("window.scrollBy(0,2600)" );
 
                 try {
                     Thread.sleep(3000);
@@ -892,7 +892,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.findElement(By.id("fragment-anrk-link")).click();
+                driver.findElement(By.id("fragment-anrk-link" )).click();
 
                 try {
                     Thread.sleep(3000);
@@ -901,7 +901,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.navigate().to("https://tiercontent.liferayuk.com/web/jm/journals");
+                driver.navigate().to("https://tiercontent.liferayuk.com/web/jm/journals" );
 
                 try {
                     Thread.sleep(3000);
@@ -910,7 +910,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.findElement(By.linkText("Liquid Extraction Technologies in Small Channels: A Review")).click();
+                driver.findElement(By.linkText("Liquid Extraction Technologies in Small Channels: A Review" )).click();
 
                 try {
                     Thread.sleep(3000);
@@ -919,7 +919,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+                js.executeScript("window.scrollTo(0, document.body.scrollHeight)" );
 
                 try {
                     Thread.sleep(3000);
@@ -928,7 +928,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.findElement(By.xpath("//section/div/a")).click();
+                driver.findElement(By.xpath("//section/div/a" )).click();
 
 
                 try {
@@ -938,7 +938,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.navigate().to("https://tiercontent.liferayuk.com/web/jm/journals");
+                driver.navigate().to("https://tiercontent.liferayuk.com/web/jm/journals" );
 
                 try {
                     Thread.sleep(3000);
@@ -947,7 +947,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                js.executeScript("window.scrollBy(0,600)");
+                js.executeScript("window.scrollBy(0,600)" );
 
                 try {
                     Thread.sleep(3000);
@@ -956,7 +956,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.findElement(By.linkText("Exploring Microemulsion - Prepared Lanthanum Catalysts for Natural Gas Valorisation")).click();
+                driver.findElement(By.linkText("Exploring Microemulsion - Prepared Lanthanum Catalysts for Natural Gas Valorisation" )).click();
 
                 try {
                     Thread.sleep(3000);
@@ -965,7 +965,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+                js.executeScript("window.scrollTo(0, document.body.scrollHeight)" );
 
                 try {
                     Thread.sleep(3000);
@@ -974,7 +974,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.findElement(By.xpath("//section/div/a")).click();
+                driver.findElement(By.xpath("//section/div/a" )).click();
 
                 try {
                     Thread.sleep(3000);
@@ -983,7 +983,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                driver.navigate().to("https://tiercontent.liferayuk.com/web/jm/journals");
+                driver.navigate().to("https://tiercontent.liferayuk.com/web/jm/journals" );
 
                 try {
                     Thread.sleep(3000);
@@ -992,7 +992,7 @@ public class TestRetailUserDxpInsurance {
                     e.printStackTrace();
                 }
 
-                js.executeScript("window.scrollBy(0,1200)");
+                js.executeScript("window.scrollBy(0,1200)" );
 
                 try {
                     Thread.sleep(3000);
@@ -1002,7 +1002,7 @@ public class TestRetailUserDxpInsurance {
                 }
 
 
-                driver.navigate().to("https://tiercontent.liferayuk.com/web/jm/documents");
+                driver.navigate().to("https://tiercontent.liferayuk.com/web/jm/documents" );
 
                 try {
                     Thread.sleep(3000);
@@ -1019,9 +1019,9 @@ public class TestRetailUserDxpInsurance {
                     searchTerm = "extraction";
                 }
 
-                driver.findElement(By.name("q")).click();
-                driver.findElement(By.name("q")).sendKeys(searchTerm);
-                driver.findElement(By.name("q")).sendKeys(Keys.ENTER);
+                driver.findElement(By.name("q" )).click();
+                driver.findElement(By.name("q" )).sendKeys(searchTerm);
+                driver.findElement(By.name("q" )).sendKeys(Keys.ENTER);
 
                 try {
                     Thread.sleep(3000);

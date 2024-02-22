@@ -4,8 +4,18 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.stream.IntStream;
 
 public abstract class ScriptManager {
+    public static boolean doesFileExist(String filePathString) {
+        File f = new File(filePathString);
+        return (f.exists() && !f.isDirectory());
+    }
+
+    public static <T> int indexOf(T[] arr, T val) {
+        return IntStream.range(0, arr.length).filter(i -> arr[i] == val).findFirst().orElse(-1);
+    }
+
     /**
      * Syntactic sugar for System.out.println
      *
@@ -31,7 +41,7 @@ public abstract class ScriptManager {
 
                 try (Scanner rowScanner = new Scanner(line)) {
                     ArrayList<String> row = new ArrayList<String>(2);
-                    rowScanner.useDelimiter(",");
+                    rowScanner.useDelimiter("," );
                     while (rowScanner.hasNext()) {
                         row.add(rowScanner.next().trim());
                     }
