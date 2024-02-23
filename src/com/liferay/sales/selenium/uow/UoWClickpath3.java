@@ -26,7 +26,7 @@ public class UoWClickpath3 extends UoWBaseClickpath {
             log("Running clickpath with " + username);
             doLogin(username, password);
         } else {
-            log("Running clickpath with anonymously" );
+            log("Running clickpath with an anonymous user" );
         }
 
         final String pageUrl = "/study";
