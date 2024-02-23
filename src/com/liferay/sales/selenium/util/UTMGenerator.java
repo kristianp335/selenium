@@ -29,8 +29,8 @@ public class UTMGenerator {
     }
 
     public String decorateUrl(String url) {
-        if (Math.random() > .3 && !url.contains("utm_source" )) {
-            if (url.contains("?" )) {
+        if (Math.random() > .3 && !url.contains("utm_source")) {
+            if (url.contains("?")) {
                 url += "&";
             } else {
                 url += "?";

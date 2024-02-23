@@ -22,20 +22,20 @@ public class LiferayInsuranceClickpathContactABTest extends LiferayInsuranceBase
         doGoTo(baseUrl);
         navigateTo(MENU1_CONTACT_US, null);
 
-        WebElement control = getElementById("ab-control" );
-        WebElement informal = getElementById("ab-informal" );
+        WebElement control = getElementById("ab-control");
+        WebElement informal = getElementById("ab-informal");
         boolean fire = false;
         String formId = "unknown";
 
         if (control != null) {
-            System.out.print("Seeing A/B Test CONTROL variant, " );
+            System.out.print("Seeing A/B Test CONTROL variant, ");
             formId = "_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_qwdn_fm";
             fire = Math.random() < 0.7;
             countControl++;
             countControlFired = countControlFired + (fire ? 1 : 0);
         }
         if (informal != null) {
-            System.out.print("Seeing A/B Test INFORMAL variant, " );
+            System.out.print("Seeing A/B Test INFORMAL variant, ");
             formId = "_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_kqjn_fm";
             fire = Math.random() < 0.3;
             countInformal++;
@@ -43,11 +43,11 @@ public class LiferayInsuranceClickpathContactABTest extends LiferayInsuranceBase
         }
         fire = true;
         if (fire) {
-            System.out.println("Submitting ContactUs form" );
+            System.out.println("Submitting ContactUs form");
 
-            List<WebElement> textInputs = getElementsByXPath("//form[@id='" + formId + "']//input[@type='text']" );
-            List<WebElement> textareas = getElementsByXPath("//form[@id='" + formId + "']//textarea" );
-            List<WebElement> selectDropDowns = getElementsByXPath("//form[@id='" + formId + "']//div[@class='form-control results-chosen select-field-trigger']" );
+            List<WebElement> textInputs = getElementsByXPath("//form[@id='" + formId + "']//input[@type='text']");
+            List<WebElement> textareas = getElementsByXPath("//form[@id='" + formId + "']//textarea");
+            List<WebElement> selectDropDowns = getElementsByXPath("//form[@id='" + formId + "']//div[@class='form-control results-chosen select-field-trigger']");
             WebElement firstName = textInputs.get(0);
             WebElement surName = textInputs.get(1);
             WebElement telephone = textInputs.get(2);
@@ -60,27 +60,27 @@ public class LiferayInsuranceClickpathContactABTest extends LiferayInsuranceBase
             scrollTo(message);
             selectDropDown.click();
             sleep(1000);
-            WebElement choice = getElementByXPath("//button[@data-testid='dropdownItem-2']" );
+            WebElement choice = getElementByXPath("//button[@data-testid='dropdownItem-2']");
             choice.click();
             sleep(1000);
 
-            firstName.sendKeys("Joe" );
+            firstName.sendKeys("Joe");
             String hint = "" + countControlFired + "/" + countInformalFired;
-            surName.sendKeys("Bloggs (" + hint + ")" );
+            surName.sendKeys("Bloggs (" + hint + ")");
             int phone = (int) (Math.random() * 1e10);
             int policyNum = (int) (Math.random() * 1e10);
             telephone.sendKeys("" + phone);
-            mail.sendKeys("joe.bloggs@example.com" );
+            mail.sendKeys("joe.bloggs@example.com");
             policyNumber.sendKeys("" + policyNum);
             message.sendKeys("Lorem Ipsum sit dolor " + hint);
 
-            WebElement submissionLink = getElementById("ddm-form-submit" );
+            WebElement submissionLink = getElementById("ddm-form-submit");
             doClick(submissionLink);
         } else {
-            System.out.println("NOP " );
+            System.out.println("NOP ");
         }
         System.out.println("Stats: Control " + countControl + "(" + countControlFired + "), "
-                + "Informal " + countInformal + "(" + countInformalFired + ")" );
+                + "Informal " + countInformal + "(" + countInformalFired + ")");
 
         navigateTo(MENU1_HOME, null);
         quit();

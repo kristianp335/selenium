@@ -22,7 +22,7 @@ public class UoWClickpath4 extends UoWBaseClickpath {
             log("Running clickpath with " + username);
             doLogin(username, password);
         } else {
-            log("Running clickpath with an anonymous user" );
+            log("Running clickpath with an anonymous user");
         }
 
         final String pageUrl = "/research";
@@ -35,7 +35,7 @@ public class UoWClickpath4 extends UoWBaseClickpath {
             final WebElement videoContainer = pickRandom(videoContainers);
             scrollTo(videoContainer);
 
-            final WebElement youTubeIframe = videoContainer.findElement(By.tagName("iframe" ));
+            final WebElement youTubeIframe = videoContainer.findElement(By.tagName("iframe"));
             doClick(youTubeIframe);
 
             sleep(10000);

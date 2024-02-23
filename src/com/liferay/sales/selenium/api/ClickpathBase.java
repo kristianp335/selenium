@@ -113,7 +113,7 @@ public abstract class ClickpathBase {
             // Interest calculation on AC requires reading a particular page
             // for more than 10 seconds. See
             // https://liferay.slack.com/archives/C014BCDN8MU/p1695044060052069?thread_ts=1695042617.609449&cid=C014BCDN8MU
-            log("Extending sleep/think/read time by 15sec for simulating interest" );
+            log("Extending sleep/think/read time by 15sec for simulating interest");
         }
         try {
             Thread.sleep(millis);
@@ -237,20 +237,20 @@ public abstract class ClickpathBase {
      * @param url the url to navigate to
      */
     public void doGoTo(String url) {
-        if (!url.contains("http" )) {
-            url = (baseUrl + url).replaceAll("//", "/" );
+        if (!url.contains("http")) {
+            url = (baseUrl + url).replaceAll("//", "/");
         }
 
         log("INFO (doGoTo): Navigating to " + url);
         getDriver().get(url);
         sleep(defaultSleep);
-        List<WebElement> dntAlerts = getElementsByCSS(".dnt-alert" );
+        List<WebElement> dntAlerts = getElementsByCSS(".dnt-alert");
         try {
             if (dntAlerts.size() > 0) {
-                log("WARNING: Found DNT Detection - AC might refuse to register stats!" );
-                this.writePageToDisk("WARNING", "dnt-found" );
+                log("WARNING: Found DNT Detection - AC might refuse to register stats!");
+                this.writePageToDisk("WARNING", "dnt-found");
             } else {
-                log("INFO (doGoTo): No DNT alert found" );
+                log("INFO (doGoTo): No DNT alert found");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -258,30 +258,30 @@ public abstract class ClickpathBase {
     }
 
     protected void doLogin(String username, String password) {
-        doGoTo(baseUrl + "welcome?p_p_id=com_liferay_login_web_portlet_LoginPortlet&p_p_lifecycle=0&p_p_state=maximized&p_p_mode=view&_com_liferay_login_web_portlet_LoginPortlet_mvcRenderCommandName=%2Flogin%2Flogin&saveLastPath=false" );
+        doGoTo(baseUrl + "welcome?p_p_id=com_liferay_login_web_portlet_LoginPortlet&p_p_lifecycle=0&p_p_state=maximized&p_p_mode=view&_com_liferay_login_web_portlet_LoginPortlet_mvcRenderCommandName=%2Flogin%2Flogin&saveLastPath=false");
 
         sleep(1500);
 
         try {
             // sometimes this fails for unknown reasons. Try again...
-            getLoginField("login" ).sendKeys(Keys.chord(Keys.CONTROL, "a" ));
+            getLoginField("login").sendKeys(Keys.chord(Keys.CONTROL, "a"));
         } catch (NoSuchElementException e) {
-            log("INFO: Retry navigate to log in page!" );
-            doGoTo(baseUrl + "welcome?p_p_id=com_liferay_login_web_portlet_LoginPortlet&p_p_lifecycle=0&p_p_state=maximized&p_p_mode=view&_com_liferay_login_web_portlet_LoginPortlet_mvcRenderCommandName=%2Flogin%2Flogin&saveLastPath=false" );
+            log("INFO: Retry navigate to log in page!");
+            doGoTo(baseUrl + "welcome?p_p_id=com_liferay_login_web_portlet_LoginPortlet&p_p_lifecycle=0&p_p_state=maximized&p_p_mode=view&_com_liferay_login_web_portlet_LoginPortlet_mvcRenderCommandName=%2Flogin%2Flogin&saveLastPath=false");
             sleep(3000);
 
-            getLoginField("login" ).sendKeys(Keys.chord(Keys.CONTROL, "a" ));
+            getLoginField("login").sendKeys(Keys.chord(Keys.CONTROL, "a"));
         }
-        getLoginField("login" ).sendKeys(Keys.DELETE);
-        getLoginField("login" ).sendKeys(username);
+        getLoginField("login").sendKeys(Keys.DELETE);
+        getLoginField("login").sendKeys(username);
         sleep(500);
 
-        getLoginField("password" ).sendKeys(password);
+        getLoginField("password").sendKeys(password);
         sleep(500);
 
         log("INFO (doLogin): Logging in as " + username);
 
-        getLoginField("login" ).sendKeys(Keys.ENTER);
+        getLoginField("login").sendKeys(Keys.ENTER);
         sleep(8000);
     }
 
@@ -496,10 +496,10 @@ public abstract class ClickpathBase {
      * @throws IllegalArgumentException when the selector contains double quotes
      */
     public void mark(String selector) throws IllegalArgumentException {
-        if (selector.contains("\"" )) {
-            throw new IllegalArgumentException("Selector must not contain double quotes! Rewrite with single quotes! The author of the underlying method was too lazy to deal with all possible escaping options, so he just deals with it this way: You do the work!" );
+        if (selector.contains("\"")) {
+            throw new IllegalArgumentException("Selector must not contain double quotes! Rewrite with single quotes! The author of the underlying method was too lazy to deal with all possible escaping options, so he just deals with it this way: You do the work!");
         }
-        execute("document.querySelectorAll(\"" + selector + "\").forEach(function(e){e.style.backgroundColor = 'red';})" );
+        execute("document.querySelectorAll(\"" + selector + "\").forEach(function(e){e.style.backgroundColor = 'red';})");
     }
 
     /**
@@ -517,20 +517,20 @@ public abstract class ClickpathBase {
      * @param xPath the xPath expression
      */
     public void markByXPath(String xPath) {
-        StringBuilder js = new StringBuilder("const iterator = document.evaluate(" );
-        if (xPath.contains("\"" )) {
-            js.append("'" );
+        StringBuilder js = new StringBuilder("const iterator = document.evaluate(");
+        if (xPath.contains("\"")) {
+            js.append("'");
             js.append(xPath);
-            js.append("'" );
+            js.append("'");
         } else {
-            js.append("\"" );
+            js.append("\"");
             js.append(xPath);
-            js.append("\"" );
+            js.append("\"");
         }
-        js.append(",document,null,XPathResult.UNORDERED_NODE_ITERATOR_TYPE,null);" );
-        js.append("try { let thisNode = iterator.iterateNext();" );
-        js.append("while (thisNode) { thisNode.style.backgroundColor = 'red' ; thisNode = iterator.iterateNext(); }" );
-        js.append("} catch (e) { console.error(`Error: Document tree modified during iteration ${e}`); }" );
+        js.append(",document,null,XPathResult.UNORDERED_NODE_ITERATOR_TYPE,null);");
+        js.append("try { let thisNode = iterator.iterateNext();");
+        js.append("while (thisNode) { thisNode.style.backgroundColor = 'red' ; thisNode = iterator.iterateNext(); }");
+        js.append("} catch (e) { console.error(`Error: Document tree modified during iteration ${e}`); }");
         execute(js.toString());
     }
 
@@ -662,7 +662,7 @@ public abstract class ClickpathBase {
      */
     public void writePageToDisk(String severity, String hint) throws IOException {
         String timestamp = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss", Locale.ENGLISH).format(LocalDateTime.now());
-        File outFile = new File(getClass().getSimpleName() + "-" + hint + "-Selenium-" + getDriver().getClass().getSimpleName() + "-" + timestamp + ".html" );
+        File outFile = new File(getClass().getSimpleName() + "-" + hint + "-Selenium-" + getDriver().getClass().getSimpleName() + "-" + timestamp + ".html");
         FileWriter out = new FileWriter(outFile);
         log(severity + ": Writing " + outFile.getAbsolutePath());
         out.write(getDriver().getPageSource());

@@ -17,12 +17,12 @@ public class LiferayCityClickpath4 extends LiferayCityBaseClickpath {
         doGoTo(utmGenerator.decorateUrl(baseUrl));
         doLogin(username, password);
 
-        doClickText(oneOf("CITIZEN AREA", "REA DEL CIUDADANO" ));
+        doClickText(oneOf("CITIZEN AREA", "REA DEL CIUDADANO"));
         sleep(1000);
 
-        doClickText(oneOf("My Services", "Meine Dienstleistungen", "Mis Servicios" ));
-        doClickText(oneOf("Register a business", "Eine Firma anmelden", "Registrar una empresa" ));
-        doClickText(oneOf("Go to service", "Realizar Trámite" ));
+        doClickText(oneOf("My Services", "Meine Dienstleistungen", "Mis Servicios"));
+        doClickText(oneOf("Register a business", "Eine Firma anmelden", "Registrar una empresa"));
+        doClickText(oneOf("Go to service", "Realizar Trámite"));
 
         sleep(1000);
 
@@ -31,22 +31,22 @@ public class LiferayCityClickpath4 extends LiferayCityBaseClickpath {
         quit();
     }
 
-    @SuppressWarnings("unused" )
+    @SuppressWarnings("unused")
     private void fillOutBusinessRegistrationForm(int hint) {
-        WebElement commentsBox = getFirstVisibleElementByXPath("//textarea" );
+        WebElement commentsBox = getFirstVisibleElementByXPath("//textarea");
         commentsBox.sendKeys("a comment with hint " + hint);
         sleep(2000);
 
-        WebElement submit = getFirstVisibleElementByXPath("//form[@id='_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_stsg_fm']//button[@type='button']" );
+        WebElement submit = getFirstVisibleElementByXPath("//form[@id='_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_stsg_fm']//button[@type='button']");
 
         doClick(submit);
 
-        List<WebElement> textInputs = getElementsByXPath("//form[@id='_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_stsg_fm']//input[@type='text']" );
-        List<WebElement> radioInputs = getElementsByXPath("//form[@id='_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_stsg_fm']//input[@type='radio']" );
-        List<WebElement> textareas = getElementsByXPath("//form[@id='_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_stsg_fm']//textarea" );
-        List<WebElement> submits = getElementsByXPath("//form[@id='_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_stsg_fm']//button[@type='submit']" );
+        List<WebElement> textInputs = getElementsByXPath("//form[@id='_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_stsg_fm']//input[@type='text']");
+        List<WebElement> radioInputs = getElementsByXPath("//form[@id='_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_stsg_fm']//input[@type='radio']");
+        List<WebElement> textareas = getElementsByXPath("//form[@id='_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_stsg_fm']//textarea");
+        List<WebElement> submits = getElementsByXPath("//form[@id='_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_stsg_fm']//button[@type='submit']");
 
-        WebElement select = getFirstVisibleElementByXPath("//div[@class='form-builder-select-field']" );
+        WebElement select = getFirstVisibleElementByXPath("//div[@class='form-builder-select-field']");
         WebElement date = textInputs.get(0);
         WebElement address = textInputs.get(1);
         WebElement numId = textInputs.get(2);
@@ -55,7 +55,7 @@ public class LiferayCityClickpath4 extends LiferayCityBaseClickpath {
         WebElement yesChoice = radioInputs.get(0);
         WebElement noChoice = radioInputs.get(1);
 
-        WebElement comment = getFirstVisibleElementByXPath("//form[@id='_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_stsg_fm']//textarea" );
+        WebElement comment = getFirstVisibleElementByXPath("//form[@id='_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_stsg_fm']//textarea");
         submit = submits.get(0);
 
         scrollTo(date);
@@ -66,7 +66,7 @@ public class LiferayCityClickpath4 extends LiferayCityBaseClickpath {
 //	    doClickText(oneOf("Business type A", "Negocio tipo A"));
 //	    sleep(500);
 
-        date.sendKeys("01011970" );
+        date.sendKeys("01011970");
         sleep(500);
         if (Math.random() < 0.7) {
             yesChoice.click();

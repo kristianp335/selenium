@@ -13,7 +13,7 @@ public class LiferayInsuranceClickpath1 extends LiferayInsuranceBaseClickpath {
         double startPageRandomization = Math.random();
         if (startPageRandomization < 0.3 && REFERRERS.length > 0) {
             doGoTo(pickRandom(REFERRERS));
-            doClickText("IDC Demo" );
+            doClickText("IDC Demo");
         } else {
             doGoTo(baseUrl);
         }
@@ -21,7 +21,7 @@ public class LiferayInsuranceClickpath1 extends LiferayInsuranceBaseClickpath {
 
         navigateTo(MENU1_INSURANCE_PLANS, pickRandom(MENU2_IP_ALL));
         navigateTo(MENU1_HOME, null);
-        selectLanguage("english" );
+        selectLanguage("english");
         navigateTo(MENU1_CONTACT_US, null);
         fillOutContactForm((int) (Math.random() * 1e6));
     }

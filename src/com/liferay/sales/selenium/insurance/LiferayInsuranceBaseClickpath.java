@@ -68,33 +68,33 @@ public abstract class LiferayInsuranceBaseClickpath extends ClickpathBase {
     protected void doLogin(String username, String password) {
         doGoTo(baseUrl);
         sleep(1500);
-        doClickText("Sign In" );
+        doClickText("Sign In");
         sleep(1500);
-        getLoginField("login" ).sendKeys(Keys.chord(Keys.CONTROL, "a" ));
-        getLoginField("login" ).sendKeys(Keys.DELETE);
-        getLoginField("login" ).sendKeys(username);
+        getLoginField("login").sendKeys(Keys.chord(Keys.CONTROL, "a"));
+        getLoginField("login").sendKeys(Keys.DELETE);
+        getLoginField("login").sendKeys(username);
         sleep(500);
 
-        getLoginField("password" ).sendKeys(password);
+        getLoginField("password").sendKeys(password);
         sleep(500);
 
         log("INFO (doLogin): Logging in as " + username);
 
-        getLoginField("login" ).sendKeys(Keys.ENTER);
+        getLoginField("login").sendKeys(Keys.ENTER);
         sleep(8000);
     }
 
     protected void fillOutContactForm(int hint) {
         String formRoot = "//form[@id='_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_qwdn_fm']";
-        List<WebElement> textInputs = getElementsByXPath(formRoot + "//input[@type='text']" );
+        List<WebElement> textInputs = getElementsByXPath(formRoot + "//input[@type='text']");
         if (textInputs.isEmpty()) {
             // A/B Test running - try a different form
             formRoot = "//form[@id='_com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet_INSTANCE_xdhq_fm']";
-            textInputs = getElementsByXPath(formRoot + "//input[@type='text']" );
+            textInputs = getElementsByXPath(formRoot + "//input[@type='text']");
         }
-        List<WebElement> textareas = getElementsByXPath(formRoot + "//textarea" );
-        List<WebElement> selectInputs = getElementsByXPath(formRoot + "//div[contains(@class,'form-builder-select-field')]" );
-        List<WebElement> submits = getElementsByXPath(formRoot + "//button[@type='submit']" );
+        List<WebElement> textareas = getElementsByXPath(formRoot + "//textarea");
+        List<WebElement> selectInputs = getElementsByXPath(formRoot + "//div[contains(@class,'form-builder-select-field')]");
+        List<WebElement> submits = getElementsByXPath(formRoot + "//button[@type='submit']");
 
         WebElement name = textInputs.get(0);
         WebElement surname = textInputs.get(1);
@@ -107,17 +107,17 @@ public abstract class LiferayInsuranceBaseClickpath extends ClickpathBase {
 
         scrollTo(name);
 
-        type(name, "Bloggs (" + hint + ")" );
-        type(surname, "Joe" );
-        type(telephone, "" + hint + "-1234567" );
-        type(mail, "test+" + hint + "@liferay.com" );
+        type(name, "Bloggs (" + hint + ")");
+        type(surname, "Joe");
+        type(telephone, "" + hint + "-1234567");
+        type(mail, "test+" + hint + "@liferay.com");
         type(policy, "" + hint + "-" + hint);
 
         choices.click();
         sleep(1000);
 
         int chosenItem = (int) (Math.random() * 4 + 1);
-        WebElement choice = getElementByXPath("//button[@data-testid='dropdownItem-" + chosenItem + "']" );
+        WebElement choice = getElementByXPath("//button[@data-testid='dropdownItem-" + chosenItem + "']");
         choice.click();
         sleep(500);
 
@@ -126,7 +126,7 @@ public abstract class LiferayInsuranceBaseClickpath extends ClickpathBase {
         if (Math.random() < 0.8) {
             doClick(submit);
         } else {
-            System.out.println("Abandoning Form, it's filled out but not submitted" );
+            System.out.println("Abandoning Form, it's filled out but not submitted");
         }
     }
 
@@ -143,10 +143,10 @@ public abstract class LiferayInsuranceBaseClickpath extends ClickpathBase {
         WebElement l1element = null;
         for (int i = 0; i < level1.length; i++) {
             try {
-                l1element = driver.findElement(By.xpath("//div[@id='navbarmain']//a[normalize-space()='" + level1[i] + "']" ));
+                l1element = driver.findElement(By.xpath("//div[@id='navbarmain']//a[normalize-space()='" + level1[i] + "']"));
             } catch (NoSuchElementException ignore) {
             }
-            System.out.println("Navigation " + level1[i] + ": " + (l1element == null ? "not " : "" ) + "found" );
+            System.out.println("Navigation " + level1[i] + ": " + (l1element == null ? "not " : "") + "found");
             if (l1element != null) break;
         }
         builder.moveToElement(l1element).build().perform();
@@ -158,7 +158,7 @@ public abstract class LiferayInsuranceBaseClickpath extends ClickpathBase {
             for (int i = 0; i < level2.length; i++) {
                 try {
                     System.out.println("Searching for L2 " + level2[i]);
-                    l2element = driver.findElement(By.xpath("//div[@id='navbarmain']/ul/li/ul/li/a[normalize-space()='" + level2[i] + "']" ));
+                    l2element = driver.findElement(By.xpath("//div[@id='navbarmain']/ul/li/ul/li/a[normalize-space()='" + level2[i] + "']"));
                 } catch (NoSuchElementException ignore) {
                 }
                 if (l2element != null) break;
@@ -170,7 +170,7 @@ public abstract class LiferayInsuranceBaseClickpath extends ClickpathBase {
     }
 
     public void selectLanguage(String language) {
-        WebElement languageSelector = getElementByXPath("//select[@class='languageSelectorDropDown']" );
+        WebElement languageSelector = getElementByXPath("//select[@class='languageSelectorDropDown']");
         Select select = new Select(languageSelector);
         select.selectByVisibleText(language);
         sleep(defaultSleep);

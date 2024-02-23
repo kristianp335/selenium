@@ -41,7 +41,7 @@ public abstract class ScriptManager {
 
                 try (Scanner rowScanner = new Scanner(line)) {
                     ArrayList<String> row = new ArrayList<String>(2);
-                    rowScanner.useDelimiter("," );
+                    rowScanner.useDelimiter(",");
                     while (rowScanner.hasNext()) {
                         row.add(rowScanner.next().trim());
                     }
@@ -55,13 +55,13 @@ public abstract class ScriptManager {
     }
 
     public static <T extends Enum<?>> T searchEnum(Class<T> enumeration,
-        String search) {
-    for (T each : enumeration.getEnumConstants()) {
-        if (each.name().compareToIgnoreCase(search) == 0) {
-            return each;
+                                                   String search) {
+        for (T each : enumeration.getEnumConstants()) {
+            if (each.name().compareToIgnoreCase(search) == 0) {
+                return each;
+            }
         }
+        return null;
     }
-    return null;
-}
 
 }

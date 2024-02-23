@@ -19,7 +19,7 @@ public class UoWClickpath1 extends UoWBaseClickpath {
             log("Running clickpath with " + username);
             doLogin(username, password);
         } else {
-            log("Running clickpath with an anonymous user" );
+            log("Running clickpath with an anonymous user");
         }
 
         final String pageUrl = "/";
@@ -27,30 +27,30 @@ public class UoWClickpath1 extends UoWBaseClickpath {
 
         sleep(3000);
 
-        final WebElement statContainer = getElementById("fragment-0a935270-6263-9f83-531d-c739fe0ce14b" );
+        final WebElement statContainer = getElementById("fragment-0a935270-6263-9f83-531d-c739fe0ce14b");
         if (statContainer != null) {
             scrollTo(statContainer);
             sleep(1000, false);
         } else {
-            log("Unable to scroll to stat container" );
+            log("Unable to scroll to stat container");
         }
 
-        final WebElement heroVideoContainer = getElementByCSS(".lfr-layout-structure-item-hero-video" );
+        final WebElement heroVideoContainer = getElementByCSS(".lfr-layout-structure-item-hero-video");
         if (heroVideoContainer != null) {
             scrollTo(heroVideoContainer);
             sleep(1000, false);
         } else {
-            log("Unable to scroll to hero video container" );
+            log("Unable to scroll to hero video container");
         }
 
-        final WebElement vidButton = getElementById("vidbutton" );
+        final WebElement vidButton = getElementById("vidbutton");
         if (vidButton != null) {
             doClick(vidButton);
             sleep(1000, false);
             doClick(vidButton);
             sleep(1000, false);
         } else {
-            log("Unable to click the video button" );
+            log("Unable to click the video button");
         }
 
         sleep(2000);

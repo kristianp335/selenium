@@ -13,7 +13,7 @@ public class LiferayInsuranceClickpath2 extends LiferayInsuranceBaseClickpath {
         double startPageRandomization = Math.random();
         if (startPageRandomization < 0.1 && REFERRERS.length > 0) {
             doGoTo(pickRandom(REFERRERS));
-            doClickText("IDC Demo" );
+            doClickText("IDC Demo");
         } else {
             doGoTo(baseUrl);
         }

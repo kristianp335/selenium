@@ -1,9 +1,6 @@
 package com.liferay.sales.selenium.uow;
 
 import com.liferay.sales.selenium.api.DriverInitializer;
-import com.liferay.sales.selenium.api.ScrollBehavior;
-import com.liferay.sales.selenium.api.ScrollIntoViewOptions;
-import com.liferay.sales.selenium.api.ScrollLogicalPosition;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
@@ -18,12 +15,12 @@ import java.util.Map;
 public class UoWClickpath5 extends UoWBaseClickpath {
 
     private static final Map<String, String> CATEGORY_MAP = new HashMap<>() {{
-        put("Careers", "40878" );
-        put("Fair", "40884" );
-        put("Open Day", "40872" );
-        put("Press Release", "40869" );
-        put("Science", "40881" );
-        put("Virtual Open Day", "40875" );
+        put("Careers", "40878");
+        put("Fair", "40884");
+        put("Open Day", "40872");
+        put("Press Release", "40869");
+        put("Science", "40881");
+        put("Virtual Open Day", "40875");
     }};
     private static final String FILTER_CATEGORY = "filter_category_45412";
     private final String[] SEARCH_TERMS = new String[]{
@@ -34,77 +31,6 @@ public class UoWClickpath5 extends UoWBaseClickpath {
         super(di, baseUrl, new UoWUTMGenerator());
     }
 
-    private void clearFilter() {
-        final WebElement clearFilter = getElementByXPath("//button[contains(@id, '_removeAllFilters')]" );
-        if (clearFilter != null) {
-            doClick(clearFilter);
-            sleep(1000, false);
-        }
-    }
-
-    private void option1() {
-        final String newsCardXPath = "//div[contains(concat(' ', normalize-space(@class), ' '), ' component-card ')]";
-        final List<WebElement> newsCards = getElementsByXPath(newsCardXPath);
-        if (newsCards.size() > 0) {
-            final WebElement newsCard = pickRandom(newsCards);
-            scrollTo(newsCard);
-            sleep(2000, false);
-            final WebElement readMoreLink = newsCard.findElement(By.tagName("a" ));
-            if (readMoreLink != null) {
-                doClick(readMoreLink);
-                scrollToFooter();
-            }
-        }
-    }
-
-    private void option2() {
-        final String carouselItemsXPath = "//div[contains(concat(' ', normalize-space(@class), ' '), ' carousel-item ')]";
-        final List<WebElement> carouselItems = getElementsByXPath(carouselItemsXPath);
-        if (carouselItems.size() > 0) {
-            final WebElement carouselItem = pickRandom(carouselItems);
-            if (carouselItem != null) {
-                final WebElement readMoreButton = carouselItem.findElement(By.tagName("a" ));
-                if (readMoreButton != null) {
-                    doClick(readMoreButton);
-                    scrollToFooter();
-                }
-            }
-        }
-    }
-
-    private void option3() {
-        final String category = pickRandom(CATEGORY_MAP.keySet().toArray(new String[0]));
-        final String categoryId = CATEGORY_MAP.get(category);
-        log(String.format("Selecting category %s [%s]", category, categoryId));
-        StringBuilder urlBuilder = new StringBuilder("/news" );
-        urlBuilder.append("?" );
-        urlBuilder.append(FILTER_CATEGORY);
-        urlBuilder.append("=" );
-        urlBuilder.append(categoryId);
-        final String url = urlBuilder.toString();
-        log("Navigating to " + url);
-        doGoTo(url);
-        sleep(2000, false);
-        option1();
-    }
-
-    private void option4() {
-        final WebElement keywordSearch = getElementByCSS("input.form-control.form-control-sm.input-group-inset.input-group-inset-after" );
-        if (keywordSearch != null) {
-            scrollTo(keywordSearch);
-            type(keywordSearch, pickRandom(SEARCH_TERMS));
-            keywordSearch.sendKeys(Keys.ENTER);
-            sleep(2000, false);
-
-            boolean clearFilter = pickRandom(new Boolean[]{true, false});
-            if (clearFilter) {
-                log("Clearing filter" );
-                clearFilter();
-            }
-            option1();
-        }
-    }
-
     public void run(String username, String password) {
         resizeBrowser(1536, 835);
         deleteAllCookies();
@@ -113,7 +39,7 @@ public class UoWClickpath5 extends UoWBaseClickpath {
             log("Running clickpath with " + username);
             doLogin(username, password);
         } else {
-            log("Running clickpath with an anonymous user" );
+            log("Running clickpath with an anonymous user");
         }
 
         final String pageUrl = "/news";
@@ -121,7 +47,8 @@ public class UoWClickpath5 extends UoWBaseClickpath {
 
         sleep(2000, false);
 
-        int option = 3; //pickRandom(new Integer[] { 1, 2, 3, 4 });
+        int option = pickRandom(new Integer[]{1, 2, 3, 4});
+        log("Running option " + option);
         switch (option) {
             case 1:
                 option1();
@@ -141,10 +68,74 @@ public class UoWClickpath5 extends UoWBaseClickpath {
         quit();
     }
 
-    private void scrollToFooter() {
-        final WebElement logoBleed = getElementByCSS(".logo-bleed" );
-        if (logoBleed != null) {
-            scrollTo(logoBleed, new ScrollIntoViewOptions(ScrollBehavior.SMOOTH, ScrollLogicalPosition.NEAREST, ScrollLogicalPosition.NEAREST));
+    private void option1() {
+        final String newsCardXPath = "//div[contains(concat(' ', normalize-space(@class), ' '), ' component-card ')]";
+        final List<WebElement> newsCards = getElementsByXPath(newsCardXPath);
+        if (newsCards.size() > 0) {
+            final WebElement newsCard = pickRandom(newsCards);
+            scrollTo(newsCard);
+            sleep(2000, false);
+            final WebElement readMoreLink = newsCard.findElement(By.tagName("a"));
+            if (readMoreLink != null) {
+                doClick(readMoreLink);
+                scrollToFooter();
+            }
+        }
+    }
+
+    private void option2() {
+        final String carouselItemsXPath = "//div[contains(concat(' ', normalize-space(@class), ' '), ' carousel-item ')]";
+        final List<WebElement> carouselItems = getElementsByXPath(carouselItemsXPath);
+        if (carouselItems.size() > 0) {
+            final WebElement carouselItem = pickRandom(carouselItems);
+            if (carouselItem != null) {
+                final WebElement readMoreButton = carouselItem.findElement(By.tagName("a"));
+                if (readMoreButton != null) {
+                    doClick(readMoreButton);
+                    scrollToFooter();
+                }
+            }
+        }
+    }
+
+    private void option3() {
+        final String category = pickRandom(CATEGORY_MAP.keySet().toArray(new String[0]));
+        final String categoryId = CATEGORY_MAP.get(category);
+        log(String.format("Selecting category %s [%s]", category, categoryId));
+        StringBuilder urlBuilder = new StringBuilder("/news");
+        urlBuilder.append("?");
+        urlBuilder.append(FILTER_CATEGORY);
+        urlBuilder.append("=");
+        urlBuilder.append(categoryId);
+        final String url = urlBuilder.toString();
+        log("Navigating to " + url);
+        doGoTo(url);
+        sleep(2000, false);
+        option1();
+    }
+
+    private void option4() {
+        final WebElement keywordSearch = getElementByCSS("input.form-control.form-control-sm.input-group-inset.input-group-inset-after");
+        if (keywordSearch != null) {
+            scrollTo(keywordSearch);
+            type(keywordSearch, pickRandom(SEARCH_TERMS));
+            keywordSearch.sendKeys(Keys.ENTER);
+            sleep(2000, false);
+
+            boolean clearFilter = pickRandom(new Boolean[]{true, false});
+            if (clearFilter) {
+                log("Clearing filter");
+                clearFilter();
+            }
+            option1();
+        }
+    }
+
+    private void clearFilter() {
+        final WebElement clearFilter = getElementByXPath("//button[contains(@id, '_removeAllFilters')]");
+        if (clearFilter != null) {
+            doClick(clearFilter);
+            sleep(1000, false);
         }
     }
 }

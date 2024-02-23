@@ -23,15 +23,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import javax.xml.crypto.URIReferenceException;
-
 public class UoWScriptManager extends ScriptManager {
+    private static final int CONNECTION_DELAY = 15000;
     private static final ExecutorService EXECUTOR_SERVICE = Executors.newFixedThreadPool(1);
     private static final boolean IS_MAC = System.getProperty("os.name").equalsIgnoreCase("Mac OS X");
-    private static final String[] VPN_COMMAND = new String[] { "---OSASCRIPT---", "-e",
+    private static final String[] VPN_COMMAND = new String[]{"---OSASCRIPT---", "-e",
             "---TELL-COMMAND---", "-e", "---VPN-ACTION---", "-e",
-            "end", "tell" };
-    private static final String[] VPN_NAMES = new String[] {
+            "end", "tell"};
+    private static final String[] VPN_NAMES = new String[]{
             "nordvpn-au",
             "nordvpn-br",
             "nordvpn-de",
@@ -43,103 +42,6 @@ public class UoWScriptManager extends ScriptManager {
             "purevpn-fr",
             "purevpn-us",
     };
-    private static final int CONNECTION_DELAY = 15000;
-
-    private static CommandLine parseArguments(String[] args, final String defaultBaseUrl,
-            final int defaultAnonymousCycles,
-            final int defaultKnownUserCycles, final String defaultUserCsvPathname, final boolean defaultUseVpn,
-            final WebDriverType defaultWebDriverType,
-            final String defaultOsaScriptPathname,
-            final String defaultTunnelblickPathnameOption) throws ParseException {
-        final Options options = new Options();
-
-        final Option baseUrlOption = new Option("b", "base-url", false,
-                "The base Liferay DXP URL on which the cycles will be run. The default is " + defaultBaseUrl);
-        baseUrlOption.setRequired(false);
-        options.addOption(baseUrlOption);
-
-        final Option anonymousCyclesOption = new Option("a", "anonymous-cycles", true,
-                "The number of anonymous cycles to run. The default is " + defaultAnonymousCycles);
-        anonymousCyclesOption.setRequired(false);
-        options.addOption(anonymousCyclesOption);
-
-        final Option knownUserCyclesOption = new Option("k", "known-user-cycles", true,
-                "The number of known user cycles to run. The default is " + defaultKnownUserCycles);
-        knownUserCyclesOption.setRequired(false);
-        options.addOption(knownUserCyclesOption);
-
-        final Option userCsvOption = new Option("u", "users", true,
-                "The pathname of the CSV containing the user accounts for the known user cycles. The default is "
-                        + defaultUserCsvPathname);
-        userCsvOption.setRequired(false);
-        options.addOption(userCsvOption);
-
-        final Option useVpnOption = new Option(null, "use-vpn", false,
-                "Runs the script over a VPN. "
-                        + (defaultUseVpn ? "The default is to use VPN" : "The default is NOT to use VPN"));
-        useVpnOption.setRequired(false);
-        options.addOption(useVpnOption);
-
-        final Option webDriverOption = new Option("d", "driver", true,
-                "The web driver to use, i.e. chrome or firefox. The default is "
-                        + defaultWebDriverType.toString().toLowerCase());
-        webDriverOption.setRequired(false);
-        options.addOption(webDriverOption);
-
-        final Option webDriverPathOption = new Option(null, "driver-path", true,
-                "The pathname of the web driver. The default is " + defaultWebDriverType.getDefaultWebDriverPathname());
-        webDriverPathOption.setRequired(false);
-        options.addOption(webDriverPathOption);
-
-        final Option webDriverArgumentsOption = new Option(null, "driver-arguments", true,
-                "The arguments to use with the web driver. The default argumes are \""
-                        + defaultWebDriverType.getDefaultWebDriverArguments() + "\"");
-        webDriverArgumentsOption.setRequired(false);
-        options.addOption(webDriverArgumentsOption);
-
-        final Option osaScriptPathnameOption = new Option(null, "osascript-path", true,
-                "The pathname of the osascript command "
-                        + defaultOsaScriptPathname);
-        osaScriptPathnameOption.setRequired(false);
-        options.addOption(osaScriptPathnameOption);
-
-        final Option tunnelblickPathnameOption = new Option(null, "tunnelblick-path", true,
-                "The pathname of the Tunnelblick.app "
-                        + defaultTunnelblickPathnameOption);
-        tunnelblickPathnameOption.setRequired(false);
-        options.addOption(tunnelblickPathnameOption);
-
-        final Option helpOption = new Option("h", "help", false, "Displays this help information");
-        helpOption.setRequired(false);
-        options.addOption(helpOption);
-
-        final CommandLineParser parser = new DefaultParser();
-        final HelpFormatter formatter = new HelpFormatter();
-
-        String utilityName = "";
-        try {
-            File utilityFile = new File(
-                    UoWScriptManager.class.getProtectionDomain().getCodeSource().getLocation().toURI());
-            utilityName = "./" + utilityFile.getName();
-        } catch (URISyntaxException e) {
-            // do nothing
-        }
-
-        CommandLine cmd = null;
-        try {
-            cmd = parser.parse(options, args);
-
-            if (cmd.hasOption("help")) {
-                formatter.printHelp(utilityName, options);
-                return null;
-            }
-
-        } catch (ParseException e) {
-            formatter.printHelp(utilityName, options);
-            throw e;
-        }
-        return cmd;
-    }
 
     public static void main(String[] args) {
         int exitCode = 0;
@@ -279,9 +181,105 @@ public class UoWScriptManager extends ScriptManager {
         }
     }
 
+    private static CommandLine parseArguments(String[] args, final String defaultBaseUrl,
+                                              final int defaultAnonymousCycles,
+                                              final int defaultKnownUserCycles, final String defaultUserCsvPathname, final boolean defaultUseVpn,
+                                              final WebDriverType defaultWebDriverType,
+                                              final String defaultOsaScriptPathname,
+                                              final String defaultTunnelblickPathnameOption) throws ParseException {
+        final Options options = new Options();
+
+        final Option baseUrlOption = new Option("b", "base-url", false,
+                "The base Liferay DXP URL on which the cycles will be run. The default is " + defaultBaseUrl);
+        baseUrlOption.setRequired(false);
+        options.addOption(baseUrlOption);
+
+        final Option anonymousCyclesOption = new Option("a", "anonymous-cycles", true,
+                "The number of anonymous cycles to run. The default is " + defaultAnonymousCycles);
+        anonymousCyclesOption.setRequired(false);
+        options.addOption(anonymousCyclesOption);
+
+        final Option knownUserCyclesOption = new Option("k", "known-user-cycles", true,
+                "The number of known user cycles to run. The default is " + defaultKnownUserCycles);
+        knownUserCyclesOption.setRequired(false);
+        options.addOption(knownUserCyclesOption);
+
+        final Option userCsvOption = new Option("u", "users", true,
+                "The pathname of the CSV containing the user accounts for the known user cycles. The default is "
+                        + defaultUserCsvPathname);
+        userCsvOption.setRequired(false);
+        options.addOption(userCsvOption);
+
+        final Option useVpnOption = new Option(null, "use-vpn", false,
+                "Runs the script over a VPN. "
+                        + (defaultUseVpn ? "The default is to use VPN" : "The default is NOT to use VPN"));
+        useVpnOption.setRequired(false);
+        options.addOption(useVpnOption);
+
+        final Option webDriverOption = new Option("d", "driver", true,
+                "The web driver to use, i.e. chrome or firefox. The default is "
+                        + defaultWebDriverType.toString().toLowerCase());
+        webDriverOption.setRequired(false);
+        options.addOption(webDriverOption);
+
+        final Option webDriverPathOption = new Option(null, "driver-path", true,
+                "The pathname of the web driver. The default is " + defaultWebDriverType.getDefaultWebDriverPathname());
+        webDriverPathOption.setRequired(false);
+        options.addOption(webDriverPathOption);
+
+        final Option webDriverArgumentsOption = new Option(null, "driver-arguments", true,
+                "The arguments to use with the web driver. The default argumes are \""
+                        + defaultWebDriverType.getDefaultWebDriverArguments() + "\"");
+        webDriverArgumentsOption.setRequired(false);
+        options.addOption(webDriverArgumentsOption);
+
+        final Option osaScriptPathnameOption = new Option(null, "osascript-path", true,
+                "The pathname of the osascript command "
+                        + defaultOsaScriptPathname);
+        osaScriptPathnameOption.setRequired(false);
+        options.addOption(osaScriptPathnameOption);
+
+        final Option tunnelblickPathnameOption = new Option(null, "tunnelblick-path", true,
+                "The pathname of the Tunnelblick.app "
+                        + defaultTunnelblickPathnameOption);
+        tunnelblickPathnameOption.setRequired(false);
+        options.addOption(tunnelblickPathnameOption);
+
+        final Option helpOption = new Option("h", "help", false, "Displays this help information");
+        helpOption.setRequired(false);
+        options.addOption(helpOption);
+
+        final CommandLineParser parser = new DefaultParser();
+        final HelpFormatter formatter = new HelpFormatter();
+
+        String utilityName = "";
+        try {
+            File utilityFile = new File(
+                    UoWScriptManager.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+            utilityName = "./" + utilityFile.getName();
+        } catch (URISyntaxException e) {
+            // do nothing
+        }
+
+        CommandLine cmd = null;
+        try {
+            cmd = parser.parse(options, args);
+
+            if (cmd.hasOption("help")) {
+                formatter.printHelp(utilityName, options);
+                return null;
+            }
+
+        } catch (ParseException e) {
+            formatter.printHelp(utilityName, options);
+            throw e;
+        }
+        return cmd;
+    }
+
     public static void doIt(final WebDriverType webDriverType, final String[] webDriverArguments, final String baseUrl,
-            final int anonymousCycles, final int knownUserCycles, final String[][] users, final boolean useVpn,
-            final String osaScriptPathname, final String tunnelblickPathname) {
+                            final int anonymousCycles, final int knownUserCycles, final String[][] users, final boolean useVpn,
+                            final String osaScriptPathname, final String tunnelblickPathname) {
         // Before starting the script, make adjustments in this top block
         // to reflect the behavior that you need.
         // Inspect the clickpaths.
@@ -293,23 +291,24 @@ public class UoWScriptManager extends ScriptManager {
 
         switch (webDriverType) {
             case FIREFOX:
-                paths = new ClickpathBase[] {
+                paths = new ClickpathBase[]{
                         new UoWClickpath1(new FirefoxDriverInitializer(webDriverArguments), baseUrl),
                         new UoWClickpath2(new FirefoxDriverInitializer(webDriverArguments), baseUrl),
                         new UoWClickpath3(new FirefoxDriverInitializer(webDriverArguments), baseUrl),
                         new UoWClickpath4(new FirefoxDriverInitializer(webDriverArguments), baseUrl),
-                        new UoWClickpath5(new FirefoxDriverInitializer(webDriverArguments), baseUrl)
+                        new UoWClickpath5(new FirefoxDriverInitializer(webDriverArguments), baseUrl),
+                        new UoWClickpath6(new FirefoxDriverInitializer(webDriverArguments), baseUrl)
                 };
                 break;
             case CHROME:
-                paths = new ClickpathBase[] {
+                paths = new ClickpathBase[]{
                         new UoWClickpath1(new ChromeDriverInitializer(webDriverArguments), baseUrl),
                         new UoWClickpath2(new ChromeDriverInitializer(webDriverArguments), baseUrl),
                         new UoWClickpath3(new ChromeDriverInitializer(webDriverArguments), baseUrl),
                         new UoWClickpath4(new ChromeDriverInitializer(webDriverArguments), baseUrl),
-                        new UoWClickpath5(new ChromeDriverInitializer(webDriverArguments), baseUrl)
+                        new UoWClickpath5(new ChromeDriverInitializer(webDriverArguments), baseUrl),
+                        new UoWClickpath6(new ChromeDriverInitializer(webDriverArguments), baseUrl)
                 };
-
                 break;
             default:
                 throw new IllegalArgumentException("Unrecognised web driver type");
@@ -397,7 +396,7 @@ public class UoWScriptManager extends ScriptManager {
     }
 
     private static void vpnConnect(final String osaScriptPathname, final String tunnelblickPathname,
-            final String vpnName, final String username) throws IOException {
+                                   final String vpnName, final String username) throws IOException {
         if (!IS_MAC) {
             log("This is not an OS X environment");
             return;
@@ -432,7 +431,7 @@ public class UoWScriptManager extends ScriptManager {
     }
 
     private static void userSequence(ClickpathBase path, String username, String password, int pathIndex, int i,
-            int repeats, long start, List<String> log) {
+                                     int repeats, long start, List<String> log) {
         long thisStart = System.currentTimeMillis();
         log("Number of failures so far:" + log.size());
         log("#" + i + "/" + repeats + ": Running with path "
@@ -472,7 +471,7 @@ public class UoWScriptManager extends ScriptManager {
     }
 
     private static void vpnDisconnect(final String osaScriptPathname, final String tunnelblickPathname,
-            final String vpnName) throws IOException {
+                                      final String vpnName) throws IOException {
         if (!IS_MAC) {
             log("This is not an OS X environment");
             return;

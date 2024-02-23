@@ -32,7 +32,7 @@ public class LiferayCity extends ScriptManager {
 
 //			System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
 
-        String[][] cityUsers = readUserCSV("/home/olaf/Dokumente/HomeDirUntil2023-02-T19/cityUsers.csv" );
+        String[][] cityUsers = readUserCSV("/home/olaf/Dokumente/HomeDirUntil2023-02-T19/cityUsers.csv");
         String baseUrl = "https://webserver-lctcity5-prd.lfr.cloud/";
         String[] arguments = new String[]{"--headless", "--remote-allow-origins=*"};
 //		String[] arguments = new String[] { "--remote-allow-origins=*" };
@@ -83,7 +83,7 @@ public class LiferayCity extends ScriptManager {
 // Typically, nothing more to "configure" below this line. 
 // Anything that you need to customize your scripts is above.
 
-        System.out.println("Running " + paths.length + " clickpaths for " + repeats + " times" );
+        System.out.println("Running " + paths.length + " clickpaths for " + repeats + " times");
 
         long start = System.currentTimeMillis();
         LinkedList<String> log = new LinkedList<String>();
@@ -99,7 +99,7 @@ public class LiferayCity extends ScriptManager {
             System.out.println("#" + i + "/" + repeats + ": Running user " + user[0] + " with path "
                     + pos + " (" + path.getClass().getSimpleName() + ", using "
                     + path.getDriver().getClass().getSimpleName()
-                    + ")" );
+                    + ")");
             path.setDefaultSleep(4000);
             try {
                 path.run(user[0], user[1]);
@@ -138,12 +138,12 @@ public class LiferayCity extends ScriptManager {
             System.out.println();
         }
 
-        System.out.println("==================================================" );
-        System.out.println("End of run" );
+        System.out.println("==================================================");
+        System.out.println("End of run");
         System.out.println("Failed attempts: " + log.size());
         for (String string : log) {
             System.out.println(string);
-            System.out.println("---------------------------------------------" );
+            System.out.println("---------------------------------------------");
         }
     }
 }

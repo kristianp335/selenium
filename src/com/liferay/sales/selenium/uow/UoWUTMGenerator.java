@@ -16,48 +16,48 @@ public class UoWUTMGenerator extends UTMGenerator {
 
     @Override
     public String decorateUrl(String url) {
-        if (Math.random() > .3 && !url.contains("utm_medium" )) {
+        if (Math.random() > .3 && !url.contains("utm_medium")) {
             StringBuilder urlBuilder = new StringBuilder(url);
 
             final String medium = pickRandom(this.mediums);
-            if (url.contains("?" )) {
-                urlBuilder.append("&" );
+            if (url.contains("?")) {
+                urlBuilder.append("&");
             } else {
-                urlBuilder.append("?" );
+                urlBuilder.append("?");
             }
-            urlBuilder.append("utm_medium=" );
+            urlBuilder.append("utm_medium=");
             urlBuilder.append(medium);
 
             String source = null;
-            if (medium.equals("organicsocial" ))
+            if (medium.equals("organicsocial"))
                 source = pickRandom(SOCIAL_SOURCES);
-            else if (medium.equals("email" ))
+            else if (medium.equals("email"))
                 source = pickRandom(EMAIL_SOURCES);
 
             if (source != null) {
-                urlBuilder.append("&" );
-                urlBuilder.append("utm_source=" );
+                urlBuilder.append("&");
+                urlBuilder.append("utm_source=");
                 urlBuilder.append(source);
             }
 
             final String campaign = pickRandom(this.campaigns);
             if (campaign != null) {
-                urlBuilder.append("&" );
-                urlBuilder.append("utm_campaign=" );
+                urlBuilder.append("&");
+                urlBuilder.append("utm_campaign=");
                 urlBuilder.append(campaign);
             }
 
             final String content = pickRandom(this.content);
             if (content != null) {
-                urlBuilder.append("&" );
-                urlBuilder.append("utm_content=" );
+                urlBuilder.append("&");
+                urlBuilder.append("utm_content=");
                 urlBuilder.append(content);
             }
 
             final String term = pickRandom(this.terms);
             if (term != null) {
-                urlBuilder.append("&" );
-                urlBuilder.append("utm_term=" );
+                urlBuilder.append("&");
+                urlBuilder.append("utm_term=");
                 urlBuilder.append(term);
             }
             return urlBuilder.toString();

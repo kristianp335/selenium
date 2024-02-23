@@ -3,12 +3,12 @@ package com.liferay.sales.selenium.api;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public enum ScrollLogicalPosition {
-    @JsonProperty("center" )
+    @JsonProperty("center")
     CENTER,
-    @JsonProperty("end" )
+    @JsonProperty("end")
     END,
-    @JsonProperty("nearest" )
+    @JsonProperty("nearest")
     NEAREST,
-    @JsonProperty("start" )
+    @JsonProperty("start")
     START
 }
