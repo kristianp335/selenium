@@ -297,7 +297,8 @@ public class UoWScriptManager extends ScriptManager {
                         new UoWClickpath3(new FirefoxDriverInitializer(webDriverArguments), baseUrl),
                         new UoWClickpath4(new FirefoxDriverInitializer(webDriverArguments), baseUrl),
                         new UoWClickpath5(new FirefoxDriverInitializer(webDriverArguments), baseUrl),
-                        new UoWClickpath6(new FirefoxDriverInitializer(webDriverArguments), baseUrl)
+                        new UoWClickpath6(new FirefoxDriverInitializer(webDriverArguments), baseUrl),
+                        new UoWClickpathABTest(new FirefoxDriverInitializer(webDriverArguments), baseUrl)
                 };
                 break;
             case CHROME:
@@ -307,7 +308,8 @@ public class UoWScriptManager extends ScriptManager {
                         new UoWClickpath3(new ChromeDriverInitializer(webDriverArguments), baseUrl),
                         new UoWClickpath4(new ChromeDriverInitializer(webDriverArguments), baseUrl),
                         new UoWClickpath5(new ChromeDriverInitializer(webDriverArguments), baseUrl),
-                        new UoWClickpath6(new ChromeDriverInitializer(webDriverArguments), baseUrl)
+                        new UoWClickpath6(new ChromeDriverInitializer(webDriverArguments), baseUrl),
+                        new UoWClickpathABTest(new ChromeDriverInitializer(webDriverArguments), baseUrl)
                 };
                 break;
             default:
