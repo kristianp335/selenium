@@ -1,8 +1,6 @@
 package com.liferay.sales.selenium.uow;
 
-import com.liferay.sales.selenium.api.ClickpathBase;
-import com.liferay.sales.selenium.api.ScriptManager;
-import com.liferay.sales.selenium.api.WebDriverType;
+import com.liferay.sales.selenium.api.*;
 import com.liferay.sales.selenium.chrome.ChromeDriverInitializer;
 import com.liferay.sales.selenium.firefox.FirefoxDriverInitializer;
 import com.liferay.sales.selenium.util.StreamGobbler;
@@ -12,18 +10,38 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.stream.Collectors;
 
 public class UoWScriptManager extends ScriptManager {
+    private static final Map<String, ClickpathConfig<ClickpathBase>> CLICKPATH_CONFIG_MAP;
+
+    static {
+        ClickpathConfig<ClickpathBase> clickpathConfig1 = new ClickpathConfig(UoWClickpath1.class, "1", ClickpathConfig.Type.STANDARD);
+        ClickpathConfig<ClickpathBase> clickpathConfig2 = new ClickpathConfig(UoWClickpath2.class, "2", ClickpathConfig.Type.STANDARD);
+        ClickpathConfig<ClickpathBase> clickpathConfig3 = new ClickpathConfig(UoWClickpath3.class, "3", ClickpathConfig.Type.STANDARD);
+        ClickpathConfig<ClickpathBase> clickpathConfig4 = new ClickpathConfig(UoWClickpath4.class, "4", ClickpathConfig.Type.STANDARD);
+        ClickpathConfig<ClickpathBase> clickpathConfig5 = new ClickpathConfig(UoWClickpath5.class, "5", ClickpathConfig.Type.STANDARD);
+        ClickpathConfig<ClickpathBase> clickpathConfig6 = new ClickpathConfig(UoWClickpath6.class, "6", ClickpathConfig.Type.STANDARD);
+        ClickpathConfig<ClickpathBase> clickpathConfig7 = new ClickpathConfig(UoWClickpathABTest.class, "ab1", ClickpathConfig.Type.AB);
+        CLICKPATH_CONFIG_MAP = new HashMap<>() {{
+            put(clickpathConfig1.getKey(), clickpathConfig1);
+            put(clickpathConfig2.getKey(), clickpathConfig2);
+            put(clickpathConfig3.getKey(), clickpathConfig3);
+            put(clickpathConfig4.getKey(), clickpathConfig4);
+            put(clickpathConfig5.getKey(), clickpathConfig5);
+            put(clickpathConfig6.getKey(), clickpathConfig6);
+            put(clickpathConfig7.getKey(), clickpathConfig7);
+        }};
+    }
     private static final int CONNECTION_DELAY = 15000;
     private static final ExecutorService EXECUTOR_SERVICE = Executors.newFixedThreadPool(1);
     private static final boolean IS_MAC = System.getProperty("os.name").equalsIgnoreCase("Mac OS X");
@@ -54,10 +72,12 @@ public class UoWScriptManager extends ScriptManager {
             final WebDriverType defaultWebDriverType = WebDriverType.CHROME;
             final String defaultOsaScriptPathname = "/usr/bin/osascript";
             final String defaultTunnelblickPathname = "/Applications/Tunnelblick.app";
+            final String[] defaultClickpathSelection = CLICKPATH_CONFIG_MAP.keySet().toArray(new String[0]);
+            final ClickpathTypeSelection defaultClickpathTypeSelection = ClickpathTypeSelection.ALL;
 
             CommandLine cmd = parseArguments(args, defaultBaseUrl, defaultAnonymousCycles, defaultKnownUserCycles,
                     defaultUsersCSVPathname, defaultUseVpn, defaultWebDriverType, defaultOsaScriptPathname,
-                    defaultTunnelblickPathname);
+                    defaultTunnelblickPathname, defaultClickpathSelection, defaultClickpathTypeSelection);
 
             if (cmd != null) {
                 String baseUrl = defaultBaseUrl;
@@ -71,7 +91,7 @@ public class UoWScriptManager extends ScriptManager {
                         anonymousCycles = Integer.parseInt(cmd.getOptionValue("anonymous-cycles"));
                     }
                 } catch (NumberFormatException e) {
-                    anonymousCycles = defaultAnonymousCycles;
+                    // do nothing
                 }
 
                 int knownUserCycles = defaultKnownUserCycles;
@@ -80,7 +100,7 @@ public class UoWScriptManager extends ScriptManager {
                         knownUserCycles = Integer.parseInt(cmd.getOptionValue("known-user-cycles"));
                     }
                 } catch (NumberFormatException e) {
-                    knownUserCycles = defaultKnownUserCycles;
+                    // do nothing
                 }
 
                 final String usersCSVPathname = cmd.hasOption("users") ? cmd.getOptionValue("users")
@@ -101,8 +121,9 @@ public class UoWScriptManager extends ScriptManager {
                     }
                 }
 
+                assert webDriverType != null;
                 String webDriverPathname = webDriverType.getDefaultWebDriverPathname();
-                String[] webDriverArguments = null;
+                String[] webDriverArguments;
 
                 if (cmd.hasOption("driver-path")) {
                     webDriverPathname = cmd.getOptionValue("driver-path");
@@ -115,6 +136,41 @@ public class UoWScriptManager extends ScriptManager {
                     webDriverArguments = webDriverType.getDefaultWebDriverArguments().split(" ");
                 }
 
+                String[] clickpathSelection;
+                if (cmd.hasOption("clickpaths")) {
+                    String clickpathSelectionString = cmd.getOptionValue("clickpaths").trim();
+                    clickpathSelection = clickpathSelectionString.split(" ");
+                } else {
+                    if (cmd.hasOption("clickpath-type")) {
+                        final String optionValue = cmd.getOptionValue("clickpath-type");
+                        if (optionValue == null || optionValue.isBlank()) {
+                            throw new IllegalArgumentException("clickpath-type needs a value");
+                        }
+                        final ClickpathTypeSelection clickpathTypeSelection =
+                                searchEnum(ClickpathTypeSelection.class, optionValue);
+                        if (clickpathTypeSelection == null) {
+                            throw new IllegalArgumentException(cmd.getOptionValue("clickpath-type") + " is not a valid clickpath-tupe");
+                        }
+                        if (clickpathTypeSelection != ClickpathTypeSelection.ALL) {
+                            clickpathSelection = CLICKPATH_CONFIG_MAP
+                                    .values()
+                                    .stream()
+                                    .filter(
+                                            clickpathConfig ->
+                                                    clickpathTypeSelection.toString()
+                                                            .equalsIgnoreCase(
+                                                                    clickpathConfig.getType().toString()))
+                                    .map(ClickpathConfig::getKey)
+                                    .collect(Collectors.toUnmodifiableList())
+                                    .toArray(String[]::new);
+                        } else {
+                            clickpathSelection = defaultClickpathSelection;
+                        }
+                    } else {
+                        clickpathSelection = defaultClickpathSelection;
+                    }
+                }
+
                 String osaScriptPathname = defaultOsaScriptPathname;
                 if (cmd.hasOption("osascript-path")) {
                     osaScriptPathname = cmd.getOptionValue("osascript-path");
@@ -125,34 +181,32 @@ public class UoWScriptManager extends ScriptManager {
                     tunnelblickPathname = cmd.getOptionValue("tunnelblick-path");
                 }
 
-                System.out.println("The base URL is " + baseUrl);
-                System.out.println("Running " + anonymousCycles + " anonymous cycles");
-                System.out.println("Running " + knownUserCycles + " known user cycles");
+                log("The base URL is " + baseUrl);
+                log("Running " + anonymousCycles + " anonymous cycles");
+                log("Running " + knownUserCycles + " known user cycles");
                 if (usersCSVPathname != null) {
-                    System.out.println("User accounts in " + usersCSVPathname);
+                    log("User accounts in " + usersCSVPathname);
                 }
-                System.out.println(useVpn ? "The VPN will be used" : "The VPN will NOT be used");
+                log(useVpn ? "The VPN will be used" : "The VPN will NOT be used");
                 System.out.print("Driving " + webDriverType + " with " + webDriverPathname);
-                if (webDriverArguments != null && webDriverArguments.length > 0) {
+                if (webDriverArguments.length > 0) {
                     System.out.print(" using \"");
                     System.out.print(String.join(" ", webDriverArguments));
-                    System.out.println("\"");
+                    log("\"");
                 } else {
-                    System.out.println();
+                    log("");
                 }
 
                 String[][] users = null;
                 if (usersCSVPathname != null) {
                     if (doesFileExist(usersCSVPathname)) {
                         users = readUserCSV(usersCSVPathname);
-
-                        if (users != null)
-                            System.out.println("The number of users for the known user cycles is " + users.length);
+                        log("The number of users for the known user cycles is " + users.length);
                     }
                 }
 
                 if (users == null || users.length == 0) {
-                    System.out.println("There are no user accounts. The known user cycles will be set to 0");
+                    log("There are no user accounts. The known user cycles will be set to 0");
                     knownUserCycles = 0;
                 }
 
@@ -169,7 +223,7 @@ public class UoWScriptManager extends ScriptManager {
                 }
 
                 doIt(webDriverType, webDriverArguments, baseUrl, anonymousCycles, knownUserCycles, users, useVpn,
-                        osaScriptPathname, tunnelblickPathname);
+                        osaScriptPathname, tunnelblickPathname, clickpathSelection);
             }
         } catch (Throwable e) {
             e.printStackTrace();
@@ -186,7 +240,9 @@ public class UoWScriptManager extends ScriptManager {
                                               final int defaultKnownUserCycles, final String defaultUserCsvPathname, final boolean defaultUseVpn,
                                               final WebDriverType defaultWebDriverType,
                                               final String defaultOsaScriptPathname,
-                                              final String defaultTunnelblickPathnameOption) throws ParseException {
+                                              final String defaultTunnelblickPathnameOption,
+                                              final String[] defaultClickpathSelection,
+                                              final ClickpathTypeSelection defaultClickpathTypeSelection) throws ParseException {
         final Options options = new Options();
 
         final Option baseUrlOption = new Option("b", "base-url", false,
@@ -228,7 +284,7 @@ public class UoWScriptManager extends ScriptManager {
         options.addOption(webDriverPathOption);
 
         final Option webDriverArgumentsOption = new Option(null, "driver-arguments", true,
-                "The arguments to use with the web driver. The default argumes are \""
+                "The arguments to use with the web driver. The default arguments are \""
                         + defaultWebDriverType.getDefaultWebDriverArguments() + "\"");
         webDriverArgumentsOption.setRequired(false);
         options.addOption(webDriverArgumentsOption);
@@ -244,6 +300,19 @@ public class UoWScriptManager extends ScriptManager {
                         + defaultTunnelblickPathnameOption);
         tunnelblickPathnameOption.setRequired(false);
         options.addOption(tunnelblickPathnameOption);
+
+        final Option clickpathSelection = new Option("c", "clickpaths", true,
+                "The clickpaths to use. The default argument is \""
+                        + String.join(" ", defaultClickpathSelection) + "\"");
+        clickpathSelection.setRequired(false);
+        options.addOption(clickpathSelection);
+
+        final Option clickpathTypeSelection = new Option("t", "clickpath-type", true,
+                "The type of clickpaths to use. The default argument is "
+                        + defaultClickpathTypeSelection
+                        + ". If -c[--clickpaths] is used then it will override the type specified here");
+        clickpathTypeSelection.setRequired(false);
+        options.addOption(clickpathTypeSelection);
 
         final Option helpOption = new Option("h", "help", false, "Displays this help information");
         helpOption.setRequired(false);
@@ -261,7 +330,7 @@ public class UoWScriptManager extends ScriptManager {
             // do nothing
         }
 
-        CommandLine cmd = null;
+        CommandLine cmd;
         try {
             cmd = parser.parse(options, args);
 
@@ -279,42 +348,8 @@ public class UoWScriptManager extends ScriptManager {
 
     public static void doIt(final WebDriverType webDriverType, final String[] webDriverArguments, final String baseUrl,
                             final int anonymousCycles, final int knownUserCycles, final String[][] users, final boolean useVpn,
-                            final String osaScriptPathname, final String tunnelblickPathname) {
-        // Before starting the script, make adjustments in this top block
-        // to reflect the behavior that you need.
-        // Inspect the clickpaths.
-        // If you run the A/B-Test, note that you'll have to prepare the
-        // content according to the documentation
-        // https://docs.google.com/document/d/1h2E7UUt_i3yqwge25Pd8YXOLHt3Jujz4VBAdgHSeKQw/edit#heading=h.w4lf8kpcller
-
-        final ClickpathBase[] paths;
-
-        switch (webDriverType) {
-            case FIREFOX:
-                paths = new ClickpathBase[]{
-                        new UoWClickpath1(new FirefoxDriverInitializer(webDriverArguments), baseUrl),
-                        new UoWClickpath2(new FirefoxDriverInitializer(webDriverArguments), baseUrl),
-                        new UoWClickpath3(new FirefoxDriverInitializer(webDriverArguments), baseUrl),
-                        new UoWClickpath4(new FirefoxDriverInitializer(webDriverArguments), baseUrl),
-                        new UoWClickpath5(new FirefoxDriverInitializer(webDriverArguments), baseUrl),
-                        new UoWClickpath6(new FirefoxDriverInitializer(webDriverArguments), baseUrl),
-                        new UoWClickpathABTest(new FirefoxDriverInitializer(webDriverArguments), baseUrl)
-                };
-                break;
-            case CHROME:
-                paths = new ClickpathBase[]{
-                        new UoWClickpath1(new ChromeDriverInitializer(webDriverArguments), baseUrl),
-                        new UoWClickpath2(new ChromeDriverInitializer(webDriverArguments), baseUrl),
-                        new UoWClickpath3(new ChromeDriverInitializer(webDriverArguments), baseUrl),
-                        new UoWClickpath4(new ChromeDriverInitializer(webDriverArguments), baseUrl),
-                        new UoWClickpath5(new ChromeDriverInitializer(webDriverArguments), baseUrl),
-                        new UoWClickpath6(new ChromeDriverInitializer(webDriverArguments), baseUrl),
-                        new UoWClickpathABTest(new ChromeDriverInitializer(webDriverArguments), baseUrl)
-                };
-                break;
-            default:
-                throw new IllegalArgumentException("Unrecognised web driver type");
-        }
+                            final String osaScriptPathname, final String tunnelblickPathname, String[] clickpathSelection) {
+        final ClickpathBase[] paths = buildPathsArray(baseUrl, clickpathSelection, webDriverType, webDriverArguments);
 
         final int pathCount = paths.length;
         if (pathCount == 0) {
@@ -371,7 +406,7 @@ public class UoWScriptManager extends ScriptManager {
 
             if (useVpn) {
                 try {
-                    vpnConnect(osaScriptPathname, tunnelblickPathname, vpnName, null);
+                    vpnConnect(osaScriptPathname, tunnelblickPathname, vpnName, user[0]);
                 } catch (IOException e) {
                     log(e.getMessage());
                 }
@@ -395,6 +430,41 @@ public class UoWScriptManager extends ScriptManager {
             log(string);
             log("---------------------------------------------");
         }
+    }
+
+    private static ClickpathBase[] buildPathsArray(String baseUrl, String[] clickpathSelection, WebDriverType webDriverType, String[] webDriverArguments) {
+        final List<ClickpathBase> clickpaths = new ArrayList<>();
+        for (String key : clickpathSelection) {
+            if (!CLICKPATH_CONFIG_MAP.containsKey(key)) {
+                log("A clickpath with " + key + " was not found");
+                continue;
+            }
+            try {
+                final DriverInitializer driverInitializer;
+                switch (webDriverType) {
+                    case CHROME:
+                        driverInitializer = new ChromeDriverInitializer(webDriverArguments);
+                        break;
+                    case FIREFOX:
+                        driverInitializer = new FirefoxDriverInitializer(webDriverArguments);
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Unrecognised web driver type");
+                }
+
+                final ClickpathConfig<ClickpathBase> config = CLICKPATH_CONFIG_MAP.get(key);
+                final Class<ClickpathBase> clazz = config.getClickpathClass();
+                final Constructor<ClickpathBase> ctor = clazz.getConstructor(DriverInitializer.class, String.class);
+                ClickpathBase clickpath = ctor.newInstance(driverInitializer, baseUrl);
+                log("Added clickpath " + clickpath.getClass().getSimpleName() + " to array");
+                clickpaths.add(clickpath);
+            } catch (InvocationTargetException | NoSuchMethodException | InstantiationException |
+                     IllegalAccessException e) {
+                log("Unable to create clickpath instance");
+                e.printStackTrace();
+            }
+        }
+        return clickpaths.toArray(new ClickpathBase[0]);
     }
 
     private static void vpnConnect(final String osaScriptPathname, final String tunnelblickPathname,

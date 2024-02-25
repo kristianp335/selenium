@@ -50,13 +50,13 @@ public class UoWClickpathABTest extends UoWBaseClickpath {
                 log("rand : " + rand);
 
                 if ("Read more...".equalsIgnoreCase(linkText)) /* VARIANT */ {
-                    log("VARIANT : \'" + linkText + "\"");
-                    fire = rand > 0.2;
+                    log("VARIANT : '" + linkText + "\"");
+                    fire = rand <= 0.666;
                     countVariant++;
                     countVariantFired = countVariantFired + (fire ? 1 : 0);
                 } else if ("Click here to learn more".equalsIgnoreCase(linkText)) /* CONTROL */ {
                     log("CONTROL : \"" + linkText + "\"");
-                    fire = rand > 0.3;
+                    fire = rand <= 0.333;
                     countControl++;
                     countControlFired = countControlFired + (fire ? 1 : 0);
                 } else {

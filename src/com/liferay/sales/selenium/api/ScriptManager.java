@@ -19,7 +19,7 @@ public abstract class ScriptManager {
     /**
      * Syntactic sugar for System.out.println
      *
-     * @param message
+     * @param message the message
      */
     protected static void log(String message) {
         System.out.println(message);
@@ -30,22 +30,22 @@ public abstract class ScriptManager {
      * rows with "name,password" (comma-separated, no escaping, no quotes)
      * Luxury trimming done to individual entries without extra charge.
      *
-     * @param filename
+     * @param filename the filename and path
      * @return a two-dimensional array containing the users
      */
     public static String[][] readUserCSV(String filename) {
-        ArrayList<String[]> content = new ArrayList<String[]>();
+        ArrayList<String[]> content = new ArrayList<>();
         try (Scanner scanner = new Scanner(new File(filename))) {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
 
                 try (Scanner rowScanner = new Scanner(line)) {
-                    ArrayList<String> row = new ArrayList<String>(2);
+                    ArrayList<String> row = new ArrayList<>(2);
                     rowScanner.useDelimiter(",");
                     while (rowScanner.hasNext()) {
                         row.add(rowScanner.next().trim());
                     }
-                    content.add(row.toArray(new String[row.size()]));
+                    content.add(row.toArray(new String[0]));
                 }
             }
         } catch (FileNotFoundException e) {
