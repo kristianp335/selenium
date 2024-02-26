@@ -9,6 +9,9 @@ import org.openqa.selenium.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -47,7 +50,7 @@ public abstract class ClickpathBase {
     /**
      * Deletes all cookies
      */
-    public void deleteAllCookies() {
+    protected void deleteAllCookies() {
         getDriver().manage().deleteAllCookies();
     }
 
@@ -68,7 +71,7 @@ public abstract class ClickpathBase {
      *
      * @param driver the web driver
      */
-    public void setDriver(WebDriver driver) {
+    protected void setDriver(WebDriver driver) {
         this.driver = driver;
         js = (JavascriptExecutor) driver;
     }
@@ -84,7 +87,7 @@ public abstract class ClickpathBase {
      *
      * @param message the message text
      */
-    public void log(String message) {
+    protected void log(String message) {
         System.out.println(message);
     }
 
@@ -94,7 +97,7 @@ public abstract class ClickpathBase {
      *
      * @param millis number of milliseconds
      */
-    public void sleep(int millis) {
+    protected void sleep(int millis) {
         sleep(millis, true);
     }
 
@@ -106,7 +109,7 @@ public abstract class ClickpathBase {
      * @param millis               number of milliseconds
      * @param includeInterestDelay include interest delay
      */
-    public void sleep(int millis, boolean includeInterestDelay) {
+    protected void sleep(int millis, boolean includeInterestDelay) {
         millis = millis + (int) (Math.random() * 200);
         if (includeInterestDelay && Math.random() > 0.96) {
             millis += 15000;
@@ -128,7 +131,7 @@ public abstract class ClickpathBase {
      *
      * @param linkTexts the array of link texts to chose from
      */
-    public void doClickRandomText(String[] linkTexts) {
+    protected void doClickRandomText(String[] linkTexts) {
         doClickText(pickRandom(linkTexts));
     }
 
@@ -143,7 +146,7 @@ public abstract class ClickpathBase {
      * @param linkTexts the link texts in order to be tried.
      */
 
-    public void doClickRandomText(String[][] linkTexts) {
+    protected void doClickRandomText(String[][] linkTexts) {
         doClickText(pickRandom(linkTexts));
     }
 
@@ -155,7 +158,7 @@ public abstract class ClickpathBase {
      * @param linkText the link text
      */
 
-    public void doClickText(String linkText) {
+    protected void doClickText(String linkText) {
         String match = "exact";
         List<WebElement> elements = getElementsByExactLinkText(linkText);
         if (elements.size() == 0) {
@@ -188,7 +191,7 @@ public abstract class ClickpathBase {
      *
      * @param texts Link texts in order to be tried.
      */
-    public void doClickText(String[] texts) {
+    protected void doClickText(String[] texts) {
         WebElement elementToClick = null;
         String text = null;
 
@@ -236,7 +239,7 @@ public abstract class ClickpathBase {
      *
      * @param url the url to navigate to
      */
-    public void doGoTo(String url) {
+    protected void doGoTo(String url) {
         if (!url.contains("http")) {
             url = (baseUrl + url).replaceAll("//", "/");
         }
@@ -292,7 +295,7 @@ public abstract class ClickpathBase {
      * @param <T>    the type within the list
      * @return the first item, or null, if the list is null or empty
      */
-    public <T> T firstOf(List<T> values) {
+    protected <T> T firstOf(List<T> values) {
         return values == null || values.isEmpty() ? null : values.get(0);
     }
 
@@ -303,7 +306,7 @@ public abstract class ClickpathBase {
      * @param cssSelector the CSS selector
      * @return the web element, or null if not found
      */
-    public WebElement getElementByCSS(String cssSelector) {
+    protected WebElement getElementByCSS(String cssSelector) {
         List<WebElement> allElements = getElementsByCSS(cssSelector);
         if (allElements.size() == 0) {
             log("WARN: getElementByCSS - there is no element matching this CSS selector: " + cssSelector);
@@ -321,7 +324,7 @@ public abstract class ClickpathBase {
      * @param linkText the link text
      * @return the web element, or null if not found
      */
-    public WebElement getElementByExactLinkText(String linkText) {
+    protected WebElement getElementByExactLinkText(String linkText) {
         List<WebElement> allElements = getElementsByExactLinkText(linkText);
         if (allElements.size() == 0) {
             log("WARN: getElementByExactLinkText - there is no element matching this link text: " + linkText);
@@ -338,7 +341,7 @@ public abstract class ClickpathBase {
      * @param linkText the link text
      * @return the List of web elements
      */
-    public List<WebElement> getElementsByExactLinkText(String linkText) {
+    protected List<WebElement> getElementsByExactLinkText(String linkText) {
         return getDriver().findElements(By.linkText(linkText));
     }
 
@@ -348,7 +351,7 @@ public abstract class ClickpathBase {
      * @param id the id of the element
      * @return the web element, or null if not found
      */
-    public WebElement getElementById(String id) {
+    protected WebElement getElementById(String id) {
         try {
             return getDriver().findElement(By.id(id));
         } catch (NoSuchElementException e) {
@@ -363,7 +366,7 @@ public abstract class ClickpathBase {
      * @param name the name of the element
      * @return the web element, or null if not found
      */
-    public WebElement getElementByName(String name) {
+    protected WebElement getElementByName(String name) {
         List<WebElement> allElements = getElementsByName(name);
         if (allElements.size() == 0) {
             log("WARN: getElementByName - there is no element matching this name: " + name);
@@ -380,7 +383,7 @@ public abstract class ClickpathBase {
      * @param name the name
      * @return the List of web elements
      */
-    public List<WebElement> getElementsByName(String name) {
+    protected List<WebElement> getElementsByName(String name) {
         return driver.findElements(By.name(name));
     }
 
@@ -391,7 +394,7 @@ public abstract class ClickpathBase {
      * @param linkText the link text
      * @return the web element, or null if not found
      */
-    public WebElement getElementByPartialLinkText(String linkText) {
+    protected WebElement getElementByPartialLinkText(String linkText) {
         List<WebElement> allElements = getElementsByPartialLinkText(linkText);
         if (allElements.size() == 0) {
             log("WARN: getElementByPartialLinkText - there is no element matching this link text: " + linkText);
@@ -408,7 +411,7 @@ public abstract class ClickpathBase {
      * @param linkText the link text
      * @return the List of web elements
      */
-    public List<WebElement> getElementsByPartialLinkText(String linkText) {
+    protected List<WebElement> getElementsByPartialLinkText(String linkText) {
         return getDriver().findElements(By.partialLinkText(linkText));
     }
 
@@ -419,7 +422,7 @@ public abstract class ClickpathBase {
      * @param xPath the xpath for the element
      * @return the web element, or null if not found
      */
-    public WebElement getElementByXPath(String xPath) {
+    protected WebElement getElementByXPath(String xPath) {
         List<WebElement> allElements = getElementsByXPath(xPath);
         if (allElements.size() > 1) {
             log("WARN: getElementByXPath - there are multiple elements matching this xpath: " + xPath);
@@ -436,7 +439,7 @@ public abstract class ClickpathBase {
      * @param xPath the xpath expression
      * @return the List of web elements
      */
-    public List<WebElement> getElementsByXPath(String xPath) {
+    protected List<WebElement> getElementsByXPath(String xPath) {
         return getDriver().findElements(By.xpath(xPath));
     }
 
@@ -446,7 +449,7 @@ public abstract class ClickpathBase {
      * @param cssSelector the CSS selector
      * @return the List of web elements
      */
-    public List<WebElement> getElementsByCSS(String cssSelector) {
+    protected List<WebElement> getElementsByCSS(String cssSelector) {
         return getDriver().findElements(By.cssSelector(cssSelector));
     }
 
@@ -456,7 +459,7 @@ public abstract class ClickpathBase {
      * @param xPath the xpath expression
      * @return the web element
      */
-    public WebElement getFirstVisibleElementByXPath(String xPath) {
+    protected WebElement getFirstVisibleElementByXPath(String xPath) {
         List<WebElement> elements = getDriver().findElements(By.xpath(xPath));
         for (WebElement webElement : elements) {
             if (webElement.isDisplayed()) {
@@ -472,7 +475,7 @@ public abstract class ClickpathBase {
      * @param field the name of the field
      * @return the web element
      */
-    public WebElement getLoginField(String field) {
+    protected WebElement getLoginField(String field) {
         return getDriver().findElement(By.id("_com_liferay_login_web_portlet_LoginPortlet_" + field));
     }
 
@@ -483,7 +486,7 @@ public abstract class ClickpathBase {
      * @param <T>    the type within the list
      * @return the last item, or null, if the list is null or empty
      */
-    public <T> T lastOf(List<T> values) {
+    protected <T> T lastOf(List<T> values) {
         return values == null || values.isEmpty() ? null : values.get(values.size() - 1);
     }
 
@@ -495,7 +498,7 @@ public abstract class ClickpathBase {
      * @param selector the CSS selector
      * @throws IllegalArgumentException when the selector contains double quotes
      */
-    public void mark(String selector) throws IllegalArgumentException {
+    protected void mark(String selector) throws IllegalArgumentException {
         if (selector.contains("\"")) {
             throw new IllegalArgumentException("Selector must not contain double quotes! Rewrite with single quotes! The author of the underlying method was too lazy to deal with all possible escaping options, so he just deals with it this way: You do the work!");
         }
@@ -507,7 +510,7 @@ public abstract class ClickpathBase {
      *
      * @param javascript the javascript to be executed
      */
-    public void execute(String javascript) {
+    protected void execute(String javascript) {
         js.executeScript(javascript);
     }
 
@@ -516,7 +519,7 @@ public abstract class ClickpathBase {
      *
      * @param xPath the xPath expression
      */
-    public void markByXPath(String xPath) {
+    protected void markByXPath(String xPath) {
         StringBuilder js = new StringBuilder("const iterator = document.evaluate(");
         if (xPath.contains("\"")) {
             js.append("'");
@@ -543,7 +546,7 @@ public abstract class ClickpathBase {
      * @return the array
      */
     @SafeVarargs
-    public final <T> T[] oneOf(T... values) {
+    protected final <T> T[] oneOf(T... values) {
         return values;
     }
 
@@ -553,7 +556,7 @@ public abstract class ClickpathBase {
      * @param values the values from which to pick the random value
      * @return the value
      */
-    public <T> T pickRandom(T[] values) {
+    protected <T> T pickRandom(T[] values) {
         int pos = (int) (Math.random() * values.length);
         return values[pos];
     }
@@ -564,7 +567,7 @@ public abstract class ClickpathBase {
      * @param values the values from which to pick the random value
      * @return the value
      */
-    public <T> T pickRandom(List<T> values) {
+    protected <T> T pickRandom(List<T> values) {
         int pos = (int) (Math.random() * values.size());
         return values.get(pos);
     }
@@ -575,7 +578,7 @@ public abstract class ClickpathBase {
      * @param values the two-dimensional array from which to pick the random array
      * @return the value
      */
-    public <T> T[] pickRandom(T[][] values) {
+    protected <T> T[] pickRandom(T[][] values) {
         int pos = (int) (Math.random() * values.length);
         return values[pos];
     }
@@ -597,7 +600,7 @@ public abstract class ClickpathBase {
      * @param width  the desired width
      * @param height the desired height
      */
-    public void resizeBrowser(int width, int height) {
+    protected void resizeBrowser(int width, int height) {
         getDriver().manage().window().setSize(new Dimension(width, height));
     }
 
@@ -608,7 +611,7 @@ public abstract class ClickpathBase {
      *
      * @param element the element to scroll to
      */
-    public void scrollTo(WebElement element) {
+    protected void scrollTo(WebElement element) {
         scrollTo(element, DEFAULT_SCROLL_INTO_VIEW_OPTIONS);
     }
 
@@ -617,7 +620,7 @@ public abstract class ClickpathBase {
      *
      * @param element the element to scroll to
      */
-    public void scrollTo(WebElement element, ScrollIntoViewOptions scrollIntoViewOptions) {
+    protected void scrollTo(WebElement element, ScrollIntoViewOptions scrollIntoViewOptions) {
         try {
             js.executeScript(String.format("arguments[0].scrollIntoView(%s);", objectWriter.writeValueAsString(scrollIntoViewOptions)), element);
         } catch (JsonProcessingException e) {
@@ -630,7 +633,7 @@ public abstract class ClickpathBase {
      *
      * @param element the element to scroll to
      */
-    public void scrollTo(WebElement element, boolean alignToTop) {
+    protected void scrollTo(WebElement element, boolean alignToTop) {
         js.executeScript(String.format("arguments[0].scrollIntoView(%s);", alignToTop), element);
     }
 
@@ -641,6 +644,22 @@ public abstract class ClickpathBase {
      */
     public void setDefaultSleep(int millis) {
         this.defaultSleep = millis;
+    }
+
+    protected void takeSnapShot(String hint) throws IOException {
+        takeSnapShot(hint, StandardCopyOption.REPLACE_EXISTING);
+    }
+
+    protected void takeSnapShot(final String hint, final CopyOption copyOptions) throws IOException {
+        final TakesScreenshot scrShot = ((TakesScreenshot) getDriver());
+        final File srcFile = scrShot.getScreenshotAs(OutputType.FILE);
+        final File destFile = new File(buildFilename(hint, FileType.SCREENSHOT));
+        Files.copy(srcFile.toPath(), destFile.toPath(), copyOptions);
+    }
+
+    private String buildFilename(String hint, FileType fileType) {
+        final String timestamp = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss", Locale.ENGLISH).format(LocalDateTime.now());
+        return getClass().getSimpleName() + "-" + hint + "-Selenium-" + getDriver().getClass().getSimpleName() + "-" + timestamp + "." + fileType.getFileExtension();
     }
 
     /**
@@ -661,12 +680,26 @@ public abstract class ClickpathBase {
      * @param hint     the hint text
      */
     public void writePageToDisk(String severity, String hint) throws IOException {
-        String timestamp = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss", Locale.ENGLISH).format(LocalDateTime.now());
-        File outFile = new File(getClass().getSimpleName() + "-" + hint + "-Selenium-" + getDriver().getClass().getSimpleName() + "-" + timestamp + ".html");
+        File outFile = new File(buildFilename(hint, FileType.SOURCE));
         FileWriter out = new FileWriter(outFile);
         log(severity + ": Writing " + outFile.getAbsolutePath());
         out.write(getDriver().getPageSource());
         out.flush();
         out.close();
+    }
+
+    public enum FileType {
+        SOURCE("html"),
+        SCREENSHOT("png");
+
+        private final String fileExtension;
+
+        FileType(final String fileExtension) {
+            this.fileExtension = fileExtension;
+        }
+
+        public String getFileExtension() {
+            return fileExtension;
+        }
     }
 }

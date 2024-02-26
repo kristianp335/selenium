@@ -23,6 +23,24 @@ import java.util.stream.Collectors;
 
 public class UoWScriptManager extends ScriptManager {
     private static final Map<String, ClickpathConfig<ClickpathBase>> CLICKPATH_CONFIG_MAP;
+    private static final int CONNECTION_DELAY = 15000;
+    private static final ExecutorService EXECUTOR_SERVICE = Executors.newFixedThreadPool(1);
+    private static final boolean IS_MAC = System.getProperty("os.name").equalsIgnoreCase("Mac OS X");
+    private static final String[] VPN_COMMAND = new String[]{"---OSASCRIPT---", "-e",
+            "---TELL-COMMAND---", "-e", "---VPN-ACTION---", "-e",
+            "end", "tell"};
+    private static final String[] VPN_NAMES = new String[]{
+            "nordvpn-au",
+            "nordvpn-br",
+            "nordvpn-de",
+            "nordvpn-fr",
+            "nordvpn-us",
+            "purevpn-au",
+            "purevpn-br",
+            "purevpn-de",
+            "purevpn-fr",
+            "purevpn-us",
+    };
 
     static {
         ClickpathConfig<ClickpathBase> clickpathConfig1 = new ClickpathConfig(UoWClickpath1.class, "1", ClickpathConfig.Type.STANDARD);
@@ -42,24 +60,6 @@ public class UoWScriptManager extends ScriptManager {
             put(clickpathConfig7.getKey(), clickpathConfig7);
         }};
     }
-    private static final int CONNECTION_DELAY = 15000;
-    private static final ExecutorService EXECUTOR_SERVICE = Executors.newFixedThreadPool(1);
-    private static final boolean IS_MAC = System.getProperty("os.name").equalsIgnoreCase("Mac OS X");
-    private static final String[] VPN_COMMAND = new String[]{"---OSASCRIPT---", "-e",
-            "---TELL-COMMAND---", "-e", "---VPN-ACTION---", "-e",
-            "end", "tell"};
-    private static final String[] VPN_NAMES = new String[]{
-            "nordvpn-au",
-            "nordvpn-br",
-            "nordvpn-de",
-            "nordvpn-fr",
-            "nordvpn-us",
-            "purevpn-au",
-            "purevpn-br",
-            "purevpn-de",
-            "purevpn-fr",
-            "purevpn-us",
-    };
 
     public static void main(String[] args) {
         int exitCode = 0;

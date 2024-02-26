@@ -4,6 +4,7 @@ import com.liferay.sales.selenium.api.DriverInitializer;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
@@ -66,8 +67,12 @@ public class UoWClickpath6 extends UoWBaseClickpath {
 
         for (int page = 0; page < pageIndex; page++) {
             final WebElement nextPageLink = getElementByCSS("button.next");
-            nextPageLink.click();
-            sleep(1000, false);
+            if (nextPageLink != null) {
+                nextPageLink.click();
+                sleep(1000, false);
+            } else {
+                log("The next button was not available - " + page + "[" + pageIndex + "]");
+            }
         }
 
         final List<WebElement> blogCards = getElementsByCSS("div.component-card");
@@ -96,6 +101,16 @@ public class UoWClickpath6 extends UoWBaseClickpath {
             sleep(5000);
             log("Scrolling to bottom of page");
             scrollToFooter();
+        } else {
+            log("Unable to click the Read More button");
+            final String hint = getClass().getSimpleName() + "-selectBlog";
+            try {
+                writePageToDisk("ERROR", hint);
+                takeSnapShot(hint);
+            } catch (IOException e1) {
+                System.out.println("ERROR (during error handling): " + hint);
+                e1.printStackTrace();
+            }
         }
     }
 }
