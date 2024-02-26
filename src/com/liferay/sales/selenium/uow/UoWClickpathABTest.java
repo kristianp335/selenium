@@ -39,6 +39,7 @@ public class UoWClickpathABTest extends UoWBaseClickpath {
         final List<WebElement> newsCards = getElementsByXPath(newsCardXPath);
         if (newsCards.size() > 0) {
             final WebElement newsCard = pickRandom(newsCards);
+            mark(newsCard);
             scrollTo(newsCard);
             sleep(2000, false);
             final WebElement readMoreLink = newsCard.findElement(By.tagName("a"));

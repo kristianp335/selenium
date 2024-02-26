@@ -506,6 +506,15 @@ public abstract class ClickpathBase {
     }
 
     /**
+     * Mark the given element with border: 2px solid red
+     *
+     * @param element the element
+     */
+    protected void mark(final WebElement element) {
+        js.executeScript("arguments[0].style.border = '2px solid red';", element);
+    }
+
+    /**
      * Executes javascript within the current page
      *
      * @param javascript the javascript to be executed
@@ -554,9 +563,12 @@ public abstract class ClickpathBase {
      * Picks and returns a random value from an array
      *
      * @param values the values from which to pick the random value
-     * @return the value
+     * @return the value, or null, if the array was empty
      */
     protected <T> T pickRandom(T[] values) {
+        if (values.length == 0) {
+            return null;
+        }
         int pos = (int) (Math.random() * values.length);
         return values[pos];
     }
@@ -565,9 +577,12 @@ public abstract class ClickpathBase {
      * Picks and returns a random value from a list
      *
      * @param values the values from which to pick the random value
-     * @return the value
+     * @return the value, or null, if the array was empty
      */
     protected <T> T pickRandom(List<T> values) {
+        if (values.isEmpty()) {
+            return null;
+        }
         int pos = (int) (Math.random() * values.size());
         return values.get(pos);
     }
@@ -576,9 +591,12 @@ public abstract class ClickpathBase {
      * Picks and returns a random array from a two-dimensional array
      *
      * @param values the two-dimensional array from which to pick the random array
-     * @return the value
+     * @return the value, or null, if the array was empty
      */
     protected <T> T[] pickRandom(T[][] values) {
+        if (values.length == 0) {
+            return null;
+        }
         int pos = (int) (Math.random() * values.length);
         return values[pos];
     }
@@ -646,14 +664,15 @@ public abstract class ClickpathBase {
         this.defaultSleep = millis;
     }
 
-    protected void takeSnapShot(String hint) throws IOException {
-        takeSnapShot(hint, StandardCopyOption.REPLACE_EXISTING);
+    protected void takeSnapShot(String severity, String hint) throws IOException {
+        takeSnapShot(severity, hint, StandardCopyOption.REPLACE_EXISTING);
     }
 
-    protected void takeSnapShot(final String hint, final CopyOption copyOptions) throws IOException {
+    protected void takeSnapShot(String severity, final String hint, final CopyOption copyOptions) throws IOException {
         final TakesScreenshot scrShot = ((TakesScreenshot) getDriver());
         final File srcFile = scrShot.getScreenshotAs(OutputType.FILE);
         final File destFile = new File(buildFilename(hint, FileType.SCREENSHOT));
+        log(severity + ": Writing " + destFile.getAbsolutePath());
         Files.copy(srcFile.toPath(), destFile.toPath(), copyOptions);
     }
 

@@ -76,7 +76,17 @@ public class UoWClickpath6 extends UoWBaseClickpath {
         }
 
         final List<WebElement> blogCards = getElementsByCSS("div.component-card");
-        final WebElement blogCard = blogCards.get(blogPositionOnPage - 1);
+        if (blogCards.isEmpty()) {
+            log("Unable to select a blog, as no cards available");
+            return;
+        }
+        int blogIndex = blogPositionOnPage - 1;
+        final WebElement blogCard;
+        if (blogIndex < blogCards.size()) {
+            blogCard = blogCards.get(blogIndex);
+        } else {
+           blogCard = blogCards.get(blogCards.size() - 1);
+        }
         selectBlog(blogCard);
     }
 
@@ -85,7 +95,19 @@ public class UoWClickpath6 extends UoWBaseClickpath {
 
         final List<WebElement> blogCards = getElementsByCSS("div.component-card");
         final WebElement blogCard = pickRandom(blogCards);
-        selectBlog(blogCard);
+        if (blogCard != null) {
+            selectBlog(blogCard);
+        } else {
+            log("Unable to find any blogs");
+            final String hint = getClass().getSimpleName() + "-option2";
+            try {
+                writePageToDisk("ERROR", hint);
+                takeSnapShot("ERROR", hint);
+            } catch (IOException e1) {
+                System.out.println("ERROR (during error handling): " + hint);
+                e1.printStackTrace();
+            }
+        }
     }
 
     private void selectBlog(WebElement blogCard) {
@@ -106,7 +128,7 @@ public class UoWClickpath6 extends UoWBaseClickpath {
             final String hint = getClass().getSimpleName() + "-selectBlog";
             try {
                 writePageToDisk("ERROR", hint);
-                takeSnapShot(hint);
+                takeSnapShot("ERROR", hint);
             } catch (IOException e1) {
                 System.out.println("ERROR (during error handling): " + hint);
                 e1.printStackTrace();

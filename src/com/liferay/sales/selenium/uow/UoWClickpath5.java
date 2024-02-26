@@ -2,6 +2,7 @@ package com.liferay.sales.selenium.uow;
 
 import com.liferay.sales.selenium.api.DriverInitializer;
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementNotInteractableException;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
@@ -92,19 +93,20 @@ public class UoWClickpath5 extends UoWBaseClickpath {
             if (carouselItem != null) {
                 final WebElement readMoreButton = carouselItem.findElement(By.tagName("a"));
                 if (readMoreButton != null) {
-                    if (readMoreButton.isEnabled()) {
+                    try {
                         doClick(readMoreButton);
                         scrollToFooter();
-                    } else {
+                    } catch (ElementNotInteractableException e) {
                         log("Unable to click the Read More button");
                         final String hint = getClass().getSimpleName() + "-option2";
                         try {
                             writePageToDisk("ERROR", hint);
-                            takeSnapShot(hint);
+                            takeSnapShot("ERROR", hint);
                         } catch (IOException e1) {
                             System.out.println("ERROR (during error handling): " + hint);
                             e1.printStackTrace();
                         }
+
                     }
                 }
             }
