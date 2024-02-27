@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * This class represents a clickpath that searches for and randomly selects a news article
+ * This class represents a clickpath that searches for and randomly selects a blog article
  */
 public class UoWClickpath6 extends UoWBaseClickpath {
     private static final Random rand = new Random();
@@ -33,6 +33,8 @@ public class UoWClickpath6 extends UoWBaseClickpath {
 
         sleep(2000, false);
 
+        final boolean isNews = getElementByCSS(".lfr-layout-structure-item-34f3c805-6015-c828-c1c0-b791fb55d575") != null;
+
         int option = pickRandom(new Integer[]{1, 2});
         log("Running option " + option);
         switch (option) {
@@ -40,7 +42,7 @@ public class UoWClickpath6 extends UoWBaseClickpath {
                 option1();
                 break;
             default:
-                option2();
+                option2(isNews);
                 break;
         }
 
@@ -89,18 +91,21 @@ public class UoWClickpath6 extends UoWBaseClickpath {
         selectBlog(blogCard);
     }
 
-    private void option2() {
+    private void option2(final boolean isNews) {
         option1();
 
-        final List<WebElement> blogCards = getElementsByCSS("div.component-card");
-        final WebElement blogCard = pickRandom(blogCards);
-        if (blogCard != null) {
-            selectBlog(blogCard);
-        } else {
-            log("Unable to find any blogs");
-            final String hint = getClass().getSimpleName() + "-option2";
-            writePageToDisk("ERROR", hint);
-            takeScreenshot("ERROR", hint);
+        // Blogs and News are displayed with the same card, however, the DPT for news does not have related content
+        if (!isNews) {
+            final List<WebElement> blogCards = getElementsByCSS("div.component-card");
+            final WebElement blogCard = pickRandom(blogCards);
+            if (blogCard != null) {
+                selectBlog(blogCard);
+            } else {
+                log("Unable to find any blogs");
+                final String hint = getClass().getSimpleName() + "-option2";
+                writePageToDisk("ERROR", hint);
+                takeScreenshot("ERROR", hint);
+            }
         }
     }
 
