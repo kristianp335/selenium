@@ -3,20 +3,18 @@ package com.liferay.sales.selenium.api;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import com.liferay.sales.selenium.util.UTMGenerator;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.CopyOption;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
+import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 /**
  * Utility class to use as baseclass for clickpath implementations.
@@ -45,6 +43,11 @@ public abstract class ClickpathBase {
         this.driverInitializer = di;
         this.baseUrl = baseUrl;
         this.utmGenerator = utmGenerator;
+    }
+
+    private String buildFilename(String hint, FileType fileType) {
+        final String timestamp = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss", Locale.ENGLISH).format(LocalDateTime.now());
+        return getClass().getSimpleName() + "-" + hint + "-Selenium-" + getDriver().getClass().getSimpleName() + "-" + timestamp + "." + fileType.getFileExtension();
     }
 
     /**
@@ -245,18 +248,37 @@ public abstract class ClickpathBase {
         }
 
         log("INFO (doGoTo): Navigating to " + url);
-        getDriver().get(url);
+        boolean pass = false;
+        int retryCount = 3;
+        WebDriverException lastException = null;
+        do {
+            try {
+                getDriver().get(url);
+                pass = true;
+            } catch (WebDriverException e) {
+                if (e.getMessage().contains("ERR_NAME_NOT_RESOLVED")) {
+                    lastException = e;
+                    log("INFO (goGoTo): Navigating to " + url + " [retries remaining : " + retryCount + "]");
+                } else {
+                    throw e;
+                }
+            }
+            sleep(2000, false);
+        } while (!pass && retryCount-- > 0);
+
+        if (!pass && retryCount == 0 && lastException != null) {
+            throw lastException;
+        } else {
+            log("INFO (doGoTo): Navigated to " + url + " after " + ((3 - retryCount) + 1) + " attempts");
+        }
+
         sleep(defaultSleep);
         List<WebElement> dntAlerts = getElementsByCSS(".dnt-alert");
-        try {
-            if (dntAlerts.size() > 0) {
-                log("WARNING: Found DNT Detection - AC might refuse to register stats!");
-                this.writePageToDisk("WARNING", "dnt-found");
-            } else {
-                log("INFO (doGoTo): No DNT alert found");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (dntAlerts.size() > 0) {
+            log("WARNING: Found DNT Detection - AC might refuse to register stats!");
+            this.writePageToDisk("WARNING", "dnt-found");
+        } else {
+            log("INFO (doGoTo): No DNT alert found");
         }
     }
 
@@ -499,19 +521,25 @@ public abstract class ClickpathBase {
      * @throws IllegalArgumentException when the selector contains double quotes
      */
     protected void mark(String selector) throws IllegalArgumentException {
-        if (selector.contains("\"")) {
-            throw new IllegalArgumentException("Selector must not contain double quotes! Rewrite with single quotes! The author of the underlying method was too lazy to deal with all possible escaping options, so he just deals with it this way: You do the work!");
-        }
-        execute("document.querySelectorAll(\"" + selector + "\").forEach(function(e){e.style.backgroundColor = 'red';})");
+        mark(selector, MarkMethod.BACKGROUND);
     }
 
     /**
-     * Mark the given element with border: 2px solid red
+     * Mark elements matching the selector with the specified method.
+     * <p>
+     * Note: To ease the multiple possible escaping traps, selectors MUST NOT contain
+     * double-quotes! Use single quotes instead!
      *
-     * @param element the element
+     * @param selector   the CSS selector
+     * @param markMethod the method used to mark the element(s) identified by the selector
+     * @throws IllegalArgumentException when the selector contains double quotes
      */
-    protected void mark(final WebElement element) {
-        js.executeScript("arguments[0].style.border = '2px solid red';", element);
+    protected void mark(String selector, MarkMethod markMethod) throws IllegalArgumentException {
+        if (selector.contains("\"")) {
+            throw new IllegalArgumentException("Selector must not contain double quotes! Rewrite with single quotes! The author of the underlying method was too lazy to deal with all possible escaping options, so he just deals with it this way: You do the work!");
+        }
+        final String styleString = markMethod.getStyleString();
+        execute("document.querySelectorAll(\"" + selector + String.format("\").forEach(function(e){e.style.%s;})", styleString));
     }
 
     /**
@@ -524,11 +552,41 @@ public abstract class ClickpathBase {
     }
 
     /**
+     * Mark the given element with border: 2px solid red
+     *
+     * @param element the element
+     */
+    protected void mark(final WebElement element) {
+        mark(element, MarkMethod.BORDER);
+    }
+
+    /**
+     * Mark the given element using the sepcified method
+     *
+     * @param element    the element
+     * @param markMethod the method used to mark the element(s) identified by the selector
+     */
+    protected void mark(final WebElement element, final MarkMethod markMethod) {
+        final String styleString = markMethod.getStyleString();
+        js.executeScript(String.format("arguments[0].style.%s;", styleString), element);
+    }
+
+    /**
      * Mark elements matching the xpath with background-color:red.
      *
      * @param xPath the xPath expression
      */
-    protected void markByXPath(String xPath) {
+    protected void markByXPath(final String xPath) {
+        markByXPath(xPath, MarkMethod.BACKGROUND);
+    }
+
+    /**
+     * Mark elements matching the xpath using the specified method
+     *
+     * @param xPath      the xPath expression
+     * @param markMethod the method used to mark the element(s) identified by the selector
+     */
+    protected void markByXPath(final String xPath, final MarkMethod markMethod) {
         StringBuilder js = new StringBuilder("const iterator = document.evaluate(");
         if (xPath.contains("\"")) {
             js.append("'");
@@ -539,9 +597,10 @@ public abstract class ClickpathBase {
             js.append(xPath);
             js.append("\"");
         }
+        String styleString = markMethod.getStyleString();
         js.append(",document,null,XPathResult.UNORDERED_NODE_ITERATOR_TYPE,null);");
         js.append("try { let thisNode = iterator.iterateNext();");
-        js.append("while (thisNode) { thisNode.style.backgroundColor = 'red' ; thisNode = iterator.iterateNext(); }");
+        js.append(String.format("while (thisNode) { thisNode.style.%s; thisNode = iterator.iterateNext(); }", styleString));
         js.append("} catch (e) { console.error(`Error: Document tree modified during iteration ${e}`); }");
         execute(js.toString());
     }
@@ -664,21 +723,54 @@ public abstract class ClickpathBase {
         this.defaultSleep = millis;
     }
 
-    protected void takeSnapShot(String severity, String hint) throws IOException {
-        takeSnapShot(severity, hint, StandardCopyOption.REPLACE_EXISTING);
+    protected void takeScreenshot(String severity, String hint) {
+        takeScreenshot(severity, hint, true);
     }
 
-    protected void takeSnapShot(String severity, final String hint, final CopyOption copyOptions) throws IOException {
-        final TakesScreenshot scrShot = ((TakesScreenshot) getDriver());
-        final File srcFile = scrShot.getScreenshotAs(OutputType.FILE);
+    protected void takeScreenshot(String severity, final String hint, boolean fullscreen) {
         final File destFile = new File(buildFilename(hint, FileType.SCREENSHOT));
         log(severity + ": Writing " + destFile.getAbsolutePath());
-        Files.copy(srcFile.toPath(), destFile.toPath(), copyOptions);
+        try (OutputStream stream = new FileOutputStream(destFile)) {
+            final String imageBase64 = takeScreenshot(fullscreen);
+            byte[] imageBytes = Base64.getDecoder().decode(imageBase64);
+            stream.write(imageBytes);
+
+        } catch (IOException e) {
+            log("ERROR - unable to take screenshot");
+            e.printStackTrace();
+        }
     }
 
-    private String buildFilename(String hint, FileType fileType) {
-        final String timestamp = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss", Locale.ENGLISH).format(LocalDateTime.now());
-        return getClass().getSimpleName() + "-" + hint + "-Selenium-" + getDriver().getClass().getSimpleName() + "-" + timestamp + "." + fileType.getFileExtension();
+    private String takeScreenshot(boolean fullscreen) {
+        if (getDriver() instanceof ChromeDriver) {
+            final ChromeDriver driver = (ChromeDriver) getDriver();
+            if (fullscreen) {
+                Map<String, Object> layoutMetrics = driver.executeCdpCommand("Page.getLayoutMetrics", Collections.emptyMap());
+                Map<String, Object> screenshotConfig = Maps.newHashMap();
+                screenshotConfig.put("captureBeyondViewport", true);
+                screenshotConfig.put("fromSurface", true);
+                Map contentSize = (Map) layoutMetrics.get("contentSize");
+                screenshotConfig.put("clip", ImmutableMap.of(
+                        "width", contentSize.get("width"),
+                        "height", contentSize.get("height"),
+                        "x", 0,
+                        "y", 0,
+                        "scale", 1
+                ));
+                Map<String, Object> base64PngResult = driver.executeCdpCommand("Page.captureScreenshot", screenshotConfig);
+                return (String) base64PngResult.get("data");
+            }
+            return driver.getScreenshotAs(OutputType.BASE64);
+        } else if (getDriver() instanceof FirefoxDriver) {
+            final FirefoxDriver driver = (FirefoxDriver) getDriver();
+            if (fullscreen) {
+                return driver.getFullPageScreenshotAs(OutputType.BASE64);
+            }
+            return driver.getScreenshotAs(OutputType.BASE64);
+        }
+        {
+            throw new UnsupportedOperationException("This method does not yet support " + getDriver().getClass().getSimpleName());
+        }
     }
 
     /**
@@ -698,13 +790,16 @@ public abstract class ClickpathBase {
      * @param severity the severity
      * @param hint     the hint text
      */
-    public void writePageToDisk(String severity, String hint) throws IOException {
+    public void writePageToDisk(String severity, String hint) {
         File outFile = new File(buildFilename(hint, FileType.SOURCE));
-        FileWriter out = new FileWriter(outFile);
-        log(severity + ": Writing " + outFile.getAbsolutePath());
-        out.write(getDriver().getPageSource());
-        out.flush();
-        out.close();
+        try (FileWriter out = new FileWriter(outFile)) {
+            log(severity + ": Writing " + outFile.getAbsolutePath());
+            out.write(getDriver().getPageSource());
+            out.flush();
+        } catch (IOException e) {
+            log("ERROR - unable to write page source to disk");
+            e.printStackTrace();
+        }
     }
 
     public enum FileType {

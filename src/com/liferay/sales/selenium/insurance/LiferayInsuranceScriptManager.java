@@ -4,7 +4,6 @@ import com.liferay.sales.selenium.api.ClickpathBase;
 import com.liferay.sales.selenium.api.ScriptManager;
 import com.liferay.sales.selenium.chrome.ChromeDriverInitializer;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.time.LocalDateTime;
@@ -116,13 +115,7 @@ public class LiferayInsuranceScriptManager extends ScriptManager {
                                 sw
                 );
                 String hint = "" + i + "-" + e.getClass().getSimpleName() + "-" + e.getMessage().replace(' ', '-');
-                try {
-                    path.writePageToDisk("ERROR", hint);
-                } catch (IOException e1) {
-                    System.out.println("ERROR (during error handling): " + hint);
-                    e1.printStackTrace();
-                }
-
+                path.writePageToDisk("ERROR", hint);
             }
             if (path != null) {
                 path.quit();

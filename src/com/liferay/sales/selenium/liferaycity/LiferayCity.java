@@ -4,7 +4,6 @@ import com.liferay.sales.selenium.api.ClickpathBase;
 import com.liferay.sales.selenium.api.ScriptManager;
 import com.liferay.sales.selenium.chrome.ChromeDriverInitializer;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.time.LocalDateTime;
@@ -115,11 +114,7 @@ public class LiferayCity extends ScriptManager {
                                 e.getMessage() + "\n" +
                                 sw
                 );
-                try {
-                    path.writePageToDisk("ERROR", "" + i);
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
+                path.writePageToDisk("ERROR", "" + i);
 
             }
             if (path != null) {

@@ -6,7 +6,6 @@ import org.openqa.selenium.ElementNotInteractableException;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -99,14 +98,8 @@ public class UoWClickpath5 extends UoWBaseClickpath {
                     } catch (ElementNotInteractableException e) {
                         log("Unable to click the Read More button");
                         final String hint = getClass().getSimpleName() + "-option2";
-                        try {
-                            writePageToDisk("ERROR", hint);
-                            takeSnapShot("ERROR", hint);
-                        } catch (IOException e1) {
-                            System.out.println("ERROR (during error handling): " + hint);
-                            e1.printStackTrace();
-                        }
-
+                        writePageToDisk("ERROR", hint);
+                        takeScreenshot("ERROR", hint);
                     }
                 }
             }

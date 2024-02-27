@@ -27,7 +27,7 @@ public class UoWClickpath1 extends UoWBaseClickpath {
 
         sleep(3000);
 
-        final WebElement statContainer = getElementById("fragment-0a935270-6263-9f83-531d-c739fe0ce14b");
+        final WebElement statContainer = getElementByCSS(".lfr-layout-structure-item-4cbcd957-c6e9-804d-2496-a365d18995bd");
         if (statContainer != null) {
             scrollTo(statContainer);
             sleep(1000, false);

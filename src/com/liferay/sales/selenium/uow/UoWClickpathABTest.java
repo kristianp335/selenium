@@ -48,8 +48,6 @@ public class UoWClickpathABTest extends UoWBaseClickpath {
                 boolean fire = false;
 
                 final double rand = Math.random();
-                log("rand : " + rand);
-
                 if ("Read more...".equalsIgnoreCase(linkText)) /* VARIANT */ {
                     log("VARIANT : '" + linkText + "\"");
                     fire = rand <= 0.666;

@@ -525,11 +525,7 @@ public class UoWScriptManager extends ScriptManager {
                             e.getClass().getName() + " " +
                             e.getMessage() + "\n" +
                             sw);
-            try {
-                path.writePageToDisk("ERROR", "" + i);
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
+            path.writePageToDisk("ERROR", "" + i);
         }
         path.quit();
         long now = System.currentTimeMillis();

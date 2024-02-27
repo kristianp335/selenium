@@ -4,7 +4,6 @@ import com.liferay.sales.selenium.api.DriverInitializer;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
@@ -85,7 +84,7 @@ public class UoWClickpath6 extends UoWBaseClickpath {
         if (blogIndex < blogCards.size()) {
             blogCard = blogCards.get(blogIndex);
         } else {
-           blogCard = blogCards.get(blogCards.size() - 1);
+            blogCard = blogCards.get(blogCards.size() - 1);
         }
         selectBlog(blogCard);
     }
@@ -100,13 +99,8 @@ public class UoWClickpath6 extends UoWBaseClickpath {
         } else {
             log("Unable to find any blogs");
             final String hint = getClass().getSimpleName() + "-option2";
-            try {
-                writePageToDisk("ERROR", hint);
-                takeSnapShot("ERROR", hint);
-            } catch (IOException e1) {
-                System.out.println("ERROR (during error handling): " + hint);
-                e1.printStackTrace();
-            }
+            writePageToDisk("ERROR", hint);
+            takeScreenshot("ERROR", hint);
         }
     }
 
@@ -126,13 +120,8 @@ public class UoWClickpath6 extends UoWBaseClickpath {
         } else {
             log("Unable to click the Read More button");
             final String hint = getClass().getSimpleName() + "-selectBlog";
-            try {
-                writePageToDisk("ERROR", hint);
-                takeSnapShot("ERROR", hint);
-            } catch (IOException e1) {
-                System.out.println("ERROR (during error handling): " + hint);
-                e1.printStackTrace();
-            }
+            writePageToDisk("ERROR", hint);
+            takeScreenshot("ERROR", hint);
         }
     }
 }
