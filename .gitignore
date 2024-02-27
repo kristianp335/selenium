@@ -1,2 +1,8 @@
 /target/
+/bin/
 /.classpath
+/.idea/
+*.csv
+*.html
+.project
+/.settings
