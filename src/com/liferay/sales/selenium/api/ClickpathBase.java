@@ -239,37 +239,55 @@ public abstract class ClickpathBase {
 
     /**
      * Navigate to URL, then sleep for default interval
+     * This using the default of 3 tries with a 2-second pause between each
      *
      * @param url the url to navigate to
      */
-    protected void doGoTo(String url) {
+    protected void doGoTo(final String url) {
+        doGoTo(url, 3, 2000);
+    }
+
+    /**
+     * Navigate to URL, then sleep for default interval
+     *
+     * @param url the url to navigate to
+     * @param numberOfRetries the number of retires to attempt before reporting exception
+     * @param millis the time in milliseconds to wait before retrying
+     */
+    protected void doGoTo(final String url, final int numberOfRetries, final int millis) {
+        final String absoluteUrl;
         if (!url.contains("http")) {
-            url = (baseUrl + url).replaceAll("//", "/");
+            absoluteUrl = (baseUrl + url).replaceAll("//", "/");
+        } else {
+            absoluteUrl = url;
         }
 
-        log("INFO (doGoTo): Navigating to " + url);
+        log("INFO (doGoTo): Navigating to " + absoluteUrl);
+
+        // We want to report the connection exceptions, if they continue after the number of retries.
         boolean pass = false;
-        int retryCount = 3;
         WebDriverException lastException = null;
+        int retryCount = numberOfRetries;
+
         do {
             try {
-                getDriver().get(url);
+                getDriver().get(absoluteUrl);
                 pass = true;
             } catch (WebDriverException e) {
                 if (e.getMessage().contains("ERR_NAME_NOT_RESOLVED")) {
                     lastException = e;
-                    log("INFO (goGoTo): Navigating to " + url + " [retries remaining : " + retryCount + "]");
+                    log("INFO (goGoTo): Navigating to " + absoluteUrl + " [retries remaining : " + retryCount + "]");
                 } else {
                     throw e;
                 }
             }
-            sleep(2000, false);
+            sleep(millis, false);
         } while (!pass && retryCount-- > 0);
 
         if (!pass && retryCount == 0 && lastException != null) {
             throw lastException;
         } else {
-            log("INFO (doGoTo): Navigated to " + url + " after " + ((3 - retryCount) + 1) + " attempts");
+            log("INFO (doGoTo): Navigated to " + absoluteUrl + " after " + ((numberOfRetries - retryCount) + 1) + " attempts");
         }
 
         sleep(defaultSleep);
