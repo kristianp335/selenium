@@ -17,6 +17,43 @@ public abstract class ScriptManager {
     }
 
     /**
+     * Read a stupidly simple CSV format: No title, content is just
+     * rows with "name,password" (comma-separated, no escaping, no quotes)
+     * Luxury trimming done to individual entries without extra charge.
+     *
+     * @param filename the filename and path
+     * @return a two-dimensional array containing the users
+     */
+    public static String[][] readUserCSV(String filename) {
+        final ArrayList<String[]> records = new ArrayList<>();
+        try (Scanner scanner = new Scanner(new File(filename))) {
+            while (scanner.hasNextLine()) {
+                final String line = scanner.nextLine();
+                final ArrayList<String> record = readCsvRecord(line);
+                if (record.size() == 2) {
+                    records.add(record.toArray(String[]::new));
+                } else {
+                    throw new IllegalArgumentException("The CSV record returned the wrong number of column values. Expected 1 and received " + record.size());
+                }
+            }
+        } catch (FileNotFoundException e) {
+            log("Unable to find the file - " + filename);
+        }
+        return records.toArray(String[][]::new);
+    }
+
+    private static ArrayList<String> readCsvRecord(String row) {
+        try (Scanner rowScanner = new Scanner(row)) {
+            ArrayList<String> values = new ArrayList<>();
+            rowScanner.useDelimiter(",");
+            while (rowScanner.hasNext()) {
+                values.add(rowScanner.next().trim());
+            }
+            return values;
+        }
+    }
+
+    /**
      * Syntactic sugar for System.out.println
      *
      * @param message the message
@@ -27,31 +64,28 @@ public abstract class ScriptManager {
 
     /**
      * Read a stupidly simple CSV format: No title, content is just
-     * rows with "name,password" (comma-separated, no escaping, no quotes)
+     * rows with "name" (comma-separated, no escaping, no quotes)
      * Luxury trimming done to individual entries without extra charge.
      *
      * @param filename the filename and path
-     * @return a two-dimensional array containing the users
+     * @return an array containing the users
      */
-    public static String[][] readUserCSV(String filename) {
-        ArrayList<String[]> content = new ArrayList<>();
+    public static String[] readVpnCsv(String filename) {
+        final ArrayList<String> records = new ArrayList<>();
         try (Scanner scanner = new Scanner(new File(filename))) {
             while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-
-                try (Scanner rowScanner = new Scanner(line)) {
-                    ArrayList<String> row = new ArrayList<>(2);
-                    rowScanner.useDelimiter(",");
-                    while (rowScanner.hasNext()) {
-                        row.add(rowScanner.next().trim());
-                    }
-                    content.add(row.toArray(new String[0]));
+                final String line = scanner.nextLine();
+                final ArrayList<String> record = readCsvRecord(line);
+                if (record.size() == 1) {
+                    records.add(record.get(0));
+                } else {
+                    throw new IllegalArgumentException("The CSV record returned the wrong number of column values. Expected 1 and received " + record.size());
                 }
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            log("Unable to find the file - " + filename);
         }
-        return content.toArray(new String[content.size()][]);
+        return records.toArray(String[]::new);
     }
 
     public static <T extends Enum<?>> T searchEnum(Class<T> enumeration,

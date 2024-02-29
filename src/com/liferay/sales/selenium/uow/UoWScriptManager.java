@@ -29,18 +29,6 @@ public class UoWScriptManager extends ScriptManager {
     private static final String[] VPN_COMMAND = new String[]{"---OSASCRIPT---", "-e",
             "---TELL-COMMAND---", "-e", "---VPN-ACTION---", "-e",
             "end", "tell"};
-    private static final String[] VPN_NAMES = new String[]{
-            "nordvpn-au",
-            "nordvpn-br",
-            "nordvpn-de",
-            "nordvpn-fr",
-            "nordvpn-us",
-            "purevpn-au",
-            "purevpn-br",
-            "purevpn-de",
-            "purevpn-fr",
-            "purevpn-us",
-    };
 
     static {
         ClickpathConfig<ClickpathBase> clickpathConfig1 = new ClickpathConfig(UoWClickpath1.class, "1", ClickpathConfig.Type.STANDARD);
@@ -69,6 +57,7 @@ public class UoWScriptManager extends ScriptManager {
             final int defaultKnownUserCycles = 0;
             final String defaultUsersCSVPathname = "./users.csv";
             final boolean defaultUseVpn = false;
+            final String defaultVpnCSVPathname = "./vpn.csv";
             final WebDriverType defaultWebDriverType = WebDriverType.CHROME;
             final String defaultOsaScriptPathname = "/usr/bin/osascript";
             final String defaultTunnelblickPathname = "/Applications/Tunnelblick.app";
@@ -76,7 +65,7 @@ public class UoWScriptManager extends ScriptManager {
             final ClickpathTypeSelection defaultClickpathTypeSelection = ClickpathTypeSelection.ALL;
 
             CommandLine cmd = parseArguments(args, defaultBaseUrl, defaultAnonymousCycles, defaultKnownUserCycles,
-                    defaultUsersCSVPathname, defaultUseVpn, defaultWebDriverType, defaultOsaScriptPathname,
+                    defaultUsersCSVPathname, defaultUseVpn, defaultVpnCSVPathname, defaultWebDriverType, defaultOsaScriptPathname,
                     defaultTunnelblickPathname, defaultClickpathSelection, defaultClickpathTypeSelection);
 
             if (cmd != null) {
@@ -110,6 +99,9 @@ public class UoWScriptManager extends ScriptManager {
                 if (cmd.hasOption("use-vpn")) {
                     useVpn = true;
                 }
+
+                final String vpnsCSVPathname = cmd.hasOption("vpns") ? cmd.getOptionValue("vpns")
+                        : defaultVpnCSVPathname;
 
                 WebDriverType webDriverType = defaultWebDriverType;
                 if (cmd.hasOption("driver")) {
@@ -184,10 +176,24 @@ public class UoWScriptManager extends ScriptManager {
                 log("The base URL is " + baseUrl);
                 log("Running " + anonymousCycles + " anonymous cycles");
                 log("Running " + knownUserCycles + " known user cycles");
-                if (usersCSVPathname != null) {
-                    log("User accounts in " + usersCSVPathname);
+
+                if (vpnsCSVPathname != null) {
+                    log("VPN(s) in " + vpnsCSVPathname);
+                }                String[] vpnNames = null;
+                if (useVpn && vpnsCSVPathname != null) {
+                    if (doesFileExist(vpnsCSVPathname)) {
+                        vpnNames = readVpnCsv(vpnsCSVPathname);
+                        log("The number of vpn names for the cycles is " + vpnNames.length);
+                    } else {
+                        log(vpnsCSVPathname + " was not found");
+                        useVpn = false;
+                    }
+                } else {
+                    log("No pathname was supplied for the vpn names");
+                    useVpn = false;
                 }
-                log(useVpn ? "The VPN will be used" : "The VPN will NOT be used");
+                log(useVpn ? "The VPN(s) will be used" : "The VPN(s) will NOT be used");
+
                 System.out.print("Driving " + webDriverType + " with " + webDriverPathname);
                 if (webDriverArguments.length > 0) {
                     System.out.print(" using \"");
@@ -197,11 +203,16 @@ public class UoWScriptManager extends ScriptManager {
                     log("");
                 }
 
+                if (usersCSVPathname != null) {
+                    log("User accounts in " + usersCSVPathname);
+                }
                 String[][] users = null;
                 if (usersCSVPathname != null) {
                     if (doesFileExist(usersCSVPathname)) {
                         users = readUserCSV(usersCSVPathname);
                         log("The number of users for the known user cycles is " + users.length);
+                    } else {
+                        log(vpnsCSVPathname + " was not found");
                     }
                 }
 
@@ -223,7 +234,7 @@ public class UoWScriptManager extends ScriptManager {
                 }
 
                 doIt(webDriverType, webDriverArguments, baseUrl, anonymousCycles, knownUserCycles, users, useVpn,
-                        osaScriptPathname, tunnelblickPathname, clickpathSelection);
+                        vpnNames, osaScriptPathname, tunnelblickPathname, clickpathSelection);
             }
         } catch (Throwable e) {
             e.printStackTrace();
@@ -237,7 +248,8 @@ public class UoWScriptManager extends ScriptManager {
 
     private static CommandLine parseArguments(String[] args, final String defaultBaseUrl,
                                               final int defaultAnonymousCycles,
-                                              final int defaultKnownUserCycles, final String defaultUserCsvPathname, final boolean defaultUseVpn,
+                                              final int defaultKnownUserCycles, final String defaultUserCsvPathname,
+                                              final boolean defaultUseVpn, final String defaultVpnCsvPathname,
                                               final WebDriverType defaultWebDriverType,
                                               final String defaultOsaScriptPathname,
                                               final String defaultTunnelblickPathnameOption,
@@ -271,6 +283,12 @@ public class UoWScriptManager extends ScriptManager {
                         + (defaultUseVpn ? "The default is to use VPN" : "The default is NOT to use VPN"));
         useVpnOption.setRequired(false);
         options.addOption(useVpnOption);
+
+        final Option vpnCsvOption = new Option("v", "vpns", true,
+                "The pathname of the CSV containing the vpn names. The default is "
+                        + defaultVpnCsvPathname);
+        vpnCsvOption.setRequired(false);
+        options.addOption(vpnCsvOption);
 
         final Option webDriverOption = new Option("d", "driver", true,
                 "The web driver to use, i.e. chrome or firefox. The default is "
@@ -348,7 +366,7 @@ public class UoWScriptManager extends ScriptManager {
 
     public static void doIt(final WebDriverType webDriverType, final String[] webDriverArguments, final String baseUrl,
                             final int anonymousCycles, final int knownUserCycles, final String[][] users, final boolean useVpn,
-                            final String osaScriptPathname, final String tunnelblickPathname, String[] clickpathSelection) {
+                            final String[] vpnNames, final String osaScriptPathname, final String tunnelblickPathname, String[] clickpathSelection) {
         final ClickpathBase[] paths = buildPathsArray(baseUrl, clickpathSelection, webDriverType, webDriverArguments);
 
         final int pathCount = paths.length;
@@ -374,8 +392,13 @@ public class UoWScriptManager extends ScriptManager {
 
         for (int i = 1; i <= anonymousCycles; i++) {
             int pathIndex = (int) (Math.random() * paths.length);
-            int vpnIndex = (int) (Math.random() * VPN_NAMES.length);
-            String vpnName = VPN_NAMES[vpnIndex];
+
+            String vpnName = null;
+            if (useVpn) {
+                int vpnIndex = (int) (Math.random() * vpnNames.length);
+                vpnName = vpnNames[vpnIndex];
+            }
+
             if (useVpn) {
                 try {
                     vpnConnect(osaScriptPathname, tunnelblickPathname, vpnName, null);
@@ -401,8 +424,11 @@ public class UoWScriptManager extends ScriptManager {
             final int userIndex = (int) (Math.random() * users.length);
             final String[] user = users[userIndex];
 
-            final int vpnIndex = VPN_NAMES.length % (userIndex + 1);
-            final String vpnName = VPN_NAMES[vpnIndex];
+            String vpnName = null;
+            if (useVpn) {
+                int vpnIndex = (int) (Math.random() * vpnNames.length);
+                vpnName = vpnNames[vpnIndex];
+            }
 
             if (useVpn) {
                 try {
